@@ -15,7 +15,6 @@ interface AuthResponse extends ApiResponse {
   token: string | undefined,
 }
 
-
 export enum LogResult {
   Success,
   UnknownUsername,
