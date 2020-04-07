@@ -4,6 +4,13 @@ import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
 const TOKEN = 'a0a0a0aa0a0a0a0a0a0';
+const USER_SESSION = {
+    token: TOKEN,
+    user: {
+        name: "",
+        email: ""
+    }
+}
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -21,8 +28,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function handleRoute(): Observable<HttpEvent<any>> {
             switch (true) {
-                case url.endsWith('/auth') && method === 'POST':
-                    return auth();
+                case url.endsWith('/login') && method === 'POST':
+                    return login();
                 case url.endsWith('/check-auth-token') && method === 'POST':
                     return checkAuthToken();
                 default:
@@ -33,25 +40,24 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         // route functions
 
-        function auth() {
+        function login() {
             const { username, password } = body;
-            if (username !== 'Alice')
-                return ok({ result: 1 });
-            if (password !== '0123456789')
-                return ok({ return: 2 });
-            return ok({result:0, token: TOKEN})
+            if (username === 'Alice' && password === '0123456789')
+                return response(201, { user: USER_SESSION });
+            else
+                return response(400);
         }
 
         function checkAuthToken() {
             const { token } = body;
-            return ok({isValid: token === TOKEN})
+            return response(200, { isValid: token === TOKEN })
         }
 
 
         // helper functions
 
-        function ok(body?) {
-            return of(new HttpResponse({ status: 200, body }))
+        function response(status, body?) {
+            return of(new HttpResponse({ status, body }));
         }
 
         function error(message) {
