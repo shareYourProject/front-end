@@ -12,8 +12,8 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm: FormGroup;
-  subscribe: Subscription;
-  lastResult: LogResult = null;
+  logSubscription: Subscription;
+  hint: string = null;
   isBusy: boolean = false;
 
   constructor(formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
@@ -27,27 +27,34 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.subscribe)
-      this.subscribe.unsubscribe();
+    if (this.logSubscription)
+      this.logSubscription.unsubscribe();
+  }
+
+  private setHint(result: LogResult): string {
+    switch (result) {
+      case LogResult.UnknownUsername: return "There is no account with this username.";
+      case LogResult.WrongPassword: return "Wrong password.";
+      case LogResult.Error: return "Unknown error occurs.";
+    }
   }
 
   onSubmit(data): void {
     console.log('logged as', data);
     this.isBusy = true;
-    this.subscribe = this.authService.log(data.username, data.password)
+    this.logSubscription = this.authService.log(data.username, data.password)
       .subscribe(
         result => {
           if (result === LogResult.Success) {
             this.router.navigateByUrl('/');
           } else {
-            this.lastResult = result;
-            this.subscribe.unsubscribe();
-            this.subscribe = null;
+            this.setHint(result);
             this.isBusy = false;
           }
         },
         e => {
-          this.lastResult = LogResult.Error;
+          console.error('on login submit', e);
+          this.setHint(LogResult.Error);
           this.isBusy = false;
         });
   }

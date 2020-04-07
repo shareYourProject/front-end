@@ -3,14 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { mergeMap, switchMap, retry, map, catchError, filter, scan } from 'rxjs/operators'
 import { UserService } from './user.service';
-import { ApiResponse } from '../models/api-response';
-import { ApiResponseStatus } from '../models/api-response-status.enum';
 
-interface CheckTokenResponse extends ApiResponse {
+interface CheckTokenResponse {
   isValid: boolean,
 }
 
-interface AuthResponse extends ApiResponse {
+interface AuthResponse {
   result: LogResult,
   token: string | undefined,
 }
@@ -65,12 +63,9 @@ export class AuthService {
       .post<AuthResponse>('/api/v1/auth', { username: username, password: password })
       .pipe(
         map(res => {
-          if (res.status === ApiResponseStatus.Ok) {
-            if (res.result === LogResult.Success) {
-              this._token = res.token;
-            }
-            return res.result;
-          } else throw res.error ?? 'unknown error';
+          if (res.result === LogResult.Success)
+            this._token = res.token;
+          return res.result;
         }),
         catchError(e => {
           console.error('on auth', e);

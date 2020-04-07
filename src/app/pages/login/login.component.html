@@ -1,3 +1,7 @@
+<div class="alert alert-danger" role="alert" *ngIf="hint">
+    {{hint}}
+</div>
+
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
     <div class="form-group">
         <label for="username">Username</label>

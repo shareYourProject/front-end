@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -13,6 +13,10 @@ import { UserPublicPageComponent } from './pages/user-public-page/user-public-pa
 import { ProjectDashboardComponent } from './pages/project/project-dashboard/project-dashboard.component';
 import { ProjectMainComponent } from './pages/project/project-main/project-main.component';
 import { LoginComponent } from './pages/login/login.component';
+
+// simulate a back end
+import { fakeBackendProvider } from './dev/fakeBackEnd';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +35,9 @@ import { LoginComponent } from './pages/login/login.component';
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    fakeBackendProvider, // REMOVE THIS BEFORE DEPLOY !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
