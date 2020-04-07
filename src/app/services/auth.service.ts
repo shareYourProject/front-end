@@ -63,6 +63,7 @@ export class AuthService {
       .post<AuthResponse>('/api/v1/auth', { username: username, password: password })
       .pipe(
         map(res => {
+          console.log("auth result =", res);
           if (res.result === LogResult.Success)
             this._token = res.token;
           return res.result;

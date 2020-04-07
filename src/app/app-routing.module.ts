@@ -14,12 +14,15 @@ import { ProjectMainComponent } from './pages/project/project-main/project-main.
 import { ProjectDashboardComponent } from './pages/project/project-dashboard/project-dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { NotAuthGuard } from './guards/not-auth.guard';
 
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent},
+  { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard]},
+  { path: 'register', component: RegisterComponent, canActivate:[NotAuthGuard] },
   {
     path: 'me', component: UserDashboardComponent, canActivateChild:[AuthGuard],
     children: [
