@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
 import  { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 
 @Component({
