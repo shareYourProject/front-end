@@ -4,6 +4,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## How to work
 
+**NERVER WORK DIRECTLY ON MASTER !**
+
 ### Add a new feature
 + make sure you are on master branch : `git checkout master`
 + make sure you have the last version of master : `git pull`
