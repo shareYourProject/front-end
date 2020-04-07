@@ -27,6 +27,11 @@ If you find a issue, **DON'T FIX IT YOURSELF**. Open a new issue ticket and give
 ### How to fix a issue
 Follow same procedure as "Add a new feature" but name the branch `fix_#N` where N is the number of the issue ticket.
 
+### Fetch
+To remove local branches that are been deleted of remote do the following :
++ return on master : `git checkout master`
++ run fetch : `git fetch -p`
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
