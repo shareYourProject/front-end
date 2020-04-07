@@ -16,15 +16,16 @@ import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { NotAuthGuard } from './guards/not-auth.guard';
+import { ProjectPublicComponent } from './pages/project/project-public/project-public.component';
 
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard]},
-  { path: 'register', component: RegisterComponent, canActivate:[NotAuthGuard] },
+  { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [NotAuthGuard] },
   {
-    path: 'me', component: UserDashboardComponent, canActivateChild:[AuthGuard],
+    path: 'me', component: UserDashboardComponent, canActivateChild: [AuthGuard],
     children: [
       { path: '', redirectTo: 'feed', pathMatch: 'full' },
       { path: 'feed', component: UserFeedComponent },
@@ -33,6 +34,7 @@ const routes: Routes = [
   { path: 'user/:id', component: UserPublicPageComponent },
   {
     path: 'project/:id', component: ProjectMainComponent, children: [
+      { path: '', component: ProjectPublicComponent },
       { path: 'dashboard', component: ProjectDashboardComponent },
     ]
   },
