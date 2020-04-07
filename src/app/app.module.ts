@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, isDevMode } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +19,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { fakeBackendProvider } from './dev/fakeBackEnd';
 import { RegisterComponent } from './pages/register/register.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { WatchDogComponent } from './dev/watch-dog/watch-dog.component';
 
 
 @NgModule({
@@ -31,13 +33,15 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     LoginComponent,
     HomeComponent,
     RegisterComponent,
-    NavbarComponent
+    NavbarComponent,
+    WatchDogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    CommonModule,
   ],
   providers: [
     fakeBackendProvider, // REMOVE THIS BEFORE DEPLOY !!!!!!!!!!!!!!!!!!!!!!!!!!!!

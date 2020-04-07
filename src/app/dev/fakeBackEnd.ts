@@ -3,15 +3,14 @@ import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTT
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
-// array in local storage for registered users
-let users = JSON.parse(localStorage.getItem('users')) || [];
+const TOKEN = 'a0a0a0aa0a0a0a0a0a0';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const { url, method, headers, body } = request;
 
-        console.log("Fake backend ", request);
+        console.log('Fake backend', request);
 
         // wrap in delayed observable to simulate server api call
         return of(null)
@@ -24,6 +23,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             switch (true) {
                 case url.endsWith('/auth') && method === 'POST':
                     return auth();
+                case url.endsWith('/check-auth-token') && method === 'POST':
+                    return checkAuthToken();
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
@@ -38,7 +39,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 return ok({ result: 1 });
             if (password !== '0123456789')
                 return ok({ return: 2 });
-            return ok({result:0, token: 'someToken'})
+            return ok({result:0, token: TOKEN})
+        }
+
+        function checkAuthToken() {
+            const { token } = body;
+            return ok({isValid: token === TOKEN})
         }
 
 
