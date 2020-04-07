@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { MainComponent } from './pages/main/main.component';
+import { HomeComponent } from './pages/home/home.component';
 import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard/user-dashboard.component';
 import { UserFeedComponent } from './pages/user-dashboard/user-feed/user-feed.component';
 import { UserPublicPageComponent } from './pages/user-public-page/user-public-page.component';
@@ -21,13 +21,13 @@ import { fakeBackendProvider } from './dev/fakeBackEnd';
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent,
     UserDashboardComponent,
     UserFeedComponent,
     UserPublicPageComponent,
     ProjectDashboardComponent,
     ProjectMainComponent,
-    LoginComponent
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
