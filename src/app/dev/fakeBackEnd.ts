@@ -2,6 +2,7 @@ import { Injectable, isDevMode } from '@angular/core';
 import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
+import { registerLocaleData } from '@angular/common';
 
 const TOKEN = 'a0a0a0aa0a0a0a0a0a0';
 const USER_SESSION = {
@@ -30,7 +31,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             switch (true) {
                 case url.endsWith('/login') && method === 'POST':
                     return login();
-                case url.endsWith('/check-auth-token') && method === 'POST':
+                case url.endsWith('/register') && method === 'POST':
+                    return register();
+                case url.endsWith('/check-token') && method === 'POST':
                     return checkAuthToken();
                 default:
                     // pass through any requests not handled above
@@ -46,6 +49,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 return response(201, { user: USER_SESSION });
             else
                 return response(400);
+        }
+
+        function register() {
+            const { username, password } = body;
+
+
+            return error("Not implemented"); // TODO
         }
 
         function checkAuthToken() {
@@ -66,15 +76,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function unauthorized() {
             return throwError({ status: 401, error: { message: 'Unauthorised' } });
-        }
-
-        function isLoggedIn() {
-            return headers.get('Authorization') === 'Bearer fake-jwt-token';
-        }
-
-        function idFromUrl() {
-            const urlParts = url.split('/');
-            return parseInt(urlParts[urlParts.length - 1]);
         }
     }
 }
