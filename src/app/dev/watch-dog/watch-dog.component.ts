@@ -10,16 +10,9 @@ import  { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 @AutoUnsubscribe()
 export class WatchDogComponent implements OnInit, OnDestroy {
 
-  _isLogged$;
+  constructor() { }
 
-  public isLogged: boolean;
-
-  constructor(private authService: AuthService) { }
-
-  ngOnInit(): void {
-    console.log("watch dog init");
-    this._isLogged$ = this.authService.isLogged().subscribe(isLogged => this.isLogged = isLogged);
-  }
+  ngOnInit(): void { }
 
   ngOnDestroy(): void {  }
 
