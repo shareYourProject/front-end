@@ -14,10 +14,10 @@ interface AuthResponse {
 }
 
 export enum LogResult {
-  Success,
-  UnknownUsername,
-  WrongPassword,
-  Error,
+  Success = 0,
+  UnknownUsername = 1,
+  WrongPassword = 2,
+  Error = 3,
 }
 
 @Injectable({

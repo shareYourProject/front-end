@@ -17,6 +17,7 @@ import { LoginComponent } from './pages/login/login.component';
 // simulate a back end
 import { fakeBackendProvider } from './dev/fakeBackEnd';
 import { RegisterComponent } from './pages/register/register.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { RegisterComponent } from './pages/register/register.component';
     ProjectMainComponent,
     LoginComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
