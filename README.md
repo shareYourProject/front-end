@@ -22,7 +22,7 @@ When the feature is completly done, go to Github.com and make a pull request to 
 If you find a issue, **DON'T FIX IT YOURSELF**. Open a new issue ticket and give the followings :
 + expectation : what the code is suposse to do.
 + bad bahaviour : what the code do.
-+ code : a minimal code to reproduce the issue.
++ code : a minimal code to reproduce the issue (text, no screenshot).
 
 ### How to fix a issue
 Follow same procedure as "Add a new feature" but name the branch `fix_#N` where N is the number of the issue ticket.
