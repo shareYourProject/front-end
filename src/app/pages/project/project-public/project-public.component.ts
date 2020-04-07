@@ -8,12 +8,11 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProjectPublicComponent implements OnInit {
 
-  private projectID;
+  public projectID;
 
   constructor(private route : ActivatedRoute) { }
 
   ngOnInit(): void {
     this.projectID = this.route.snapshot.params['id'];
   }
-
 }

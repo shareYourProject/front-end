@@ -1,22 +1,31 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { AuthService, LogResult } from 'src/app/services/auth.service';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ApiService } from 'src/app/services/api.service';
+import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
+@AutoUnsubscribe()
 export class LoginComponent implements OnInit, OnDestroy {
+
+  private redirectTo: string;
 
   loginForm: FormGroup;
   logSubscription: Subscription;
   hint: string = null;
   isBusy: boolean = false;
 
-  constructor(formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private api: ApiService,
+    private router: Router,
+    private route: ActivatedRoute) {
+
     this.loginForm = formBuilder.group({
       username: '',
       password: ''
@@ -24,37 +33,28 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.redirectTo = this.route.snapshot.queryParams['redirectTo'];
+    console.log("login redirect to", this.redirectTo);
   }
 
-  ngOnDestroy(): void {
-    if (this.logSubscription)
-      this.logSubscription.unsubscribe();
-  }
-
-  private setHint(result: LogResult): string {
-    switch (result) {
-      case LogResult.UnknownUsername: return "There is no account with this username.";
-      case LogResult.WrongPassword: return "Wrong password.";
-      case LogResult.Error: return "Unknown error occurs.";
-    }
-  }
+  ngOnDestroy(): void {}
 
   onSubmit(data): void {
     console.log('logged as', data);
     this.isBusy = true;
-    this.logSubscription = this.authService.log(data.username, data.password)
+    this.logSubscription = this.api.login(data.username, data.password)
       .subscribe(
-        result => {
-          if (result === LogResult.Success) {
-            this.router.navigateByUrl('/');
+        async result => {
+          if (result) {
+            await this.router.navigateByUrl(this.redirectTo).then(async success => { if(!success) await this.router.navigateByUrl('/'); });
           } else {
-            this.setHint(result);
+            this.hint = 'Username or password invalid.'
             this.isBusy = false;
           }
         },
-        e => {
-          console.error('on login submit', e);
-          this.setHint(LogResult.Error);
+        err => {
+          console.error('on login submit', err);
+          this.hint = 'An error occurs.'
           this.isBusy = false;
         });
   }
