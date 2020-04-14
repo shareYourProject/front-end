@@ -36,14 +36,13 @@ export class ApiService {
     return this.httpClient.put<T>(API_ROOT + endpoint, body, { headers, observe: 'response' });
   }
 
-  private getData<U>(endpoint: string): U | null{
-    return null;
-    /*return this.get<U>(endpoint, this.getHeaderWithToken())
-      .pipe(map(response =>  undefined));*/
+  private getData<U>(endpoint: string) {
+    return this.get<U>(endpoint, this.getHeaderWithToken())
+      .pipe(map(response => response.ok ? response.body : null));
   }
 
   private getHeaderWithToken() {
-    return this.session ? { api_token: this.session.api_token } : {};
+    return { api_token: this.session ? this.session.api_token : "" };
   }
 
   isLogged(): Observable<boolean> {
@@ -96,14 +95,8 @@ export class ApiService {
       .pipe(map(response => response.ok));
   }
 
-  getProject(projectID: number): Observable<Project | null> {
-    return this.get<Project>(`project/${projectID}`, this.getHeaderWithToken())
-      .pipe(map(response => {
-        if (response.ok)
-          return response.body;
-        else
-          return null;
-      }));
+  getProject(projectID: number) {
+    return this.getData<Project>(`project/${projectID}`);
   }
 
   updateProject(user: Account): Observable<boolean> {
@@ -115,6 +108,4 @@ export class ApiService {
     return this.delete(`user/${userID}`, this.getHeaderWithToken())
       .pipe(map(response => response.ok));
   }
-
-
 }
