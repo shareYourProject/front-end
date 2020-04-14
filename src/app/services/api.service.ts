@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 
 import { USERNAME_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN, FIRST_LASTNAME_PATTERN } from '../regex';
 import { UserSession } from '../models/api/userSession';
+import { Project } from '../models/project';
+import { ProcessEnvOptions } from 'child_process';
 
 const API_ROOT = '/api/v1/'
 
@@ -18,20 +20,30 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) { }
 
-  private post<T>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+  private post<T = Object>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient.post<T>(API_ROOT + endpoint, body, { headers, observe: 'response' });
   }
 
-  private get<T>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+  private get<T = Object>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient.get<T>(API_ROOT + endpoint, { headers, observe: 'response' });
   }
 
-  private delete<T>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+  private delete<T = Object>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient.delete<T>(API_ROOT + endpoint, { headers, observe: 'response' });
   }
 
-  private put<T>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+  private put<T = Object>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient.put<T>(API_ROOT + endpoint, body, { headers, observe: 'response' });
+  }
+
+  private getData<U>(endpoint: string): U | null{
+    return null;
+    /*return this.get<U>(endpoint, this.getHeaderWithToken())
+      .pipe(map(response =>  undefined));*/
+  }
+
+  private getHeaderWithToken() {
+    return this.session ? { api_token: this.session.api_token } : {};
   }
 
   isLogged(): Observable<boolean> {
@@ -69,4 +81,40 @@ export class ApiService {
         return response.ok;
       }));
   }
+
+  getUser(userID: number) {
+    return this.getData<Account>(`user/${userID}`);
+  }
+
+  updateUser(user: Account): Observable<boolean> {
+    return this.put(`user/${user.id}`, user, this.getHeaderWithToken())
+      .pipe(map(response => response.ok));
+  }
+
+  deleteUser(userID: number): Observable<boolean> {
+    return this.delete(`user/${userID}`, this.getHeaderWithToken())
+      .pipe(map(response => response.ok));
+  }
+
+  getProject(projectID: number): Observable<Project | null> {
+    return this.get<Project>(`project/${projectID}`, this.getHeaderWithToken())
+      .pipe(map(response => {
+        if (response.ok)
+          return response.body;
+        else
+          return null;
+      }));
+  }
+
+  updateProject(user: Account): Observable<boolean> {
+    return this.put(`user/${user.id}`, user, this.getHeaderWithToken())
+      .pipe(map(response => response.ok));
+  }
+
+  deleteProject(userID: number): Observable<boolean> {
+    return this.delete(`user/${userID}`, this.getHeaderWithToken())
+      .pipe(map(response => response.ok));
+  }
+
+
 }
