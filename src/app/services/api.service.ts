@@ -41,7 +41,4 @@ export class ApiService {
         return response.ok;
       }));
   }
-
-
-
 }

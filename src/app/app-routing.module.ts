@@ -17,6 +17,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { NotAuthGuard } from './guards/not-auth.guard';
 import { ProjectPublicComponent } from './pages/project/project-public/project-public.component';
+import { UserSettingsComponent } from './pages/user-dashboard/user-settings/user-settings.component';
 
 
 
@@ -29,6 +30,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'feed', pathMatch: 'full' },
       { path: 'feed', component: UserFeedComponent },
+      { path: 'settings', component: UserSettingsComponent }
     ]
   },
   { path: 'user/:id', component: UserPublicPageComponent },

@@ -21,6 +21,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { WatchDogComponent } from './dev/watch-dog/watch-dog.component';
 import { ProjectPublicComponent } from './pages/project/project-public/project-public.component';
+import { UserSettingsComponent } from './pages/user-dashboard/user-settings/user-settings.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { ProjectPublicComponent } from './pages/project/project-public/project-p
     RegisterComponent,
     NavbarComponent,
     WatchDogComponent,
-    ProjectPublicComponent
+    ProjectPublicComponent,
+    UserSettingsComponent
   ],
   imports: [
     BrowserModule,
