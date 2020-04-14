@@ -14,6 +14,8 @@ export class DebugNavComponent implements OnInit {
     {name: 'me', path: '/me'},
     {name: 'user', path: '/user/0123456789'},
     {name: 'project', path: '/project/0123456789'},
+    {name: 'project dashboard', path: '/project/0123456789/dashboard'},
+    {name: 'project settings', path: '/project/0123456789/settings'},
   ];
 
   constructor() { }
