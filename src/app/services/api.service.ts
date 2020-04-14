@@ -3,7 +3,7 @@ import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { USERNAME_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN } from '../regex';
+import { USERNAME_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN, FIRST_LASTNAME_PATTERN } from '../regex';
 import { UserSession } from '../models/api/userSession';
 
 const API_ROOT = '/api/v1/'
@@ -30,6 +30,8 @@ export class ApiService {
 
   register(firstname: string, lastname: string, username: string, password: string, email: string): Observable<boolean> {
     if (
+      !FIRST_LASTNAME_PATTERN.test(firstname)||
+      !FIRST_LASTNAME_PATTERN.test(lastname) ||
       !USERNAME_PATTERN.test(username) ||
       !PASSWORD_PATTERN.test(password) ||
       !EMAIL_PATTERN.test(email)
