@@ -6,7 +6,6 @@ import { map } from 'rxjs/operators';
 import { USERNAME_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN, FIRST_LASTNAME_PATTERN } from '../regex';
 import { UserSession } from '../models/api/userSession';
 import { Project } from '../models/project';
-import { ProcessEnvOptions } from 'child_process';
 
 const API_ROOT = '/api/v1/'
 

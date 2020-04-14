@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm: FormGroup;
   logSubscription: Subscription;
-  hint: string = null;
+  hint: string | null = null;
   isBusy: boolean = false;
 
   constructor(
