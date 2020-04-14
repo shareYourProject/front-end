@@ -3,7 +3,7 @@ import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { USERNAME_PATTERN, PASSWORD_PATTERN } from '../regex';
+import { USERNAME_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN } from '../regex';
 import { UserSession } from '../models/api/userSession';
 
 const API_ROOT = '/api/v1/'
@@ -22,12 +22,27 @@ export class ApiService {
     return this.httpClient.post<T>(API_ROOT + endpoint, body, { headers, observe: 'response' });
   }
 
-  
+
   isLogged(): Observable<boolean> {
     console.error("API.isLogged is deprecated !");
     return of(false);
   }
-  
+
+  register(firstname: string, lastname: string, username: string, password: string, email: string): Observable<boolean> {
+    if (
+      !USERNAME_PATTERN.test(username) ||
+      !PASSWORD_PATTERN.test(password) ||
+      !EMAIL_PATTERN.test(email)
+    )
+      return of(false);
+
+    return this.post<UserSession>('register', { firstname, lastname, username, password, email })
+      .pipe(map(response => {
+        if (response.ok)
+          this.session = response.body;
+        return response.ok;
+      }));
+  }
 
   login(username: string, password: string): Observable<boolean> {
     // check if username & password respect basique rules before send request to server.
