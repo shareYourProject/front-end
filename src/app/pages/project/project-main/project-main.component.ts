@@ -8,12 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProjectMainComponent implements OnInit {
 
-  projectID: string;
+  constructor() { }
 
-  constructor(private router: ActivatedRoute) { }
-
-  ngOnInit(): void {
-    this.projectID = this.router.snapshot.params['id'];
-  }
-
+  ngOnInit(): void { }
 }

@@ -2,11 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, isDevMode } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { MainComponent } from './pages/main/main.component';
+import { HomeComponent } from './pages/home/home.component';
 import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard/user-dashboard.component';
 import { UserFeedComponent } from './pages/user-dashboard/user-feed/user-feed.component';
 import { UserPublicPageComponent } from './pages/user-public-page/user-public-page.component';
@@ -16,24 +17,35 @@ import { LoginComponent } from './pages/login/login.component';
 
 // simulate a back end
 import { fakeBackendProvider } from './dev/fakeBackEnd';
+import { RegisterComponent } from './pages/register/register.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { WatchDogComponent } from './dev/watch-dog/watch-dog.component';
+import { ProjectPublicComponent } from './pages/project/project-public/project-public.component';
+import { UserSettingsComponent } from './pages/user-dashboard/user-settings/user-settings.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent,
     UserDashboardComponent,
     UserFeedComponent,
     UserPublicPageComponent,
     ProjectDashboardComponent,
     ProjectMainComponent,
-    LoginComponent
+    LoginComponent,
+    HomeComponent,
+    RegisterComponent,
+    NavbarComponent,
+    WatchDogComponent,
+    ProjectPublicComponent,
+    UserSettingsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    CommonModule,
   ],
   providers: [
     fakeBackendProvider, // REMOVE THIS BEFORE DEPLOY !!!!!!!!!!!!!!!!!!!!!!!!!!!!

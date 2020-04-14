@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 // pages
-import { MainComponent } from './pages/main/main.component';
+import { HomeComponent } from './pages/home/home.component';
 import { UserPublicPageComponent } from './pages/user-public-page/user-public-page.component';
 
 // user dashboard pages
@@ -14,22 +14,29 @@ import { ProjectMainComponent } from './pages/project/project-main/project-main.
 import { ProjectDashboardComponent } from './pages/project/project-dashboard/project-dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { NotAuthGuard } from './guards/not-auth.guard';
+import { ProjectPublicComponent } from './pages/project/project-public/project-public.component';
+import { UserSettingsComponent } from './pages/user-dashboard/user-settings/user-settings.component';
 
 
 
 const routes: Routes = [
-  { path: '', component: MainComponent },
-  { path: 'login', component: LoginComponent},
+  { path: '', component: HomeComponent },
+  { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [NotAuthGuard] },
   {
-    path: 'me', component: UserDashboardComponent, canActivateChild:[AuthGuard],
+    path: 'me', component: UserDashboardComponent, canActivateChild: [AuthGuard],
     children: [
       { path: '', redirectTo: 'feed', pathMatch: 'full' },
       { path: 'feed', component: UserFeedComponent },
+      { path: 'settings', component: UserSettingsComponent }
     ]
   },
   { path: 'user/:id', component: UserPublicPageComponent },
   {
     path: 'project/:id', component: ProjectMainComponent, children: [
+      { path: '', component: ProjectPublicComponent },
       { path: 'dashboard', component: ProjectDashboardComponent },
     ]
   },
