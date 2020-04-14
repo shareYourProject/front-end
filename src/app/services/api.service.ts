@@ -4,8 +4,6 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { USERNAME_PATTERN, PASSWORD_PATTERN } from '../regex';
-import { LoginResponse } from '../models/api/login-response';
-
 
 const API_ROOT = '/api/v1/'
 
