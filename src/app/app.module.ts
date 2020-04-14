@@ -22,6 +22,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { WatchDogComponent } from './dev/watch-dog/watch-dog.component';
 import { ProjectPublicComponent } from './pages/project/project-public/project-public.component';
 import { UserSettingsComponent } from './pages/user-dashboard/user-settings/user-settings.component';
+import { DebugNavComponent } from './components/debug-nav/debug-nav.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { UserSettingsComponent } from './pages/user-dashboard/user-settings/user
     NavbarComponent,
     WatchDogComponent,
     ProjectPublicComponent,
-    UserSettingsComponent
+    UserSettingsComponent,
+    DebugNavComponent
   ],
   imports: [
     BrowserModule,
