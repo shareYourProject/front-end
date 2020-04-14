@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -19,8 +19,8 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) { }
 
-  private post<T>(endpoint: string, body: any): Observable<HttpResponse<T>> {
-    return this.httpClient.post<T>("", {}, { observe: 'response' });
+  private post<T>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }): Observable<HttpResponse<T>> {
+    return this.httpClient.post<T>(API_ROOT + endpoint, body, { headers, observe: 'response' });
   }
 
   isLogged(): Observable<boolean> {
