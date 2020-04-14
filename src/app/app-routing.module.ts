@@ -18,6 +18,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { NotAuthGuard } from './guards/not-auth.guard';
 import { ProjectPublicComponent } from './pages/project/project-public/project-public.component';
 import { UserSettingsComponent } from './pages/user-dashboard/user-settings/user-settings.component';
+import { ProjectSettingsComponent } from './pages/project/project-settings/project-settings.component';
 
 
 
@@ -38,6 +39,7 @@ const routes: Routes = [
     path: 'project/:id', component: ProjectMainComponent, children: [
       { path: '', component: ProjectPublicComponent },
       { path: 'dashboard', component: ProjectDashboardComponent },
+      { path: 'settings', component: ProjectSettingsComponent }
     ]
   },
 
