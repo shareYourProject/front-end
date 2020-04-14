@@ -18,10 +18,21 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) { }
 
-  private post<T>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }): Observable<HttpResponse<T>> {
+  private post<T>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient.post<T>(API_ROOT + endpoint, body, { headers, observe: 'response' });
   }
 
+  private get<T>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+    return this.httpClient.get<T>(API_ROOT + endpoint, { headers, observe: 'response' });
+  }
+
+  private delete<T>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+    return this.httpClient.delete<T>(API_ROOT + endpoint, { headers, observe: 'response' });
+  }
+
+  private put<T>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+    return this.httpClient.put<T>(API_ROOT + endpoint, body, { headers, observe: 'response' });
+  }
 
   isLogged(): Observable<boolean> {
     console.error("API.isLogged is deprecated !");
@@ -30,7 +41,7 @@ export class ApiService {
 
   register(firstname: string, lastname: string, username: string, password: string, email: string): Observable<boolean> {
     if (
-      !FIRST_LASTNAME_PATTERN.test(firstname)||
+      !FIRST_LASTNAME_PATTERN.test(firstname) ||
       !FIRST_LASTNAME_PATTERN.test(lastname) ||
       !USERNAME_PATTERN.test(username) ||
       !PASSWORD_PATTERN.test(password) ||
