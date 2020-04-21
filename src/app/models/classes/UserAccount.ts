@@ -16,7 +16,7 @@ export class UserAccount implements Collectionable<UserAccount> {
     private _projectIds: number[];
 
     constructor(
-        protected readonly api: ApiService,
+        private readonly api: ApiService,
         data: UserAccountData
     ) {
         this._id = data.id;
