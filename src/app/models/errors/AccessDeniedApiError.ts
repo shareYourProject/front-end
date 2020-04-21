@@ -1,6 +1,6 @@
 import { ApiError, HttpMethod } from './ApiError';
 
-export class ApiAccessDeniedError extends ApiError {
+export class AccessDeniedApiError extends ApiError {
 
     constructor(
         endpoint: string,
