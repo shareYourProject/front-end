@@ -3,6 +3,7 @@ import { Collectionable } from 'src/app/models/Collections/CollectionBase';
 import { ProjectData } from '../api/project';
 import { DeletedDataError } from '../errors/DeletedDataError';
 import { threadId } from 'worker_threads';
+import { NotFoundApiError } from '../errors/NotFoundApiError';
 
 export class Project implements Collectionable<Project> {
 
@@ -61,11 +62,19 @@ export class Project implements Collectionable<Project> {
     async fetch() {
         if (this.deleted) throw new DeletedDataError();
 
-        const data = await this.api.getData<ProjectData>(this.endpoint).toPromise();
-        if (!data)
-            throw new Error(`Fail to fetch project.`);
-        this.setData(data);
-        return this;
+        try {
+            const data = await this.api.get<ProjectData>(this.endpoint).toPromise();
+            if (!data)
+                throw new Error('Fail to fetch project.');
+            this.setData(data);
+            return this;
+        } catch (error) {
+            if (error instanceof NotFoundApiError) {
+                this._deleted = true;
+                return this;
+            } else
+                throw error;
+        }
     }
 
     async edit(data: Partial<ProjectData>) {
@@ -79,18 +88,14 @@ export class Project implements Collectionable<Project> {
         merged.links = data.links ?? this._links;
         merged.visibility = data.visibility ?? this._visibility;
 
-        if (!await this.api.putData(this.endpoint, merged).toPromise())
-            throw new Error('Fail to edit user.');
+        await this.api.put(this.endpoint, merged).toPromise();
         this.setData(merged);
         return this;
     }
 
     async delete() {
         if (this.deleted) throw new DeletedDataError();
-
-        if (!await this.api.deleteData(this.endpoint).toPromise())
-            throw new Error('Fail to delete project.');
+        await this.api.delete(this.endpoint).toPromise();
         this._deleted = true;
     }
-
 }

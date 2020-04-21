@@ -8,6 +8,7 @@ import { UserSessionData } from '../models/api/userSession';
 import { AccessDeniedApiError } from '../models/errors/AccessDeniedApiError';
 import { ApiError, HttpMethod } from '../models/errors/ApiError';
 import { DefaultApiError } from '../models/errors/DefaultApiError';
+import { NotFoundApiError } from '../models/errors/NotFoundApiError';
 
 const API_ROOT = '/api/v1/';
 
@@ -50,55 +51,53 @@ export class ApiService {
       );
   }
 
-  public delete<T = Object>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return this.httpClient.delete<T>(API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+  public delete(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+    return this.httpClient.delete(API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
       .pipe(
         map(
           response => {
-            if (response.ok)
-              return response.body;
-            throw this.generateError(endpoint, "delete", response.status);
+            if (!response.ok)
+              throw this.generateError(endpoint, "delete", response.status);
           }
         )
       );
   }
 
-  public put<T = Object>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return this.httpClient.put<T>(API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+  public put(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+    return this.httpClient.put(API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
       .pipe(
         map(
           response => {
-            if (response.ok)
-              return response.body;
-            throw this.generateError(endpoint, "put", response.status);
+            if (!response.ok)
+              throw this.generateError(endpoint, "put", response.status);
           }
         )
       );
   }
 
- /*
-  public getData<U>(endpoint: string) {
-    return this.get<U>(endpoint)
-      .pipe(
-        map(
-          response => {
-            if (response.ok)
-              return response.body;
-            throw this.generateError(endpoint, "get", response.status);
-          }
-        )
-      );
-  }
-
-  public putData(endpoint: string, data: any) {
-    return this.put(endpoint, data)
-      .pipe(map(response => response.ok));
-  }
-
-  public deleteData(endpoint: string) {
-    return this.delete(endpoint).pipe(map(response => response.ok));
-  }
-  */
+  /*
+   public getData<U>(endpoint: string) {
+     return this.get<U>(endpoint)
+       .pipe(
+         map(
+           response => {
+             if (response.ok)
+               return response.body;
+             throw this.generateError(endpoint, "get", response.status);
+           }
+         )
+       );
+   }
+ 
+   public putData(endpoint: string, data: any) {
+     return this.put(endpoint, data)
+       .pipe(map(response => response.ok));
+   }
+ 
+   public deleteData(endpoint: string) {
+     return this.delete(endpoint).pipe(map(response => response.ok));
+   }
+   */
 
   /**
    * Generate a header with api_token
@@ -107,10 +106,10 @@ export class ApiService {
     return { api_token: this.session ? this.session.api_token : '', ...headers };
   }
 
-
   private generateError(endpoint: string, method: HttpMethod, status: number) {
     switch (status) {
       case 401: return new AccessDeniedApiError(endpoint, method);
+      case 404: return new NotFoundApiError(endpoint, method);
       default: return new DefaultApiError(endpoint, method, status);
     }
   }
@@ -136,9 +135,11 @@ export class ApiService {
       .pipe(
         map(
           response => {
-            if (response.ok)
-              this.session = response.body;
-            return response.ok;
+            if (response) {
+              this.session = response;
+              return true;
+            }
+            return false;
           }
         )
       )
@@ -154,9 +155,11 @@ export class ApiService {
       .pipe(
         map(
           response => {
-            if (response.ok)
-              this.session = response.body;
-            return response.ok;
+            if (response) {
+              this.session = response;
+              return true;
+            }
+            return false;
           }
         )
       )

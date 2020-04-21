@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { Collectionable } from 'src/app/models/Collections/CollectionBase';
 import { threadId } from 'worker_threads';
 import { DeletedDataError } from '../errors/DeletedDataError';
+import { NotFoundApiError } from '../errors/NotFoundApiError';
 
 export class UserAccount implements Collectionable<UserAccount> {
 
@@ -76,11 +77,19 @@ export class UserAccount implements Collectionable<UserAccount> {
     async fetch() {
         if (this.deleted) throw new DeletedDataError();
 
-        const data = await this.api.getData<UserAccountData>(this.endpoint).toPromise();
-        if (!data)
-            throw new Error('Fail to fetch user.');
-        this.setData(data);
-        return this;
+        try {
+            const data = await this.api.get<UserAccountData>(this.endpoint).toPromise();
+            if (!data)
+                throw new Error('Fail to fetch user.');
+            this.setData(data);
+            return this;
+        } catch (error) {
+            if (error instanceof NotFoundApiError) {
+                this._deleted = true;
+                return this;
+            } else
+                throw error;
+        }
     }
 
     async edit(data: Partial<UserAccountData>) {
@@ -97,18 +106,14 @@ export class UserAccount implements Collectionable<UserAccount> {
         merged.links = data.links ?? this._links;
         merged.project_ids = data.project_ids ?? this._projectIds;
 
-        if (!await this.api.putData(this.endpoint, merged).toPromise())
-            throw new Error('Fail to edit user.');
+        await this.api.put(this.endpoint, merged).toPromise();
         this.setData(merged);
         return this;
     }
 
     async delete() {
         if (this.deleted) throw new DeletedDataError();
-
-        if (!await this.api.deleteData(this.endpoint).toPromise())
-            throw Error('Fail to delete user.');
+        await this.api.delete(this.endpoint).toPromise();
         this._deleted = true;
     }
-
 }
