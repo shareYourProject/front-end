@@ -5,10 +5,11 @@ import { map } from 'rxjs/operators';
 
 import { USERNAME_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN, FIRST_LASTNAME_PATTERN } from '../regex';
 import { UserSessionData } from '../models/api/userSession';
-import { Project } from '../models/project';
+import { UserAccountAPI, UserAccount } from '../models/classes/UserAccount';
+import { AccountData } from '../models/api/account';
+import { ProjectData } from '../models/api/project';
 
 const API_ROOT = '/api/v1/';
-
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class ApiService {
 
   private session: UserSessionData | null = null;
 
-  //private userCache: Map<number, User>;
+  private userAccountCache: Map<number, UserAccountAPI>;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -94,7 +95,25 @@ export class ApiService {
   }
 
   getUser(userID: number) {
-    return this.getData<Account>(`user/${userID}`);
+    return this
+      .getData<AccountData>(`user/${userID}`)
+      .pipe(
+        map(
+          data => {
+            if (!data) return null;
+            const cached = this.userAccountCache.get(userID);
+
+            if (!cached) {
+              const userAccount = new UserAccountAPI(this, data);
+              this.userAccountCache.set(userID, userAccount);
+              return userAccount
+            }
+
+            cached.fetch(data);
+            return cached;
+          }
+        )
+      );
   }
 
   updateUser(user: Account): Observable<boolean> {
@@ -108,10 +127,10 @@ export class ApiService {
   }
 
   getProject(projectID: number) {
-    return this.getData<Project>(`project/${projectID}`);
+    return this.getData<ProjectData>(`project/${projectID}`);
   }
 
-  updateProject(user: Account): Observable<boolean> {
+  updateProject(user: AccountData): Observable<boolean> {
     return this.put(`user/${user.id}`, user, this.getHeaderWithToken())
       .pipe(map(response => response.ok));
   }
