@@ -2,6 +2,7 @@ import { UserAccountData } from '../api/account';
 import { ApiService } from 'src/app/services/api.service';
 import { Collectionable } from 'src/app/services/CollectionServiceBase';
 import { threadId } from 'worker_threads';
+import { DeletedDataError } from '../errors/DeletedDataError';
 
 export class UserAccount implements Collectionable<UserAccount> {
 
@@ -73,6 +74,8 @@ export class UserAccount implements Collectionable<UserAccount> {
     get deleted() { return this._deleted; }
 
     async fetch() {
+        if (this.deleted) throw new DeletedDataError();
+
         const data = await this.api.getData<UserAccountData>(this.endpoint).toPromise();
         if (!data)
             throw new Error('Fail to fetch user.');
@@ -81,6 +84,7 @@ export class UserAccount implements Collectionable<UserAccount> {
     }
 
     async edit(data: Partial<UserAccountData>) {
+        if (this.deleted) throw new DeletedDataError();
 
         const merged = this.getData();
 
@@ -100,6 +104,8 @@ export class UserAccount implements Collectionable<UserAccount> {
     }
 
     async delete() {
+        if (this.deleted) throw new DeletedDataError();
+
         if (!await this.api.deleteData(this.endpoint).toPromise())
             throw Error('Fail to delete user.');
         this._deleted = true;
