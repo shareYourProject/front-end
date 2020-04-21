@@ -67,7 +67,7 @@ export class ApiService {
     throw new Error('API.isLogged is deprecated !');
   }
 
-  register(firstname: string, lastname: string, username: string, password: string, email: string): Observable<boolean> {
+  register(firstname: string, lastname: string, username: string, password: string, email: string): Promise<boolean> {
     if (
       !FIRST_LASTNAME_PATTERN.test(firstname) ||
       !FIRST_LASTNAME_PATTERN.test(lastname) ||
@@ -75,75 +75,36 @@ export class ApiService {
       !PASSWORD_PATTERN.test(password) ||
       !EMAIL_PATTERN.test(email)
     )
-      return of(false);
+      return Promise.resolve(false);
 
     return this.post<UserSessionData>('register', { firstname, lastname, username, password, email })
-      .pipe(map(response => {
-        if (response.ok)
-          this.session = response.body;
-        return response.ok;
-      }));
-  }
-
-  login(username: string, password: string): Observable<boolean> {
-    // check if username & password respect basique rules before send request to server.
-    if (!USERNAME_PATTERN.test(username) || !PASSWORD_PATTERN.test(password))
-      return of(false);
-
-    return this.post<UserSessionData>('login', { username: username, password: password })
-      .pipe(map(response => {
-        if (response.ok)
-          this.session = response.body;
-        return response.ok;
-      }));
-  }
-
-  /*
-  getUser(userID: number) {
-    return this
-      .getData<UserAccountData>(`user/${userID}`)
       .pipe(
         map(
-          data => {
-            if (!data) return null;
-            const cached = this.userAccountCache.get(userID);
-
-            if (!cached) {
-              const userAccount = new UserAccountAPI(this, data);
-              this.userAccountCache.set(userID, userAccount);
-              return userAccount as UserAccount
-            }
-
-            cached.fetch(data);
-            return cached as UserAccount;
+          response => {
+            if (response.ok)
+              this.session = response.body;
+            return response.ok;
           }
         )
-      );
+      )
+      .toPromise();
   }
 
-  updateUser(user: UserAccountData): Observable<boolean> {
-    return this.put(`user/${user.id}`, user, this.getHeaderWithToken())
-      .pipe(map(response => response.ok));
-  }
+  login(username: string, password: string): Promise<boolean> {
+    // check if username & password respect basique rules before send request to server.
+    if (!USERNAME_PATTERN.test(username) || !PASSWORD_PATTERN.test(password))
+      return Promise.resolve(false);
 
-  deleteUser(userID: number): Observable<boolean> {
-    return this.delete(`user/${userID}`, this.getHeaderWithToken())
-      .pipe(map(response => response.ok));
+    return this.post<UserSessionData>('login', { username: username, password: password })
+      .pipe(
+        map(
+          response => {
+            if (response.ok)
+              this.session = response.body;
+            return response.ok;
+          }
+        )
+      )
+      .toPromise();
   }
-
-  getProject(projectID: number) {
-    return this.getData<ProjectData>(`project/${projectID}`);
-  }
-
-  updateProject(user: UserAccountData): Observable<boolean> {
-    return this.put(`user/${user.id}`, user, this.getHeaderWithToken())
-      .pipe(map(response => response.ok));
-  }
-
-  deleteProject(userID: number): Observable<boolean> {
-    return this.delete(`user/${userID}`, this.getHeaderWithToken())
-      .pipe(map(response => response.ok));
-  }
-
-  */
 }
