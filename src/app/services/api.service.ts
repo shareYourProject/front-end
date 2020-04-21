@@ -19,6 +19,8 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) { }
 
+  // === HELP METHODS =========================================================================================================
+
   private post<T = Object>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient.post<T>(API_ROOT + endpoint, body, { headers, observe: 'response' });
   }
@@ -35,18 +37,27 @@ export class ApiService {
     return this.httpClient.put<T>(API_ROOT + endpoint, body, { headers, observe: 'response' });
   }
 
+  /**
+   * Make a get request and return the body if successful, return null otherwise.
+   * @param endpoint 
+   */
   private getData<U>(endpoint: string) {
     return this.get<U>(endpoint, this.getHeaderWithToken())
       .pipe(map(response => response.ok ? response.body : null));
   }
 
+  /**
+   * Generate a header with api_token
+   */
   private getHeaderWithToken() {
-    return { api_token: this.session ? this.session.api_token : "" };
+    return { api_token: this.session ? this.session.api_token : '' };
   }
 
+  // === REQUESTS =========================================================================================================
+
+  /** @deprecated */
   isLogged(): Observable<boolean> {
-    console.error("API.isLogged is deprecated !");
-    return of(false);
+    throw new Error('API.isLogged is deprecated !');
   }
 
   register(firstname: string, lastname: string, username: string, password: string, email: string): Observable<boolean> {
