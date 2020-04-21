@@ -19,6 +19,7 @@ import { NotAuthGuard } from './guards/not-auth.guard';
 import { ProjectPublicComponent } from './pages/project/project-public/project-public.component';
 import { UserSettingsComponent } from './pages/user-dashboard/user-settings/user-settings.component';
 import { ProjectSettingsComponent } from './pages/project/project-settings/project-settings.component';
+import { ApiTestPageComponent } from './dev/api-test-page/api-test-page.component';
 
 
 
@@ -43,6 +44,7 @@ const routes: Routes = [
     ]
   },
 
+  { path: 'api-test', component: ApiTestPageComponent},
   { path: '**', redirectTo: '' } // keep it at last position !
 ];
 
