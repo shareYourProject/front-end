@@ -2,14 +2,15 @@ import { ApiService } from 'src/app/services/api.service';
 import { DeletedDataError } from '../errors/DeletedDataError';
 import { NotFoundApiError } from '../errors/NotFoundApiError';
 
-
 export abstract class ApiObject<Data> {
 
     private _deleted = false;
 
     constructor(
         protected readonly api: ApiService,
-    ) { }
+    ) { 
+    }
+
 
     protected abstract setData(data: Data): void;
 
@@ -42,6 +43,13 @@ export abstract class ApiObject<Data> {
 
         const merged = this.getData();
 
+       /* for (const key of (Object.keys(merged) as (keyof Data)[])) {
+            const d = data[key];
+            if (d)
+                merged[key] = d;
+        }
+*/
+
         /*
         merged.username = data.username ?? this._username;
         merged.email = data.email ?? this._email;
@@ -63,4 +71,12 @@ export abstract class ApiObject<Data> {
         await this.api.delete(this.endpoint).toPromise();
         this._deleted = true;
     }
+}
+
+
+// read : https://github.com/microsoft/TypeScript/issues/10530
+function Foo<T>(data: T, partialData: Partial<T>, key: keyof T) {
+    const e = partialData[key];
+    if (e)
+        data[key] = e;
 }
