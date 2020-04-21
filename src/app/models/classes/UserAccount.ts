@@ -68,21 +68,13 @@ export class UserAccount implements Collectionable<UserAccount> {
 
     get projectIds() { return this._projectIds as ReadonlyArray<number>; }
 
-    fetch() {
-        return this.api
-            .getData<UserAccountData>(this.endpoint)
-            .pipe(
-                map(
-                    data => {
-                        if (!data)
-                            throw new Error('Fail to fetch user.');
-
-                        this.setData(data);
-                        return this;
-                    }
-                )
-            )
-            .toPromise();
+    async fetch() {
+        const data = await this.api.getData<UserAccountData>(this.endpoint).toPromise();
+        if (data) {
+            this.setData(data);
+            return this;
+        }
+        throw new Error('Fail to fetch user.');
     }
 
     async edit(data: Partial<UserAccountData>) {
@@ -101,7 +93,7 @@ export class UserAccount implements Collectionable<UserAccount> {
             this.setData(merged);
             return this;
         }
-        throw new Error('Fail to edit user.')
+        throw new Error('Fail to edit user.');
     }
 
 }
