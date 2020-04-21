@@ -20,7 +20,7 @@ const API_ROOT = '/api/v1/';
 })
 export class ApiService {
 
-  private user: UserAccount | null = null;
+  private _user: UserAccount | null = null;
   private apiToken: string | null = null;
 
   constructor(
@@ -28,6 +28,8 @@ export class ApiService {
     public readonly users: UserAccountCollectionService,
     public readonly projects: ProjectCollectionService,
   ) { }
+
+  get user() { return this._user; }
 
   // === HELP METHODS =========================================================================================================
 
@@ -140,7 +142,7 @@ export class ApiService {
       return false;
 
     const session = await this.post<UserSessionData>('register', { firstname, lastname, username, password, email }).toPromise();
-    this.user = new UserAccount(this, session.account);
+    this._user = new UserAccount(this, session.account);
     this.apiToken = session.api_token;
     return true;
   }
@@ -151,7 +153,7 @@ export class ApiService {
       return false;
 
     const session = await this.post<UserSessionData>('login', { username: username, password: password }).toPromise();
-    this.user = new UserAccount(this, session.account);
+    this._user = new UserAccount(this, session.account);
     this.apiToken = session.api_token;
     return true;
   }
