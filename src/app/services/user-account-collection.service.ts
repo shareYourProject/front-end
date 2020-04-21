@@ -16,7 +16,7 @@ export class UserAccountCollectionService extends CollectionServiceBase<number, 
     super();
   }
 
-  buildObject(key: number) {
+  protected buildObject(key: number) {
     return this.api
       .getData<UserAccountData>(`user/${key}`)
       .pipe(
