@@ -6,7 +6,8 @@ import { map } from 'rxjs/operators';
 import { USERNAME_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN, FIRST_LASTNAME_PATTERN } from '../regex';
 import { UserSessionData } from '../models/api/userSession';
 import { AccessDeniedApiError } from '../models/errors/AccessDeniedApiError';
-import { ApiError } from '../models/errors/ApiError';
+import { ApiError, HttpMethod } from '../models/errors/ApiError';
+import { DefaultApiError } from '../models/errors/DefaultApiError';
 
 const API_ROOT = '/api/v1/';
 
@@ -22,25 +23,60 @@ export class ApiService {
   // === HELP METHODS =========================================================================================================
 
   public post<T = Object>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return this.httpClient.post<T>(API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' });
+    return this.httpClient
+      .post<T>(API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+      .pipe(
+        map(
+          response => {
+            if (response.ok)
+              return response.body;
+            throw this.generateError(endpoint, "post", response.status);
+          }
+        )
+      );
   }
 
   public get<T = Object>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return this.httpClient.get<T>(API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' });
+    return this.httpClient
+      .get<T>(API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+      .pipe(
+        map(
+          response => {
+            if (response.ok)
+              return response.body;
+            throw this.generateError(endpoint, "get", response.status);
+          }
+        )
+      );
   }
 
   public delete<T = Object>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return this.httpClient.delete<T>(API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' });
+    return this.httpClient.delete<T>(API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+      .pipe(
+        map(
+          response => {
+            if (response.ok)
+              return response.body;
+            throw this.generateError(endpoint, "delete", response.status);
+          }
+        )
+      );
   }
 
   public put<T = Object>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return this.httpClient.put<T>(API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' });
+    return this.httpClient.put<T>(API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+      .pipe(
+        map(
+          response => {
+            if (response.ok)
+              return response.body;
+            throw this.generateError(endpoint, "put", response.status);
+          }
+        )
+      );
   }
 
-  /**
-   * Make a get request and return the body if successful, return null otherwise.
-   * @param endpoint 
-   */
+ /*
   public getData<U>(endpoint: string) {
     return this.get<U>(endpoint)
       .pipe(
@@ -48,11 +84,7 @@ export class ApiService {
           response => {
             if (response.ok)
               return response.body;
-
-            switch (response.status) {
-              case 401: throw new AccessDeniedApiError(endpoint, "get");
-              default: throw new ApiError(endpoint, "get", "");
-            }
+            throw this.generateError(endpoint, "get", response.status);
           }
         )
       );
@@ -66,12 +98,21 @@ export class ApiService {
   public deleteData(endpoint: string) {
     return this.delete(endpoint).pipe(map(response => response.ok));
   }
+  */
 
   /**
    * Generate a header with api_token
    */
   public getHeaderWithToken(headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return { api_token: this.session ? this.session.api_token : '', ...headers };
+  }
+
+
+  private generateError(endpoint: string, method: HttpMethod, status: number) {
+    switch (status) {
+      case 401: return new AccessDeniedApiError(endpoint, method);
+      default: return new DefaultApiError(endpoint, method, status);
+    }
   }
 
   // === REQUESTS =========================================================================================================
