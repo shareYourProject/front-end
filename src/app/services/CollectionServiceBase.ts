@@ -15,7 +15,7 @@ export abstract class CollectionServiceBase<Key, T extends Collectionable<T>> {
         const cached = this.cache.get(key);
 
         if (cached)
-            return cached.fetch();
+            return cached.fetch().toPromise();
         return this
             .buildObject(key)
             .pipe(
@@ -25,7 +25,7 @@ export abstract class CollectionServiceBase<Key, T extends Collectionable<T>> {
                         return o;
                     }
                 )
-            );
+            ).toPromise();
     }
 
     protected abstract buildObject(key: Key): Observable<T>;
