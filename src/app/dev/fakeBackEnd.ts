@@ -22,6 +22,8 @@ let userTest: UserAccountData = {
     lastname: undefined,
 };
 
+let cur = 0;
+let names = ['Alice', 'Bob', 'Conan', 'D'];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -58,7 +60,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         // route functions
 
         function getUser() {
-            return response(201, userTest);
+            const res = {...userTest};
+            userTest.username = names[++cur % names.length]; // simulate change
+            return response(201, res);
         }
 
         function putUser() {

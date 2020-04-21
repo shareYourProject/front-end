@@ -24,7 +24,6 @@ import { ProjectPublicComponent } from './pages/project/project-public/project-p
 import { UserSettingsComponent } from './pages/user-dashboard/user-settings/user-settings.component';
 import { DebugNavComponent } from './components/debug-nav/debug-nav.component';
 import { ProjectSettingsComponent } from './pages/project/project-settings/project-settings.component';
-import { TestPageComponent } from './dev/test-page/test-page.component';
 import { ApiTestPageComponent } from './dev/api-test-page/api-test-page.component';
 
 
@@ -45,7 +44,6 @@ import { ApiTestPageComponent } from './dev/api-test-page/api-test-page.componen
     UserSettingsComponent,
     DebugNavComponent,
     ProjectSettingsComponent,
-    TestPageComponent,
     ApiTestPageComponent
   ],
   imports: [

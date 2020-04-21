@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserAccountCollectionService } from 'src/app/services/user-account-collection.service';
-import { UserSettingsComponent } from 'src/app/pages/user-dashboard/user-settings/user-settings.component';
 import { UserAccount } from 'src/app/models/classes/UserAccount';
 
 @Component({
@@ -16,7 +15,15 @@ export class ApiTestPageComponent implements OnInit {
     private readonly users: UserAccountCollectionService,
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.alice = await this.users.get(0)
+  }
+
+  async fetch() {
+    if (!this.alice) return;
+    console.log("Start fetch");
+    await this.alice.fetch().toPromise();
+    console.log("Fetched !");
   }
 
 }
