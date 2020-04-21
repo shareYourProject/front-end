@@ -1,4 +1,4 @@
-export interface Account {
+export interface IAccount {
     username: string,
     id: number,
     email?: string,

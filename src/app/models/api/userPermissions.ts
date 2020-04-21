@@ -1,3 +1,3 @@
-export interface UserPermission {
+export interface IUserPermission {
     
 }

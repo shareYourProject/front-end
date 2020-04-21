@@ -1,7 +1,7 @@
-import { Account } from './account';
+import { IAccount } from './account';
 
-export interface UserSession {
-    account: Account,
+export interface IUserSession {
+    account: IAccount,
     api_token: string,
     creation_date: string,
 }

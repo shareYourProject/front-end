@@ -1,7 +1,7 @@
 import { Project } from '../project';
 import { Comment } from '@angular/compiler';
 
-export interface Post {
+export interface IPost {
     id: number,
     project: Project,
     content: string,
