@@ -17,7 +17,7 @@ export abstract class CollectionServiceBase<Key, T extends Collectionable<T>> {
         if (cached)
             return cached.fetch();
         return this
-            .buildObject()
+            .buildObject(key)
             .pipe(
                 map(
                     o => {
