@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CollectionServiceBase } from './CollectionServiceBase';
+import { CollectionServiceBase } from '../models/CollectionServiceBase';
 import { UserAccount } from '../models/classes/UserAccount';
 import { ApiService } from './api.service';
 import { UserAccountData } from '../models/api/account';
