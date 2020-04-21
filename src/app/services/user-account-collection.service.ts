@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { extname } from 'path';
 import { CollectionServiceBase } from './CollectionServiceBase';
 import { UserAccount } from '../models/classes/UserAccount';
+import { ApiService } from './api.service';
+import { UserAccountData } from '../models/api/account';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +11,22 @@ import { UserAccount } from '../models/classes/UserAccount';
 export class UserAccountCollectionService extends CollectionServiceBase<number, UserAccount> {
 
   constructor(
-
+    private readonly api: ApiService,
   ) {
-    super()
-   }
+    super();
+  }
+
+  buildObject(key: number) {
+    return this.api
+      .getData<UserAccountData>(`user/${key}`)
+      .pipe(
+        map(
+          data => {
+            if (!data)
+              throw new Error("Fail to build user.");
+            return new UserAccount(this.api, data);
+          }
+        )
+      );
+  }
 }

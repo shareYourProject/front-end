@@ -28,5 +28,5 @@ export abstract class CollectionServiceBase<Key, T extends Collectionable<T>> {
             );
     }
 
-    protected abstract buildObject(): Observable<T>;
+    protected abstract buildObject(key: Key): Observable<T>;
 }
