@@ -36,9 +36,14 @@ export abstract class PostBase<Data extends PostBaseData> extends ApiObject<Data
 
     async edit(content: string) {
         throw new Error("Not implemented");
+
+        return await this.fetch();
     }
 
     async like() {
         throw new Error("Not implemented");
+
+
+        return await this.fetch();
     }
 }
