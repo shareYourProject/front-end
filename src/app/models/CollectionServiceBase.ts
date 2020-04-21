@@ -5,7 +5,7 @@ export interface Collectionable<T extends Collectionable<T>> {
     fetch(): Promise<T>;
 }
 
-export abstract class CollectionServiceBase<Key, T extends Collectionable<T>> {
+export abstract class CollectionBase<Key, T extends Collectionable<T>> {
 
     protected cache = new Map<Key, T>();
 
