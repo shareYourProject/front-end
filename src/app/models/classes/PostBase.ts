@@ -10,6 +10,7 @@ export abstract class PostBase<Data extends PostBaseData> extends ApiObject<Data
     public readonly author_id: number;
     private _content: string;
     private _likeCount: number;
+    private _likes: number[];
 
     constructor(
         api: ApiService,
@@ -28,8 +29,16 @@ export abstract class PostBase<Data extends PostBaseData> extends ApiObject<Data
 
     get likeCount() { return this._likeCount; }
 
+    get liked() {
+        const userId = this.api.user?.id;
+        return userId ? this._likes.includes(userId) : false;
+    }
+
     async edit(content: string) {
         throw new Error("Not implemented");
     }
 
+    async like() {
+        throw new Error("Not implemented");
+    }
 }
