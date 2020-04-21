@@ -9,6 +9,8 @@ import { AccessDeniedApiError } from '../models/errors/AccessDeniedApiError';
 import { ApiError, HttpMethod } from '../models/errors/ApiError';
 import { DefaultApiError } from '../models/errors/DefaultApiError';
 import { NotFoundApiError } from '../models/errors/NotFoundApiError';
+import { UserAccountCollectionService } from './user-account-collection.service';
+import { ProjectCollectionService } from './project-collection.service';
 
 const API_ROOT = '/api/v1/';
 
@@ -19,7 +21,11 @@ export class ApiService {
 
   private session: UserSessionData | null = null;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient: HttpClient,
+    public readonly users: UserAccountCollectionService,
+    public readonly projects: ProjectCollectionService,
+    ) { }
 
   // === HELP METHODS =========================================================================================================
 
