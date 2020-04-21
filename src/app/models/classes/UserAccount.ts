@@ -69,9 +69,10 @@ export class UserAccount implements Collectionable<UserAccount> {
             .toPromise();
     }
 
-   /* edit(data: UserAccountData) {
+   /*edit(data: UserAccountData) {
         return this.api
-            .put(`user/${this.id}`, data, this.api.getHeaderWithToken())
+            .put(`user/${this.id}`, data)
+            .pipe
     }*/
 
 }

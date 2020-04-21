@@ -44,11 +44,20 @@ export class ApiService {
       .pipe(map(response => response.ok ? response.body : null));
   }
 
+  public putData(endpoint: string, data: any) {
+    return this.put(endpoint, data)
+      .pipe(map(response => response.ok));
+  }
+
+  public deleteData(endpoint: string) {
+    return this.delete(endpoint).pipe(map(response => response.ok));
+  }
+
   /**
    * Generate a header with api_token
    */
   public getHeaderWithToken(headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return { api_token: this.session ? this.session.api_token : '', ...headers};
+    return { api_token: this.session ? this.session.api_token : '', ...headers };
   }
 
   // === REQUESTS =========================================================================================================
