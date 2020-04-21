@@ -5,9 +5,6 @@ import { map } from 'rxjs/operators';
 
 import { USERNAME_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN, FIRST_LASTNAME_PATTERN } from '../regex';
 import { UserSessionData } from '../models/api/userSession';
-import { UserAccountAPI, UserAccount } from '../models/classes/UserAccount';
-import { UserAccountData } from '../models/api/account';
-import { ProjectData } from '../models/api/project';
 
 const API_ROOT = '/api/v1/';
 
@@ -17,8 +14,6 @@ const API_ROOT = '/api/v1/';
 export class ApiService {
 
   private session: UserSessionData | null = null;
-
-  private userAccountCache: Map<number, UserAccountAPI>;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -94,6 +89,7 @@ export class ApiService {
       }));
   }
 
+  /*
   getUser(userID: number) {
     return this
       .getData<UserAccountData>(`user/${userID}`)
@@ -139,4 +135,6 @@ export class ApiService {
     return this.delete(`user/${userID}`, this.getHeaderWithToken())
       .pipe(map(response => response.ok));
   }
+
+  */
 }
