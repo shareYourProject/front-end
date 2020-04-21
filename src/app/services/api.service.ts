@@ -106,11 +106,11 @@ export class ApiService {
             if (!cached) {
               const userAccount = new UserAccountAPI(this, data);
               this.userAccountCache.set(userID, userAccount);
-              return userAccount
+              return userAccount as UserAccount
             }
 
             cached.fetch(data);
-            return cached;
+            return cached as UserAccount;
           }
         )
       );
