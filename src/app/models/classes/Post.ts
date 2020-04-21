@@ -1,8 +1,6 @@
-import { ApiObject } from './ApiObject';
 import { ApiService } from 'src/app/services/api.service';
 import { PostData } from '../api/post';
 import { PostBase } from './PostBase';
-import { threadId } from 'worker_threads';
 
 // WIP
 

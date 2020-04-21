@@ -1,7 +1,6 @@
 import { ApiObject } from './ApiObject';
 import { ApiService } from 'src/app/services/api.service';
-import { PostData, PostBaseData } from '../api/post';
-import { ThrowStmt } from '@angular/compiler';
+import { PostBaseData } from '../api/post';
 
 // WIP
 
