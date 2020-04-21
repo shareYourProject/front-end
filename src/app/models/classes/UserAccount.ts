@@ -65,6 +65,8 @@ export class UserAccount implements Collectionable<UserAccount> {
                         return this;
                     }
                 )
-            );
+            )
+            .toPromise();
     }
+
 }

@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export interface Collectionable<T extends Collectionable<T>> {
-    fetch(): Observable<T>;
+    fetch(): Promise<T>;
 }
 
 export abstract class CollectionServiceBase<Key, T extends Collectionable<T>> {
@@ -15,7 +15,7 @@ export abstract class CollectionServiceBase<Key, T extends Collectionable<T>> {
         const cached = this.cache.get(key);
 
         if (cached)
-            return cached.fetch().toPromise();
+            return cached.fetch();
         return this
             .buildObject(key)
             .pipe(
