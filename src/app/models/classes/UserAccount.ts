@@ -70,11 +70,10 @@ export class UserAccount implements Collectionable<UserAccount> {
 
     async fetch() {
         const data = await this.api.getData<UserAccountData>(this.endpoint).toPromise();
-        if (data) {
-            this.setData(data);
-            return this;
-        }
-        throw new Error('Fail to fetch user.');
+        if (!data)
+            throw new Error('Fail to fetch user.');
+        this.setData(data);
+        return this;
     }
 
     async edit(data: Partial<UserAccountData>) {
@@ -89,11 +88,10 @@ export class UserAccount implements Collectionable<UserAccount> {
         merged.links = data.links ?? this._links;
         merged.project_ids = data.project_ids ?? this._projectIds;
 
-        if (await this.api.putData(this.endpoint, merged).toPromise()) {
-            this.setData(merged);
-            return this;
-        }
-        throw new Error('Fail to edit user.');
+        if (!await this.api.putData(this.endpoint, merged).toPromise())
+            throw new Error('Fail to edit user.');
+        this.setData(merged);
+        return this;
     }
 
     async delete() {
