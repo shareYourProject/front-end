@@ -1,7 +1,7 @@
 import { UserAccountData } from '../api/account';
 import { ApiService } from 'src/app/services/api.service';
 import { Collectionable } from 'src/app/services/CollectionServiceBase';
-import { map } from 'rxjs/operators';
+import { threadId } from 'worker_threads';
 
 export class UserAccount implements Collectionable<UserAccount> {
 
@@ -14,6 +14,8 @@ export class UserAccount implements Collectionable<UserAccount> {
     private _biography?: string;
     private _links: string[];
     private _projectIds: number[];
+
+    private _deleted: boolean;
 
     constructor(
         private readonly api: ApiService,
@@ -68,6 +70,8 @@ export class UserAccount implements Collectionable<UserAccount> {
 
     get projectIds() { return this._projectIds as ReadonlyArray<number>; }
 
+    get deleted() { return this._deleted; }
+
     async fetch() {
         const data = await this.api.getData<UserAccountData>(this.endpoint).toPromise();
         if (!data)
@@ -77,6 +81,7 @@ export class UserAccount implements Collectionable<UserAccount> {
     }
 
     async edit(data: Partial<UserAccountData>) {
+
         const merged = this.getData();
 
         merged.username = data.username ?? this._username;
@@ -97,6 +102,7 @@ export class UserAccount implements Collectionable<UserAccount> {
     async delete() {
         if (!await this.api.deleteData(this.endpoint).toPromise())
             throw Error('Fail to delete user.');
+        this._deleted = true;
     }
 
 }
