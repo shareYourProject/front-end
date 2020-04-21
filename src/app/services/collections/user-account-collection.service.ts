@@ -18,7 +18,7 @@ export class UserAccountCollectionService extends CollectionBase<number, UserAcc
   protected async buildObject(key: number) {
     const data = await this.api.get<UserAccountData>(`user/${key}`).toPromise();
     if (!data)
-      throw new Error("Fail to build project.");
+      throw new Error('Fail to build project.');
     return new UserAccount(this.api, data);
   }
 }

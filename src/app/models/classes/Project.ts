@@ -1,24 +1,13 @@
-import { ApiService } from 'src/app/services/api.service';
 import { ProjectData } from '../api/project';
-import { ApiObject } from './ApiObject';
+import { MergeableApiObject } from './MergeableApiObject';
 
-export class Project extends ApiObject<ProjectData> {
+export class Project extends MergeableApiObject<ProjectData, number> {
 
-    private readonly _id: number;
     private _memberIds?: number[];
     private _name?: string;
     private _description?: string;
     private _links?: string[];
     private _visibility?: boolean;
-
-    constructor(
-        api: ApiService,
-        data: ProjectData
-    ) {
-        super(api);
-        this._id = data.id;
-        this.setData(data);
-    }
 
     protected setData(data: ProjectData) {
         this._memberIds = data.member_ids ? [...data.member_ids] : undefined;
@@ -30,7 +19,7 @@ export class Project extends ApiObject<ProjectData> {
 
     protected getData(): ProjectData {
         return {
-            id: this._id,
+            id: this.id,
             member_ids: this._memberIds,
             name: this._name,
             description: this._description,
@@ -40,10 +29,6 @@ export class Project extends ApiObject<ProjectData> {
     }
 
     protected get endpoint() { return `project/${this.id}`; }
-
-    get id() { return this._id; }
-
-    // TODO get members via manager 
 
     get name() { return this._name; }
 

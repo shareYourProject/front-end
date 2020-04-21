@@ -1,10 +1,8 @@
 import { UserAccountData } from '../api/account';
-import { ApiService } from 'src/app/services/api.service';
-import { ApiObject } from './ApiObject';
+import { MergeableApiObject } from './MergeableApiObject';
 
-export class UserAccount extends ApiObject<UserAccountData> {
+export class UserAccount extends MergeableApiObject<UserAccountData, number> {
 
-    private readonly _id: number;
     private _username: string;
     private _email?: string;
     private _firstname?: string;
@@ -13,15 +11,6 @@ export class UserAccount extends ApiObject<UserAccountData> {
     private _biography?: string;
     private _links: string[];
     private _projectIds: number[];
-
-    constructor(
-        api: ApiService,
-        data: UserAccountData
-    ) {
-        super(api);
-        this._id = data.id;
-        this.setData(data);
-    }
 
     protected setData(data: UserAccountData) {
         this._username = data.username;
@@ -36,7 +25,7 @@ export class UserAccount extends ApiObject<UserAccountData> {
 
     protected getData(): UserAccountData {
         return {
-            id: this._id,
+            id: this.id,
             username: this._username,
             email: this._email,
             firstname: this._firstname,
@@ -49,8 +38,6 @@ export class UserAccount extends ApiObject<UserAccountData> {
     }
 
     protected get endpoint() { return `user/${this.id}`; }
-
-    get id() { return this._id; }
 
     get username() { return this._username; }
 

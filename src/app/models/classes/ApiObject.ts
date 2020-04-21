@@ -2,19 +2,22 @@ import { ApiService } from 'src/app/services/api.service';
 import { DeletedDataError } from '../errors/DeletedDataError';
 import { NotFoundApiError } from '../errors/NotFoundApiError';
 import { Collectionable } from '../Collections/CollectionBase';
+import { ApiData } from '../api/apiData';
 
-export abstract class ApiObject<Data> implements Collectionable  {
+export abstract class ApiObject<Data extends ApiData<Id>, Id> implements Collectionable {
 
+    public readonly id: Id;
     private _deleted = false;
 
     constructor(
         protected readonly api: ApiService,
-    ) { 
+        data: Data,
+    ) {
+        this.id = data.id;
+        this.setData(data);
     }
 
     protected abstract setData(data: Data): void;
-
-    protected abstract getData(): Data;
 
     protected abstract get endpoint(): string;
 
@@ -36,22 +39,6 @@ export abstract class ApiObject<Data> implements Collectionable  {
             } else
                 throw error;
         }
-    }
-
-    async edit(data: Partial<Data>) {
-        if (this.deleted) throw new DeletedDataError();
-
-        const merged = this.getData();
-
-       for (const key of (Object.keys(merged) as (keyof Data)[])) {
-            const d = data[key];
-            if (d !== undefined)
-                merged[key] = d as any; // read : https://github.com/microsoft/TypeScript/issues/10530
-        }
-
-        await this.api.put(this.endpoint, merged).toPromise();
-        this.setData(merged);
-        return this;
     }
 
     async delete() {
