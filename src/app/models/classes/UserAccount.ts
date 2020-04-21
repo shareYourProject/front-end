@@ -96,4 +96,9 @@ export class UserAccount implements Collectionable<UserAccount> {
         throw new Error('Fail to edit user.');
     }
 
+    async delete() {
+        if (!await this.api.deleteData(this.endpoint).toPromise())
+            throw Error('Fail to delete user.');
+    }
+
 }
