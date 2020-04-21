@@ -24,7 +24,7 @@ import { ProjectPublicComponent } from './pages/project/project-public/project-p
 import { UserSettingsComponent } from './pages/user-dashboard/user-settings/user-settings.component';
 import { DebugNavComponent } from './components/debug-nav/debug-nav.component';
 import { ProjectSettingsComponent } from './pages/project/project-settings/project-settings.component';
-import { ApiTestPageComponent } from './dev/api-test-page/api-test-page.component';
+
 
 
 @NgModule({
@@ -44,7 +44,6 @@ import { ApiTestPageComponent } from './dev/api-test-page/api-test-page.componen
     UserSettingsComponent,
     DebugNavComponent,
     ProjectSettingsComponent,
-    ApiTestPageComponent
   ],
   imports: [
     BrowserModule,
