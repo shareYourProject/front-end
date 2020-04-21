@@ -46,6 +46,16 @@ export class Project implements Collectionable<Project> {
 
     get id() { return this._id; }
 
+    // TODO get members via manager 
+
+    get name() { return this._name; }
+
+    get description() { return this._description; }
+
+    get links(): ReadonlyArray<string> | undefined { return this._links; }
+
+    get visibility() { return this._visibility; }
+
     get deleted() { return this._deleted; }
 
     async fetch() {
