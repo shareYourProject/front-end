@@ -1,21 +1,36 @@
 import { ApiService } from './api.service';
+import { Type } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
-export abstract class CollectionServiceBase<K, T> {
+export interface Collectionable<T extends Collectionable<T>> {
+    fetch(): Observable<T>;
+}
 
-    protected _cache = new Map<K, T>();
+export abstract class CollectionServiceBase<Key, Type extends Collectionable<Type>> {
 
-    constructor(
-        api: ApiService,
-    ) {
+    protected cache = new Map<Key, Type>();
 
+    constructor() { }
+
+    get(key: Key) {
+        const cached = this.cache.get(key);
+
+        if (cached)
+            return cached.fetch();
+        return this
+            .buildObject()
+            .pipe(
+                map(
+                    o => {
+                        this.cache.set(key, o);
+                        return o;
+                    }
+                )
+            );
     }
 
-    get(key: K) {
-       
-
-    }
-
-
+    protected abstract buildObject(): Observable<Type>;
 
 }
