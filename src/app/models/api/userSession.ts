@@ -1,7 +1,7 @@
-import { AccountData } from './account';
+import { UserAccountData } from './account';
 
 export interface UserSessionData {
-    account: AccountData,
+    account: UserAccountData,
     api_token: string,
     creation_date: string,
 }

@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { USERNAME_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN, FIRST_LASTNAME_PATTERN } from '../regex';
 import { UserSessionData } from '../models/api/userSession';
 import { UserAccountAPI, UserAccount } from '../models/classes/UserAccount';
-import { AccountData } from '../models/api/account';
+import { UserAccountData } from '../models/api/account';
 import { ProjectData } from '../models/api/project';
 
 const API_ROOT = '/api/v1/';
@@ -96,7 +96,7 @@ export class ApiService {
 
   getUser(userID: number) {
     return this
-      .getData<AccountData>(`user/${userID}`)
+      .getData<UserAccountData>(`user/${userID}`)
       .pipe(
         map(
           data => {
@@ -116,7 +116,7 @@ export class ApiService {
       );
   }
 
-  updateUser(user: AccountData): Observable<boolean> {
+  updateUser(user: UserAccountData): Observable<boolean> {
     return this.put(`user/${user.id}`, user, this.getHeaderWithToken())
       .pipe(map(response => response.ok));
   }
@@ -130,7 +130,7 @@ export class ApiService {
     return this.getData<ProjectData>(`project/${projectID}`);
   }
 
-  updateProject(user: AccountData): Observable<boolean> {
+  updateProject(user: UserAccountData): Observable<boolean> {
     return this.put(`user/${user.id}`, user, this.getHeaderWithToken())
       .pipe(map(response => response.ok));
   }

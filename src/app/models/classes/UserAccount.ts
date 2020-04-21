@@ -1,4 +1,4 @@
-import { AccountData } from '../api/account';
+import { UserAccountData } from '../api/account';
 import { ApiService } from 'src/app/services/api.service';
 import { Collectionable } from 'src/app/services/CollectionServiceBase';
 
@@ -16,12 +16,12 @@ export class UserAccount implements Collectionable<UserAccount> {
 
     constructor(
         protected readonly api: ApiService,
-        data: AccountData
+        data: UserAccountData
     ) {
         this.setData(data);
     }
 
-    private setData(data: AccountData) {
+    private setData(data: UserAccountData) {
         this._id = data.id;
         this._username = data.username;
         this._email = data.email;
