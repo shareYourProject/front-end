@@ -9,8 +9,8 @@ import { AccessDeniedApiError } from '../models/errors/AccessDeniedApiError';
 import { ApiError, HttpMethod } from '../models/errors/ApiError';
 import { DefaultApiError } from '../models/errors/DefaultApiError';
 import { NotFoundApiError } from '../models/errors/NotFoundApiError';
-import { UserAccountCollectionService } from './user-account-collection.service';
-import { ProjectCollectionService } from './project-collection.service';
+import { UserAccountCollectionService } from './collections/user-account-collection.service';
+import { ProjectCollectionService } from './collections/project-collection.service';
 
 const API_ROOT = '/api/v1/';
 
