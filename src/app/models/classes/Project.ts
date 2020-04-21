@@ -1,5 +1,5 @@
 import { ApiService } from 'src/app/services/api.service';
-import { Collectionable } from 'src/app/models/CollectionBase';
+import { Collectionable } from 'src/app/models/Collections/CollectionBase';
 import { ProjectData } from '../api/project';
 
 export class Project implements Collectionable<Project> {
