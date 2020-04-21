@@ -1,6 +1,7 @@
 import { UserAccountData } from '../api/account';
 import { ApiService } from 'src/app/services/api.service';
 import { Collectionable } from 'src/app/services/CollectionServiceBase';
+import { map } from 'rxjs/operators';
 
 export class UserAccount implements Collectionable<UserAccount> {
 
@@ -51,7 +52,19 @@ export class UserAccount implements Collectionable<UserAccount> {
 
     get projectIds() { return this._projectIds; }
 
-    /*fetch() {
-       // return this.api.getData<
-    }*/
+    fetch() {
+        return this.api
+            .getData<UserAccountData>(`user/${this.id}`)
+            .pipe(
+                map(
+                    data => {
+                        if (!data)
+                            throw new Error("Fail to fetch user.");
+
+                        this.setData(data);
+                        return this;
+                    }
+                )
+            );
+    }
 }
