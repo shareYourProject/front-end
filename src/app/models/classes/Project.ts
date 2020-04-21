@@ -1,6 +1,8 @@
 import { ApiService } from 'src/app/services/api.service';
 import { Collectionable } from 'src/app/models/Collections/CollectionBase';
 import { ProjectData } from '../api/project';
+import { DeletedDataError } from '../errors/DeletedDataError';
+import { threadId } from 'worker_threads';
 
 export class Project implements Collectionable<Project> {
 
@@ -10,6 +12,8 @@ export class Project implements Collectionable<Project> {
     private _description?: string;
     private _links?: string[];
     private _visibility?: boolean;
+
+    private _deleted = false;
 
     constructor(
         private readonly api: ApiService,
@@ -42,7 +46,11 @@ export class Project implements Collectionable<Project> {
 
     get id() { return this._id; }
 
+    get deleted() { return this._deleted; }
+
     async fetch() {
+        if (this.deleted) throw new DeletedDataError();
+
         const data = await this.api.getData<ProjectData>(this.endpoint).toPromise();
         if (!data)
             throw new Error(`Fail to fetch project.`);
@@ -51,6 +59,8 @@ export class Project implements Collectionable<Project> {
     }
 
     async edit(data: Partial<ProjectData>) {
+        if (this.deleted) throw new DeletedDataError();
+
         const merged = this.getData();
 
         merged.member_ids = data.member_ids ?? this._memberIds;
@@ -66,8 +76,11 @@ export class Project implements Collectionable<Project> {
     }
 
     async delete() {
+        if (this.deleted) throw new DeletedDataError();
+
         if (!await this.api.deleteData(this.endpoint).toPromise())
             throw new Error('Fail to delete project.');
+        this._deleted = true;
     }
 
 }
