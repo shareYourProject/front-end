@@ -11,6 +11,7 @@ import { DefaultApiError } from '../models/errors/DefaultApiError';
 import { NotFoundApiError } from '../models/errors/NotFoundApiError';
 import { UserAccountCollectionService } from './collections/user-account-collection.service';
 import { ProjectCollectionService } from './collections/project-collection.service';
+import { UserAccount } from '../models/classes/UserAccount';
 
 const API_ROOT = '/api/v1/';
 
@@ -19,13 +20,14 @@ const API_ROOT = '/api/v1/';
 })
 export class ApiService {
 
-  private session: UserSessionData | null = null;
+  private user: UserAccount | null = null;
+  private apiToken: string | null = null;
 
   constructor(
     private httpClient: HttpClient,
     public readonly users: UserAccountCollectionService,
     public readonly projects: ProjectCollectionService,
-    ) { }
+  ) { }
 
   // === HELP METHODS =========================================================================================================
 
@@ -36,7 +38,7 @@ export class ApiService {
         map(
           response => {
             if (response.ok)
-              return response.body;
+              return response.body as T;
             throw this.generateError(endpoint, "post", response.status);
           }
         )
@@ -50,7 +52,7 @@ export class ApiService {
         map(
           response => {
             if (response.ok)
-              return response.body;
+              return response.body as T;
             throw this.generateError(endpoint, "get", response.status);
           }
         )
@@ -109,7 +111,7 @@ export class ApiService {
    * Generate a header with api_token
    */
   public getHeaderWithToken(headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return { api_token: this.session ? this.session.api_token : '', ...headers };
+    return { api_token: this.apiToken ? this.apiToken : '', ...headers };
   }
 
   private generateError(endpoint: string, method: HttpMethod, status: number) {
@@ -127,7 +129,7 @@ export class ApiService {
     throw new Error('API.isLogged is deprecated !');
   }
 
-  register(firstname: string, lastname: string, username: string, password: string, email: string): Promise<boolean> {
+  async register(firstname: string, lastname: string, username: string, password: string, email: string) {
     if (
       !FIRST_LASTNAME_PATTERN.test(firstname) ||
       !FIRST_LASTNAME_PATTERN.test(lastname) ||
@@ -135,40 +137,22 @@ export class ApiService {
       !PASSWORD_PATTERN.test(password) ||
       !EMAIL_PATTERN.test(email)
     )
-      return Promise.resolve(false);
+      return false;
 
-    return this.post<UserSessionData>('register', { firstname, lastname, username, password, email })
-      .pipe(
-        map(
-          response => {
-            if (response) {
-              this.session = response;
-              return true;
-            }
-            return false;
-          }
-        )
-      )
-      .toPromise();
+    const session = await this.post<UserSessionData>('register', { firstname, lastname, username, password, email }).toPromise();
+    this.user = new UserAccount(this, session.account);
+    this.apiToken = session.api_token;
+    return true;
   }
 
-  login(username: string, password: string): Promise<boolean> {
+  async login(username: string, password: string) {
     // check if username & password respect basique rules before send request to server.
     if (!USERNAME_PATTERN.test(username) || !PASSWORD_PATTERN.test(password))
-      return Promise.resolve(false);
+      return false;
 
-    return this.post<UserSessionData>('login', { username: username, password: password })
-      .pipe(
-        map(
-          response => {
-            if (response) {
-              this.session = response;
-              return true;
-            }
-            return false;
-          }
-        )
-      )
-      .toPromise();
+    const session = await this.post<UserSessionData>('login', { username: username, password: password }).toPromise();
+    this.user = new UserAccount(this, session.account);
+    this.apiToken = session.api_token;
+    return true;
   }
 }
