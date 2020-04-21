@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 
 import { USERNAME_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN, FIRST_LASTNAME_PATTERN } from '../regex';
 import { UserSessionData } from '../models/api/userSession';
+import { ApiAccessDeniedError } from '../models/errors/ApiAccessDeniedError';
+import { ApiError } from '../models/errors/ApiError';
 
 const API_ROOT = '/api/v1/';
 
@@ -41,7 +43,19 @@ export class ApiService {
    */
   public getData<U>(endpoint: string) {
     return this.get<U>(endpoint)
-      .pipe(map(response => response.ok ? response.body : null));
+      .pipe(
+        map(
+          response => {
+            if (response.ok)
+              return response.body;
+
+            switch (response.status) {
+              case 401: throw new ApiAccessDeniedError(endpoint, "get");
+              default: throw new ApiError(endpoint, "get", "");
+            }
+          }
+        )
+      );
   }
 
   public putData(endpoint: string, data: any) {
