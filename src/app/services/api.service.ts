@@ -24,19 +24,19 @@ export class ApiService {
 
   // === HELP METHODS =========================================================================================================
 
-  private post<T = Object>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+  public post<T = Object>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient.post<T>(API_ROOT + endpoint, body, { headers, observe: 'response' });
   }
 
-  private get<T = Object>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+  public get<T = Object>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient.get<T>(API_ROOT + endpoint, { headers, observe: 'response' });
   }
 
-  private delete<T = Object>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+  public delete<T = Object>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient.delete<T>(API_ROOT + endpoint, { headers, observe: 'response' });
   }
 
-  private put<T = Object>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+  public put<T = Object>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient.put<T>(API_ROOT + endpoint, body, { headers, observe: 'response' });
   }
 
@@ -44,7 +44,7 @@ export class ApiService {
    * Make a get request and return the body if successful, return null otherwise.
    * @param endpoint 
    */
-  private getData<U>(endpoint: string) {
+  public getData<U>(endpoint: string) {
     return this.get<U>(endpoint, this.getHeaderWithToken())
       .pipe(map(response => response.ok ? response.body : null));
   }
@@ -52,7 +52,7 @@ export class ApiService {
   /**
    * Generate a header with api_token
    */
-  private getHeaderWithToken() {
+  public getHeaderWithToken() {
     return { api_token: this.session ? this.session.api_token : '' };
   }
 
@@ -116,7 +116,7 @@ export class ApiService {
       );
   }
 
-  updateUser(user: Account): Observable<boolean> {
+  updateUser(user: AccountData): Observable<boolean> {
     return this.put(`user/${user.id}`, user, this.getHeaderWithToken())
       .pipe(map(response => response.ok));
   }

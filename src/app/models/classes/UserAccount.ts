@@ -13,7 +13,10 @@ export class UserAccount {
     private _links?: string[];
     private _projectIds?: number[];
 
-    constructor(data: AccountData) {
+    constructor(
+        protected readonly api: ApiService,
+        data: AccountData
+    ) {
         this.fetch(data);
     }
 
@@ -47,15 +50,20 @@ export class UserAccount {
 
     get projectIds() { return this._projectIds; }
 
+    // === API CALL ===================================================================================
+
+
+    // === * =====================================================================================
+
 }
 
 export class UserAccountAPI extends UserAccount {
 
     constructor(
-        private readonly api: ApiService,
+        api: ApiService,
         data: AccountData,
     ) {
-        super(data);
+        super(api, data);
     }
 
     fetch(data: AccountData) {
