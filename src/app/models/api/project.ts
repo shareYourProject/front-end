@@ -1,4 +1,4 @@
-export interface IProject {
+export interface ProjectData {
     id: number,
     member_ids?: number[],
     name?: string,

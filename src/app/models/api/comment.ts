@@ -1,3 +1,3 @@
-export interface IComment {
+export interface CommentData {
     
 }

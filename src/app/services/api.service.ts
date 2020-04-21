@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { USERNAME_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN, FIRST_LASTNAME_PATTERN } from '../regex';
-import { IUserSession } from '../models/api/userSession';
+import { UserSessionData } from '../models/api/userSession';
 import { Project } from '../models/project';
 
 const API_ROOT = '/api/v1/';
@@ -15,7 +15,7 @@ const API_ROOT = '/api/v1/';
 })
 export class ApiService {
 
-  private session: IUserSession | null = null;
+  private session: UserSessionData | null = null;
 
   //private userCache: Map<number, User>;
 
@@ -72,7 +72,7 @@ export class ApiService {
     )
       return of(false);
 
-    return this.post<IUserSession>('register', { firstname, lastname, username, password, email })
+    return this.post<UserSessionData>('register', { firstname, lastname, username, password, email })
       .pipe(map(response => {
         if (response.ok)
           this.session = response.body;
@@ -85,7 +85,7 @@ export class ApiService {
     if (!USERNAME_PATTERN.test(username) || !PASSWORD_PATTERN.test(password))
       return of(false);
 
-    return this.post<IUserSession>('login', { username: username, password: password })
+    return this.post<UserSessionData>('login', { username: username, password: password })
       .pipe(map(response => {
         if (response.ok)
           this.session = response.body;
