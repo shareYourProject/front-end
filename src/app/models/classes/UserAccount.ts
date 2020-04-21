@@ -1,7 +1,8 @@
 import { AccountData } from '../api/account';
 import { ApiService } from 'src/app/services/api.service';
+import { Collectionable } from 'src/app/services/CollectionServiceBase';
 
-export class UserAccount {
+export class UserAccount implements Collectionable<UserAccount> {
 
     private _id: number;
     private _username: string;
@@ -17,10 +18,10 @@ export class UserAccount {
         protected readonly api: ApiService,
         data: AccountData
     ) {
-        this.fetch(data);
+        this.setData(data);
     }
 
-    protected fetch(data: AccountData) {
+    private setData(data: AccountData) {
         this._id = data.id;
         this._username = data.username;
         this._email = data.email;
@@ -50,23 +51,7 @@ export class UserAccount {
 
     get projectIds() { return this._projectIds; }
 
-    // === API CALL ===================================================================================
-
-
-    // === * =====================================================================================
-
-}
-
-export class UserAccountAPI extends UserAccount {
-
-    constructor(
-        api: ApiService,
-        data: AccountData,
-    ) {
-        super(api, data);
-    }
-
-    fetch(data: AccountData) {
-        super.fetch(data);
-    }
+    /*fetch() {
+       // return this.api.getData<
+    }*/
 }

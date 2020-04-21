@@ -1,16 +1,13 @@
-import { ApiService } from './api.service';
-import { Type } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 
 export interface Collectionable<T extends Collectionable<T>> {
     fetch(): Observable<T>;
 }
 
-export abstract class CollectionServiceBase<Key, Type extends Collectionable<Type>> {
+export abstract class CollectionServiceBase<Key, T extends Collectionable<T>> {
 
-    protected cache = new Map<Key, Type>();
+    protected cache = new Map<Key, T>();
 
     constructor() { }
 
@@ -31,6 +28,5 @@ export abstract class CollectionServiceBase<Key, Type extends Collectionable<Typ
             );
     }
 
-    protected abstract buildObject(): Observable<Type>;
-
+    protected abstract buildObject(): Observable<T>;
 }
