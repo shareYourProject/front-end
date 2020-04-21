@@ -20,19 +20,19 @@ export class ApiService {
   // === HELP METHODS =========================================================================================================
 
   public post<T = Object>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return this.httpClient.post<T>(API_ROOT + endpoint, body, { headers, observe: 'response' });
+    return this.httpClient.post<T>(API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' });
   }
 
   public get<T = Object>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return this.httpClient.get<T>(API_ROOT + endpoint, { headers, observe: 'response' });
+    return this.httpClient.get<T>(API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' });
   }
 
   public delete<T = Object>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return this.httpClient.delete<T>(API_ROOT + endpoint, { headers, observe: 'response' });
+    return this.httpClient.delete<T>(API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' });
   }
 
   public put<T = Object>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return this.httpClient.put<T>(API_ROOT + endpoint, body, { headers, observe: 'response' });
+    return this.httpClient.put<T>(API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' });
   }
 
   /**
@@ -40,15 +40,15 @@ export class ApiService {
    * @param endpoint 
    */
   public getData<U>(endpoint: string) {
-    return this.get<U>(endpoint, this.getHeaderWithToken())
+    return this.get<U>(endpoint)
       .pipe(map(response => response.ok ? response.body : null));
   }
 
   /**
    * Generate a header with api_token
    */
-  public getHeaderWithToken() {
-    return { api_token: this.session ? this.session.api_token : '' };
+  public getHeaderWithToken(headers?: HttpHeaders | { [header: string]: string | string[] }) {
+    return { api_token: this.session ? this.session.api_token : '', ...headers};
   }
 
   // === REQUESTS =========================================================================================================
