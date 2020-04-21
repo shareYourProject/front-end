@@ -12,6 +12,8 @@ import { NotFoundApiError } from '../models/errors/NotFoundApiError';
 import { UserAccountCollectionService } from './collections/user-account-collection.service';
 import { ProjectCollectionService } from './collections/project-collection.service';
 import { UserAccount } from '../models/classes/UserAccount';
+import { PostCollectionService } from './collections/post-collection.service';
+import { CommentCollectionService } from './collections/comment-collection.service';
 
 const API_ROOT = '/api/v1/';
 
@@ -27,6 +29,8 @@ export class ApiService {
     private httpClient: HttpClient,
     public readonly users: UserAccountCollectionService,
     public readonly projects: ProjectCollectionService,
+    public readonly posts: PostCollectionService,
+    public readonly comments: CommentCollectionService,
   ) { }
 
   get user() { return this._user; }
