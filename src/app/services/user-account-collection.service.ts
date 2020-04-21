@@ -18,7 +18,7 @@ export class UserAccountCollectionService extends CollectionBase<number, UserAcc
 
   protected buildObject(key: number) {
     return this.api
-      .getData<UserAccountData>(`user/${key}`)
+      .get<UserAccountData>(`user/${key}`)
       .pipe(
         map(
           data => {

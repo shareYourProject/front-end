@@ -18,7 +18,7 @@ export class ProjectCollectionService extends CollectionBase<number, Project> {
 
   protected buildObject(key: number) {
     return this.api
-      .getData<ProjectData>(`project/${key}`)
+      .get<ProjectData>(`project/${key}`)
       .pipe(
         map(
           data => {

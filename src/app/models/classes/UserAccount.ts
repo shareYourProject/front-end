@@ -1,7 +1,6 @@
 import { UserAccountData } from '../api/account';
 import { ApiService } from 'src/app/services/api.service';
 import { Collectionable } from 'src/app/models/Collections/CollectionBase';
-import { threadId } from 'worker_threads';
 import { DeletedDataError } from '../errors/DeletedDataError';
 import { NotFoundApiError } from '../errors/NotFoundApiError';
 
