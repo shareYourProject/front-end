@@ -1,13 +1,14 @@
 import { ProjectData } from '../api/project';
-import { MergeableApiObject } from './MergeableApiObject';
+import { ApiObject } from './ApiObject';
 
-export class Project extends MergeableApiObject<ProjectData, number> {
+export class Project extends ApiObject<ProjectData, number> {
 
     private _memberIds?: number[];
     private _name?: string;
     private _description?: string;
     private _links?: string[];
     private _visibility?: boolean;
+
 
     protected setData(data: ProjectData) {
         this._memberIds = data.member_ids ? [...data.member_ids] : undefined;
@@ -17,6 +18,7 @@ export class Project extends MergeableApiObject<ProjectData, number> {
         this._visibility = data.visibility;
     }
 
+    /*
     protected getData(): ProjectData {
         return {
             id: this.id,
@@ -27,6 +29,7 @@ export class Project extends MergeableApiObject<ProjectData, number> {
             visibility: this._visibility,
         }
     }
+    */
 
     protected get endpoint() { return `project/${this.id}`; }
 

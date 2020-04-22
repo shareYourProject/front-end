@@ -2,6 +2,7 @@ import { ApiObject } from "./ApiObject"
 import { ApiData } from '../api/apiData';
 import { DeletedDataError } from '../errors/DeletedDataError';
 
+/*
 export abstract class MergeableApiObject<Data extends ApiData<Id>, Id> extends ApiObject<Data, Id> {
 
     protected abstract getData(): Data;
@@ -22,3 +23,4 @@ export abstract class MergeableApiObject<Data extends ApiData<Id>, Id> extends A
         return this;
     }
 }
+*/

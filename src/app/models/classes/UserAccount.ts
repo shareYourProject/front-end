@@ -1,7 +1,7 @@
 import { UserAccountData } from '../api/account';
-import { MergeableApiObject } from './MergeableApiObject';
+import { ApiObject } from './ApiObject';
 
-export class UserAccount extends MergeableApiObject<UserAccountData, number> {
+export class UserAccount extends ApiObject<UserAccountData, number> {
 
     private _username: string;
     private _email?: string;
@@ -23,6 +23,7 @@ export class UserAccount extends MergeableApiObject<UserAccountData, number> {
         this._projectIds = data.project_ids ? [...data.project_ids] : [];
     }
 
+    /*
     protected getData(): UserAccountData {
         return {
             id: this.id,
@@ -36,6 +37,7 @@ export class UserAccount extends MergeableApiObject<UserAccountData, number> {
             project_ids: this._projectIds,
         }
     }
+    */
 
     protected get endpoint() { return `user/${this.id}`; }
 
