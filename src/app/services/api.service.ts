@@ -146,7 +146,7 @@ export class ApiService {
       return false;
 
     const session = await this.post<UserSessionData>('register', { firstname, lastname, username, password, email }).toPromise();
-    this._user = new UserAccount(this, session.account);
+    this._user = this.users.mergeUser(session.account);
     this.apiToken = session.api_token;
     return true;
   }
@@ -157,7 +157,7 @@ export class ApiService {
       return false;
 
     const session = await this.post<UserSessionData>('login', { username: username, password: password }).toPromise();
-    this._user = new UserAccount(this, session.account);
+    this._user = this.users.mergeUser(session.account);
     this.apiToken = session.api_token;
     return true;
   }
