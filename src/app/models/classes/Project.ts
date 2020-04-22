@@ -1,5 +1,6 @@
 import { ProjectData } from '../api/project';
 import { ApiObject } from './ApiObject';
+import { UserAccountResolvable, resolveUserAccount } from '../resolvables/UserAccountResolvable';
 
 export class Project extends ApiObject<ProjectData, number> {
 
@@ -40,9 +41,14 @@ export class Project extends ApiObject<ProjectData, number> {
 
     get visibility() { return this._visibility; }
 
+    async addMember(member: UserAccountResolvable) {
+        await this.api.post(this.endpoint + '/members', { userId: resolveUserAccount(member) }).toPromise();
+        return await this.fetch();
+    }
 
-
-
-
+    async removeMember(member: UserAccountResolvable) {
+        await this.api.delete(this.endpoint + '/members', { userId: resolveUserAccount(member) }).toPromise();
+        return await this.fetch();
+    }
 
 }
