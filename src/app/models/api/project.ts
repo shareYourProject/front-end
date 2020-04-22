@@ -6,4 +6,7 @@ export interface ProjectData extends ApiData<number> {
     description?: string;
     links?: string[];
     visibility?: boolean;
+    post_ids?: number[];
+    file_ids?: number[];
+    permissions?: { member_id: number, permissions: Permissions }[];
 }
