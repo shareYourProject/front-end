@@ -66,7 +66,8 @@ export class ApiService {
   }
 
   public delete(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return this.httpClient.delete(API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+    return this.httpClient
+    .delete(API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
       .pipe(
         map(
           response => {
@@ -78,7 +79,8 @@ export class ApiService {
   }
 
   public put(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return this.httpClient.put(API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+    return this.httpClient
+    .put(API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
       .pipe(
         map(
           response => {
@@ -88,30 +90,6 @@ export class ApiService {
         )
       );
   }
-
-  /*
-   public getData<U>(endpoint: string) {
-     return this.get<U>(endpoint)
-       .pipe(
-         map(
-           response => {
-             if (response.ok)
-               return response.body;
-             throw this.generateError(endpoint, "get", response.status);
-           }
-         )
-       );
-   }
- 
-   public putData(endpoint: string, data: any) {
-     return this.put(endpoint, data)
-       .pipe(map(response => response.ok));
-   }
- 
-   public deleteData(endpoint: string) {
-     return this.delete(endpoint).pipe(map(response => response.ok));
-   }
-   */
 
   /**
    * Generate a header with api_token
