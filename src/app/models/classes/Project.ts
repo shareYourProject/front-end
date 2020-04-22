@@ -1,6 +1,7 @@
 import { ProjectData } from '../api/project';
 import { ApiObject } from './ApiObject';
 import { UserAccountResolvable, resolveUserAccount } from '../resolvables/UserAccountResolvable';
+import { PostData } from '../api/post';
 
 export class Project extends ApiObject<ProjectData, number> {
 
@@ -49,6 +50,10 @@ export class Project extends ApiObject<ProjectData, number> {
     async removeMember(member: UserAccountResolvable) {
         await this.api.delete(this.endpoint + `/members/${resolveUserAccount(member)}`).toPromise();
         return await this.fetch();
+    }
+
+    async createPost(content: string) {
+       return await this.api.posts.create(content, this.id);
     }
 
 }
