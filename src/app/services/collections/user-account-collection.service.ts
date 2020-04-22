@@ -30,7 +30,7 @@ export class UserAccountCollectionService extends CollectionBase<number, UserAcc
     let user = this.cache.get(data.id);
 
     if (user) {
-      user.metge(data);
+      user.merge(data);
     } else {
       user = new UserAccount(this.api, data);
       this.cache.set(data.id, user);

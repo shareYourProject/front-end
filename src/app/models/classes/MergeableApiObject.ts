@@ -6,7 +6,7 @@ export abstract class MergeableApiObject<Data extends ApiData<Id>, Id> extends A
 
     protected abstract getData(): Data;
 
-    async metge(data: Partial<Data>) {
+    async merge(data: Partial<Data>) {
         if (this.deleted) throw new DeletedDataError();
 
         const merged = this.getData();
