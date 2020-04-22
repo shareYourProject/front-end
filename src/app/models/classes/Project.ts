@@ -55,5 +55,4 @@ export class Project extends ApiObject<ProjectData, number> {
     async createPost(content: string) {
        return await this.api.posts.create(content, this.id);
     }
-
 }

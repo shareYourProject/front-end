@@ -23,4 +23,8 @@ export class Post extends PostBase<PostData> {
         super.setData(data);
         this.commentIds = [...data.comment_ids];
     }
+
+    async createComment(content: string) {
+        return await this.api.comments.create(content, this.id);
+    }
 }

@@ -21,4 +21,11 @@ export class CommentCollectionService extends CollectionBase<number, Comment> {
       throw new Error('Fail to build project.');
     return new Comment(this.api, data);
   }
+
+  async create(content: string, postId: number) {
+    const data = await this.api.post<CommentData>('comment/', { content, post_id: postId }).toPromise();
+    const comment = new Comment(this.api, data);
+    this.cache.set(comment.id, comment);
+    return comment;
+  }
 }
