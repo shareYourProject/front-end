@@ -47,7 +47,7 @@ export class Project extends ApiObject<ProjectData, number> {
     }
 
     async removeMember(member: UserAccountResolvable) {
-        await this.api.delete(this.endpoint + '/members', { userId: resolveUserAccount(member) }).toPromise();
+        await this.api.delete(this.endpoint + `/members/${resolveUserAccount(member)}`).toPromise();
         return await this.fetch();
     }
 
