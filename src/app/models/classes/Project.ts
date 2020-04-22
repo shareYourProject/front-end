@@ -9,6 +9,7 @@ export class Project extends ApiObject<ProjectData, number> {
     private _links?: string[];
     private _visibility?: boolean;
 
+    
 
     protected setData(data: ProjectData) {
         this._memberIds = data.member_ids ? [...data.member_ids] : undefined;
