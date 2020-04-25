@@ -1,7 +1,17 @@
 import { UserAccountData } from '../api/account';
 import { MergeableApiObject } from './MergeableApiObject';
 
-export class UserAccount extends MergeableApiObject<UserAccountData, number> {
+interface MergeableUserAccountData {
+    username: string;
+    email?: string;
+    firstname?: string;
+    lastname?: string;
+    skills?: string[];
+    biography?: string;
+    links?: string[];
+}
+
+export class UserAccount extends MergeableApiObject<MergeableUserAccountData, UserAccountData, number> {
 
     private _username: string;
     private _email?: string;
@@ -22,7 +32,7 @@ export class UserAccount extends MergeableApiObject<UserAccountData, number> {
         this._links = data.links ? [...data.links] : [];
         this._projectIds = data.project_ids ? [...data.project_ids] : [];
     }
-    
+
     protected getData(): UserAccountData {
         return {
             id: this.id,

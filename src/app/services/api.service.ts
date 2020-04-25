@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { USERNAME_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN, FIRST_LASTNAME_PATTERN } from '../regex';
 import { UserSessionData } from '../models/api/userSession';
 import { AccessDeniedApiError } from '../models/errors/AccessDeniedApiError';
-import { ApiError, HttpMethod } from '../models/errors/ApiError';
+import {  HttpMethod } from '../models/errors/ApiError';
 import { DefaultApiError } from '../models/errors/DefaultApiError';
 import { NotFoundApiError } from '../models/errors/NotFoundApiError';
 import { UserAccountCollection } from './collections/user-account-collection';
@@ -14,7 +14,6 @@ import { ProjectCollection } from './collections/project-collection';
 import { UserAccount } from '../models/classes/UserAccount';
 import { PostCollection } from './collections/post-collection';
 import { CommentCollection } from './collections/comment-collection';
-import { threadId } from 'worker_threads';
 
 const API_ROOT = '/api/v1/';
 

@@ -2,8 +2,13 @@ import { ProjectData } from '../api/project';
 import { ApiObject } from './ApiObject';
 import { UserAccountResolvable, resolveUserAccount } from '../resolvables/UserAccountResolvable';
 import { PostData } from '../api/post';
+import { MergeableApiObject } from './MergeableApiObject';
 
-export class Project extends ApiObject<ProjectData, number> {
+interface MergeableProjectData {
+
+}
+
+export class Project extends MergeableApiObject<MergeableProjectData, ProjectData, number> {
 
     private _memberIds?: number[];
     private _name?: string;
@@ -19,18 +24,16 @@ export class Project extends ApiObject<ProjectData, number> {
         this._visibility = data.visibility;
     }
 
-    /*
-    protected getData(): ProjectData {
+    protected getData() {
         return {
             id: this.id,
             member_ids: this._memberIds,
             name: this._name,
             description: this._description,
             links: this._links,
-            visibility: this._visibility,
-        }
+            visibility: this._visibility
+        };
     }
-    */
 
     protected get endpoint() { return `project/${this.id}`; }
 
@@ -53,6 +56,6 @@ export class Project extends ApiObject<ProjectData, number> {
     }
 
     async createPost(content: string) {
-       return await this.api.posts.create(content, this.id);
+        return await this.api.posts.create(content, this.id);
     }
 }
