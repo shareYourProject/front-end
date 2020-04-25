@@ -58,4 +58,5 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
     async createPost(content: string) {
         return await this.api.posts.create(content, this.id);
     }
+
 }

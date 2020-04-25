@@ -1,5 +1,5 @@
 
-export interface Permissions {
+export interface PermissionsData {
     delete_file: boolean;
     deposit_file: boolean;
     create_post: boolean;
