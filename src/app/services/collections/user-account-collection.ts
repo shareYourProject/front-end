@@ -6,12 +6,7 @@ import { UserAccountData } from '../../models/api/account';
 import { USERNAME_PATTERN, PASSWORD_PATTERN } from 'src/app/regex';
 import { UserSessionData } from 'src/app/models/api/userSession';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class UserAccountCollectionService extends CollectionBase<number, UserAccount> {
-
-  private _currentUser: UserAccount | null = null;
+export class UserAccountCollection extends CollectionBase<number, UserAccount> {
 
   constructor(
     private readonly api: ApiService,

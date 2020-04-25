@@ -9,11 +9,12 @@ import { AccessDeniedApiError } from '../models/errors/AccessDeniedApiError';
 import { ApiError, HttpMethod } from '../models/errors/ApiError';
 import { DefaultApiError } from '../models/errors/DefaultApiError';
 import { NotFoundApiError } from '../models/errors/NotFoundApiError';
-import { UserAccountCollectionService } from './collections/user-account-collection.service';
-import { ProjectCollectionService } from './collections/project-collection.service';
+import { UserAccountCollection } from './collections/user-account-collection';
+import { ProjectCollection } from './collections/project-collection';
 import { UserAccount } from '../models/classes/UserAccount';
-import { PostCollectionService } from './collections/post-collection.service';
-import { CommentCollectionService } from './collections/comment-collection.service';
+import { PostCollection } from './collections/post-collection';
+import { CommentCollection } from './collections/comment-collection';
+import { threadId } from 'worker_threads';
 
 const API_ROOT = '/api/v1/';
 
@@ -25,13 +26,20 @@ export class ApiService {
   private _user: UserAccount | null = null;
   private apiToken: string | null = null;
 
+  public readonly users: UserAccountCollection;
+  public readonly projects: ProjectCollection;
+  public readonly posts: PostCollection;
+  public readonly comments: CommentCollection;
+
   constructor(
     private httpClient: HttpClient,
-    public readonly users: UserAccountCollectionService,
-    public readonly projects: ProjectCollectionService,
-    public readonly posts: PostCollectionService,
-    public readonly comments: CommentCollectionService,
-  ) { }
+
+  ) {
+    this.users = new UserAccountCollection(this);
+    this.projects = new ProjectCollection(this);
+    this.posts = new PostCollection(this);
+    this.comments = new CommentCollection(this);
+  }
 
   get user() { return this._user; }
 
@@ -67,7 +75,7 @@ export class ApiService {
 
   public delete(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient
-    .delete(API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+      .delete(API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
       .pipe(
         map(
           response => {
@@ -80,7 +88,7 @@ export class ApiService {
 
   public put(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient
-    .put(API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+      .put(API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
       .pipe(
         map(
           response => {

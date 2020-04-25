@@ -5,10 +5,7 @@ import { ApiService } from '../api.service';
 import { PostData } from 'src/app/models/api/post';
 import { dashCaseToCamelCase } from '@angular/compiler/src/util';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class PostCollectionService extends CollectionBase<number, Post> {
+export class PostCollection extends CollectionBase<number, Post> {
 
   constructor(
     private readonly api: ApiService,

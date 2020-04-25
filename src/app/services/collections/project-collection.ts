@@ -4,10 +4,7 @@ import { Project } from '../../models/classes/Project';
 import { ProjectData } from '../../models/api/project';
 import { ApiService } from '../api.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class ProjectCollectionService extends CollectionBase<number, Project> {
+export class ProjectCollection extends CollectionBase<number, Project> {
 
   constructor(
     private readonly api: ApiService,
