@@ -1,6 +1,6 @@
 import { UserAccount } from './UserAccount';
 import { Project } from './Project';
-import { PermissionsData } from '../api/Permissions';
+import { PermissionsData } from '../api/PermissionsData';
 import {Collectionable} from '../Collections/CollectionBase';
 
 
