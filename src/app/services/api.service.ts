@@ -9,11 +9,11 @@ import { AccessDeniedApiError } from '../models/errors/AccessDeniedApiError';
 import {  HttpMethod } from '../models/errors/ApiError';
 import { DefaultApiError } from '../models/errors/DefaultApiError';
 import { NotFoundApiError } from '../models/errors/NotFoundApiError';
-import { UserAccountCollection } from './collections/user-account-collection';
-import { ProjectCollection } from './collections/project-collection';
+import { UserAccountCollection } from '../models/collections/UserAccountCollection';
+import { ProjectCollection } from '../models/collections/ProjectCollection';
 import { UserAccount } from '../models/classes/UserAccount';
-import { PostCollection } from './collections/post-collection';
-import { CommentCollection } from './collections/comment-collection';
+import { PostCollection } from '../models/collections/PostCollection';
+import { CommentCollection } from '../models/collections/CommentCollection';
 
 const API_ROOT = '/api/v1/';
 
@@ -137,7 +137,7 @@ export class ApiService {
   }
 
   async login(username: string, password: string) {
-    // check if username & password respect basique rules before send request to server.
+    // check if username & password respect basic rules before send request to server.
     if (!USERNAME_PATTERN.test(username) || !PASSWORD_PATTERN.test(password))
       return false;
 

@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { CollectionBase } from '../_Collections/CollectionBase';
+import { CollectionBase } from './CollectionBase';
 import { Project } from '../classes/Project';
 import { ProjectData } from '../api/project';
 import { ApiService } from '../../services/api.service';

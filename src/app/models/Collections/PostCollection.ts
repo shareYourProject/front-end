@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
-import { CollectionBase } from './node_modules/src/app/models/_Collections/CollectionBase';
-import { Post } from './node_modules/src/app/models/classes/Post';
+import { CollectionBase } from 'src/app/models/collections/CollectionBase';
+import { Post } from 'src/app/models/classes/Post';
 import { ApiService } from '../../services/api.service';
-import { PostData } from './node_modules/src/app/models/api/post';
-import { dashCaseToCamelCase } from '@angular/compiler/src/util';
+import { PostData } from 'src/app/models/api/post';
 
 export class PostCollection extends CollectionBase<number, Post> {
 

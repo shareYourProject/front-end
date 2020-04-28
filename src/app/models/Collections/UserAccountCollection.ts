@@ -1,10 +1,7 @@
-import { Injectable } from '@angular/core';
-import { CollectionBase } from '../_Collections/CollectionBase';
+import { CollectionBase } from './CollectionBase';
 import { UserAccount } from '../classes/UserAccount';
 import { ApiService } from '../../services/api.service';
 import { UserAccountData } from '../api/account';
-import { USERNAME_PATTERN, PASSWORD_PATTERN } from './node_modules/src/app/regex';
-import { UserSessionData } from './node_modules/src/app/models/api/userSession';
 
 export class UserAccountCollection extends CollectionBase<number, UserAccount> {
 

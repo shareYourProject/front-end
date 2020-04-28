@@ -1,7 +1,7 @@
 import { ApiService } from 'src/app/services/api.service';
 import { DeletedDataError } from '../errors/DeletedDataError';
 import { NotFoundApiError } from '../errors/NotFoundApiError';
-import { Collectionable } from '../Collections/CollectionBase';
+import { Collectionable } from '../collections/CollectionBase';
 import { ApiData } from '../api/apiData';
 
 export abstract class ApiObject<Data extends ApiData<Id>, Id> implements Collectionable {

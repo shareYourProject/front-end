@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
-import { CollectionBase } from './node_modules/src/app/models/_Collections/CollectionBase';
+import { CollectionBase } from 'src/app/models/collections/CollectionBase';
 import { Comment } from '../classes/Comment';
 import { ApiService } from '../../services/api.service';
-import { CommentData } from './node_modules/src/app/models/api/post';
+import { CommentData } from 'src/app/models/api/post';
 
 export class CommentCollection extends CollectionBase<number, Comment> {
 
