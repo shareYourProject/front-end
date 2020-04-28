@@ -1,7 +1,7 @@
 import { UserAccountData } from '../api/UserAccountData';
 import { MergeableApiObject } from './MergeableApiObject';
 
-interface MergeableUserAccountData {
+export interface MergeableUserAccountData {
     username: string;
     email?: string;
     firstname?: string;

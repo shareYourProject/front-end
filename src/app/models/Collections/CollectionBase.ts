@@ -1,15 +1,18 @@
+import { ApiService } from 'src/app/services/api.service';
 
 export interface Collectionable {
     fetch(): Promise<this>;
 }
 
-export abstract class CollectionBase<Key, T extends Collectionable> {
+export abstract class CollectionBase<T extends Collectionable> {
 
-    protected cache = new Map<Key, T>();
+    protected cache = new Map<number, T>();
 
-    constructor() { }
+    constructor(
+        protected readonly api: ApiService,
+    ) { }
 
-    async get(key: Key) {
+    async get(key: number) {
         const cached = this.cache.get(key);
 
         if (cached)
@@ -20,5 +23,5 @@ export abstract class CollectionBase<Key, T extends Collectionable> {
         return o;
     }
 
-    protected abstract buildObject(key: Key): Promise<T>;
+    protected abstract buildObject(key: number): Promise<T>;
 }

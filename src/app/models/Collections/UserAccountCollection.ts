@@ -1,15 +1,10 @@
 import { CollectionBase } from './CollectionBase';
-import { UserAccount } from '../classes/UserAccount';
+import { UserAccount, MergeableUserAccountData } from '../classes/UserAccount';
 import { ApiService } from '../../services/api.service';
 import { UserAccountData } from '../api/UserAccountData';
+import { MergeableCollection } from './MergeableCollection';
 
-export class UserAccountCollection extends CollectionBase<number, UserAccount> {
-
-  constructor(
-    private readonly api: ApiService,
-  ) {
-    super();
-  }
+export class UserAccountCollection extends MergeableCollection<UserAccount, MergeableUserAccountData, UserAccountData> {
 
   protected async buildObject(key: number) {
     const data = await this.api.get<UserAccountData>(`user/${key}`).toPromise();
@@ -18,17 +13,8 @@ export class UserAccountCollection extends CollectionBase<number, UserAccount> {
     return new UserAccount(this.api, data);
   }
 
-  mergeUser(data: UserAccountData) {
-    let user = this.cache.get(data.id);
-
-    if (user) {
-      user.merge(data);
-    } else {
-      user = new UserAccount(this.api, data);
-      this.cache.set(data.id, user);
-    }
-
-    return user;
+  protected buildObjectFromData(data: UserAccountData) {
+    return new UserAccount(this.api, data);
   }
 
 }

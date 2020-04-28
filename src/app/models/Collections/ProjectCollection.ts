@@ -3,13 +3,7 @@ import { Project } from '../classes/Project';
 import { ProjectData } from '../api/ProjectData';
 import { ApiService } from '../../services/api.service';
 
-export class ProjectCollection extends CollectionBase<number, Project> {
-
-  constructor(
-    private readonly api: ApiService,
-  ) {
-    super();
-  }
+export class ProjectCollection extends CollectionBase<Project> {
 
   protected async buildObject(key: number) {
     const data = await this.api.get<ProjectData>(`project/${key}`).toPromise();

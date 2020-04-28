@@ -3,13 +3,7 @@ import { Comment } from '../classes/Comment';
 import { ApiService } from '../../services/api.service';
 import { CommentData } from 'src/app/models/api/PostBaseData';
 
-export class CommentCollection extends CollectionBase<number, Comment> {
-
-  constructor(
-    private readonly api: ApiService,
-  ) {
-    super();
-  }
+export class CommentCollection extends CollectionBase<Comment> {
 
   protected async buildObject(key: number) {
     const data = await this.api.get<CommentData>(`user/${key}`).toPromise();

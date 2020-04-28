@@ -3,13 +3,8 @@ import { Post } from 'src/app/models/classes/Post';
 import { ApiService } from '../../services/api.service';
 import { PostData } from 'src/app/models/api/PostBaseData';
 
-export class PostCollection extends CollectionBase<number, Post> {
+export class PostCollection extends CollectionBase<Post> {
 
-  constructor(
-    private readonly api: ApiService,
-  ) {
-    super();
-  }
 
   protected async buildObject(key: number) {
     const data = await this.api.get<PostData>(`post/${key}`).toPromise();
