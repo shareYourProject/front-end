@@ -1,6 +1,5 @@
-import { CollectionBase } from 'src/app/models/collections/CollectionBase';
+import { CollectionBase } from './CollectionBase';
 import { Comment } from '../classes/Comment';
-import { ApiService } from '../../services/api.service';
 import { CommentData } from 'src/app/models/api/PostBaseData';
 
 export class CommentCollection extends CollectionBase<Comment> {

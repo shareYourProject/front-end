@@ -1,8 +1,7 @@
 import { ProjectData } from '../api/ProjectData';
 import { UserAccountResolvable, resolveUserAccount } from '../resolvables/UserAccountResolvable';
 import { MergeableApiObject } from './MergeableApiObject';
-import { PermissionsData } from '../api/PermissionsData';
-import { PermissionsCollection } from '../Collections/PermissionsCollection';
+import { PermissionsCollection } from '../collections/PermissionsCollection';
 import { ApiService } from 'src/app/services/api.service';
 
 interface MergeableProjectData {

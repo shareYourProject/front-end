@@ -1,7 +1,6 @@
 import { CollectionBase } from './CollectionBase';
 import { Project } from '../classes/Project';
 import { ProjectData } from '../api/ProjectData';
-import { ApiService } from '../../services/api.service';
 
 export class ProjectCollection extends CollectionBase<Project> {
 

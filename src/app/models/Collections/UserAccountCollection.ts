@@ -1,6 +1,4 @@
-import { CollectionBase } from './CollectionBase';
 import { UserAccount, MergeableUserAccountData } from '../classes/UserAccount';
-import { ApiService } from '../../services/api.service';
 import { UserAccountData } from '../api/UserAccountData';
 import { MergeableCollection } from './MergeableCollection';
 
