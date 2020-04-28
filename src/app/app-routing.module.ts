@@ -16,7 +16,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { NotAuthGuard } from './guards/not-auth.guard';
-import { ProjectPublicComponent } from './pages/project/project-public/project-public.component';
+import { ProjectPublicComponent } from './pages/project-public/project-public.component';
 import { UserSettingsComponent } from './pages/user-dashboard/user-settings/user-settings.component';
 import { ProjectSettingsComponent } from './pages/project/project-settings/project-settings.component';
 
@@ -35,14 +35,13 @@ const routes: Routes = [
     ]
   },
   { path: 'user/:id', component: UserPublicPageComponent },
+  { path: 'project/:id', component: ProjectPublicComponent },
   {
     path: 'project/:id', component: ProjectMainComponent, children: [
-      { path: '', component: ProjectPublicComponent },
       { path: 'dashboard', component: ProjectDashboardComponent },
       { path: 'settings', component: ProjectSettingsComponent }
     ]
   },
-
   { path: '**', redirectTo: '' } // keep it at last position !
 ];
 

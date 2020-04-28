@@ -20,7 +20,7 @@ import { fakeBackendProvider } from './dev/fakeBackEnd';
 import { RegisterComponent } from './pages/register/register.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { WatchDogComponent } from './dev/watch-dog/watch-dog.component';
-import { ProjectPublicComponent } from './pages/project/project-public/project-public.component';
+import { ProjectPublicComponent } from './pages/project-public/project-public.component';
 import { UserSettingsComponent } from './pages/user-dashboard/user-settings/user-settings.component';
 import { DebugNavComponent } from './components/debug-nav/debug-nav.component';
 import { ProjectSettingsComponent } from './pages/project/project-settings/project-settings.component';
