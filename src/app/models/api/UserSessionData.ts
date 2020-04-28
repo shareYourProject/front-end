@@ -1,4 +1,4 @@
-import { UserAccountData } from './account';
+import { UserAccountData } from './UserAccountData';
 
 export interface UserSessionData {
     account: UserAccountData,

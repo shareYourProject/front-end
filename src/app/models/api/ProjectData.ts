@@ -1,6 +1,6 @@
-import { ApiData } from './apiData';
+import { ApiData } from './ApiData';
 
-export interface ProjectData extends ApiData<number> {
+export interface ProjectData extends ApiData {
     member_ids?: number[];
     name?: string;
     description?: string;

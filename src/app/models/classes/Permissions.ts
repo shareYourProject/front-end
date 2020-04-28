@@ -1,6 +1,6 @@
 import { UserAccount } from './UserAccount';
 import { Project } from './Project';
-import { PermissionsData } from '../api/permissions';
+import { PermissionsData } from '../api/PermissionsData';
 
 
 export class Permissions {

@@ -1,7 +1,7 @@
 import { CollectionBase } from './CollectionBase';
 import { UserAccount } from '../classes/UserAccount';
 import { ApiService } from '../../services/api.service';
-import { UserAccountData } from '../api/account';
+import { UserAccountData } from '../api/UserAccountData';
 
 export class UserAccountCollection extends CollectionBase<number, UserAccount> {
 

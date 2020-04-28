@@ -1,10 +1,10 @@
 import { ApiObject } from './ApiObject';
 import { ApiService } from 'src/app/services/api.service';
-import { PostBaseData } from '../api/post';
+import { PostBaseData } from '../api/PostBaseData';
 
 // WIP
 
-export abstract class PostBase<Data extends PostBaseData> extends ApiObject<Data, number> {
+export abstract class PostBase<Data extends PostBaseData> extends ApiObject<Data> {
 
     public readonly author_id: number;
     private _content: string;

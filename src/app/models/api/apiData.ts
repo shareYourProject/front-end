@@ -1,3 +1,3 @@
-export interface ApiData<Id> {
-    id: Id;
+export interface ApiData {
+    id: number;
 }

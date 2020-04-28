@@ -1,4 +1,4 @@
-import { UserAccountData } from '../api/account';
+import { UserAccountData } from '../api/UserAccountData';
 import { MergeableApiObject } from './MergeableApiObject';
 
 interface MergeableUserAccountData {
@@ -11,7 +11,7 @@ interface MergeableUserAccountData {
     links?: string[];
 }
 
-export class UserAccount extends MergeableApiObject<MergeableUserAccountData, UserAccountData, number> {
+export class UserAccount extends MergeableApiObject<MergeableUserAccountData, UserAccountData> {
 
     private _username: string;
     private _email?: string;

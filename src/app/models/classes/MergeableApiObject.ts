@@ -1,9 +1,9 @@
 import { ApiObject } from "./ApiObject"
-import { ApiData } from '../api/apiData';
+import { ApiData } from '../api/ApiData';
 import { DeletedDataError } from '../errors/DeletedDataError';
 
 
-export abstract class MergeableApiObject<MergeableData, Data extends MergeableData & ApiData<Id>, Id> extends ApiObject<Data, Id> {
+export abstract class MergeableApiObject<MergeableData, Data extends MergeableData & ApiData> extends ApiObject<Data> {
 
     protected abstract getData(): Data;
 

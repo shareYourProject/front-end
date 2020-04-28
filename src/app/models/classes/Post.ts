@@ -1,5 +1,5 @@
 import { ApiService } from 'src/app/services/api.service';
-import { PostData } from '../api/post';
+import { PostData } from '../api/PostBaseData';
 import { PostBase } from './PostBase';
 
 // WIP

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { USERNAME_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN, FIRST_LASTNAME_PATTERN } from '../regex';
-import { UserSessionData } from '../models/api/userSession';
+import { UserSessionData } from '../models/api/UserSessionData';
 import { AccessDeniedApiError } from '../models/errors/AccessDeniedApiError';
 import {  HttpMethod } from '../models/errors/ApiError';
 import { DefaultApiError } from '../models/errors/DefaultApiError';
@@ -12,8 +12,6 @@ import { NotFoundApiError } from '../models/errors/NotFoundApiError';
 import { UserAccountCollection } from '../models/collections/UserAccountCollection';
 import { ProjectCollection } from '../models/collections/ProjectCollection';
 import { UserAccount } from '../models/classes/UserAccount';
-import { PostCollection } from '../models/collections/PostCollection';
-import { CommentCollection } from '../models/collections/CommentCollection';
 
 const API_ROOT = '/api/v1/';
 
@@ -27,8 +25,6 @@ export class ApiService {
 
   public readonly users: UserAccountCollection;
   public readonly projects: ProjectCollection;
-  public readonly posts: PostCollection;
-  public readonly comments: CommentCollection;
 
   constructor(
     private httpClient: HttpClient,
@@ -36,8 +32,6 @@ export class ApiService {
   ) {
     this.users = new UserAccountCollection(this);
     this.projects = new ProjectCollection(this);
-    this.posts = new PostCollection(this);
-    this.comments = new CommentCollection(this);
   }
 
   get user() { return this._user; }

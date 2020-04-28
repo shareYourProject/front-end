@@ -1,14 +1,12 @@
-import { ProjectData } from '../api/project';
-import { ApiObject } from './ApiObject';
+import { ProjectData } from '../api/ProjectData';
 import { UserAccountResolvable, resolveUserAccount } from '../resolvables/UserAccountResolvable';
-import { PostData } from '../api/post';
 import { MergeableApiObject } from './MergeableApiObject';
 
 interface MergeableProjectData {
 
 }
 
-export class Project extends MergeableApiObject<MergeableProjectData, ProjectData, number> {
+export class Project extends MergeableApiObject<MergeableProjectData, ProjectData> {
 
     private _memberIds?: number[];
     private _name?: string;
@@ -56,7 +54,7 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
     }
 
     async createPost(content: string) {
-        return await this.api.posts.create(content, this.id);
+        throw new Error("Not Implemented");
     }
 
 }

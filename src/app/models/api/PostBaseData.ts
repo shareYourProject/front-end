@@ -1,6 +1,6 @@
-import { ApiData } from './apiData';
+import { ApiData } from './ApiData';
 
-export interface PostBaseData extends ApiData<number> {
+export interface PostBaseData extends ApiData {
     content: string;
     nb_like: number;
     author_id: number;

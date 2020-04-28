@@ -2,11 +2,11 @@ import { ApiService } from 'src/app/services/api.service';
 import { DeletedDataError } from '../errors/DeletedDataError';
 import { NotFoundApiError } from '../errors/NotFoundApiError';
 import { Collectionable } from '../collections/CollectionBase';
-import { ApiData } from '../api/apiData';
+import { ApiData } from '../api/ApiData';
 
-export abstract class ApiObject<Data extends ApiData<Id>, Id> implements Collectionable {
+export abstract class ApiObject<Data extends ApiData> implements Collectionable {
 
-    public readonly id: Id;
+    public readonly id: number;
     private _deleted = false;
 
     constructor(

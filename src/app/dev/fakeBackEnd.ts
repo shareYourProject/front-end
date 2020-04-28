@@ -4,7 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
 
-import { UserAccountData } from '../models/api/account';
+import { UserAccountData } from '../models/api/UserAccountData';
 
 const TOKEN = 'a0a0a0aa0a0a0a0a0a0';
 const USER_SESSION = {
