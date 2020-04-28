@@ -1,9 +1,10 @@
 import { UserAccount } from './UserAccount';
 import { Project } from './Project';
 import { PermissionsData } from '../api/Permissions';
+import {Collectionable} from '../Collections/CollectionBase';
 
 
-export class Permissions {
+export class Permissions implements Collectionable {
 
     constructor(
         public readonly project: Project,
@@ -13,6 +14,9 @@ export class Permissions {
         throw new Error("Not Implemted");
     }
 
-
+    async fetch() {
+        throw new Error("not implemented");
+        return this;
+    }
 
 }

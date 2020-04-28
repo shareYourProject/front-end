@@ -2,6 +2,8 @@ import { ProjectData } from '../api/ProjectData';
 import { UserAccountResolvable, resolveUserAccount } from '../resolvables/UserAccountResolvable';
 import { MergeableApiObject } from './MergeableApiObject';
 import { PermissionsData } from '../api/Permissions';
+import { PermissionsCollection } from './PermissionsCollection';
+import { ApiService } from 'src/app/services/api.service';
 
 interface MergeableProjectData {
 
@@ -14,6 +16,16 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
     private _description?: string;
     private _links?: string[];
     private _visibility?: boolean;
+
+    private _permissions: PermissionsCollection;
+
+    constructor(
+        api: ApiService,
+        data: ProjectData,
+    ) {
+        super(api, data);
+        this._permissions = new PermissionsCollection(api, this);
+    }
 
     protected setData(data: ProjectData) {
         this._memberIds = data.member_ids ? [...data.member_ids] : undefined;
@@ -56,5 +68,9 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
 
     async createPost(content: string) {
         throw new Error("Not Implemented");
+    }
+
+    async getPermissionsFor(user: UserAccountResolvable) {
+        return await this._permissions.get(resolveUserAccount(user));
     }
 }
