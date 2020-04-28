@@ -1,6 +1,6 @@
 import { UserAccount } from './UserAccount';
 import { Project } from './Project';
-import { PermissionsData } from '../api/PermissionsData';
+import { PermissionsData } from '../api/Permissions';
 
 
 export class Permissions {
@@ -10,7 +10,7 @@ export class Permissions {
         public readonly user: UserAccount,
         data: PermissionsData,
     ) {
-        
+        throw new Error("Not Implemted");
     }
 
 

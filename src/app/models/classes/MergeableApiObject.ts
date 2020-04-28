@@ -13,7 +13,7 @@ export abstract class MergeableApiObject<MergeableData, Data extends MergeableDa
         const merged = this.getData();
         Object.assign(merged, data);
 
-        await this.api.put(this.endpoint, merged).toPromise();
+        await this.api.put(this.endpoint, merged);
         this.setData(merged);
         return this;
     }

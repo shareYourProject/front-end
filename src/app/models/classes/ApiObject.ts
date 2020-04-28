@@ -27,7 +27,7 @@ export abstract class ApiObject<Data extends ApiData> implements Collectionable 
         if (this.deleted) throw new DeletedDataError();
 
         try {
-            const data = await this.api.get<Data>(this.endpoint).toPromise();
+            const data = await this.api.get<Data>(this.endpoint);
             if (!data)
                 throw new Error('Fetching fail.');
             this.setData(data);
@@ -43,7 +43,7 @@ export abstract class ApiObject<Data extends ApiData> implements Collectionable 
 
     async delete() {
         if (this.deleted) throw new DeletedDataError();
-        await this.api.delete(this.endpoint).toPromise();
+        await this.api.delete(this.endpoint);
         this._deleted = true;
     }
 }

@@ -7,14 +7,14 @@ export class PostCollection extends CollectionBase<Post> {
 
 
   protected async buildObject(key: number) {
-    const data = await this.api.get<PostData>(`post/${key}`).toPromise();
+    const data = await this.api.get<PostData>(`post/${key}`);
     if (!data)
       throw new Error('Fail to build Post.');
     return new Post(this.api, data);
   }
 
   async create(content: string, projectId: number) {
-    const data = await this.api.post<PostData>('post/', { content, project_id: projectId }).toPromise();
+    const data = await this.api.post<PostData>('post/', { content, project_id: projectId });
     const post = new Post(this.api, data);
     this.cache.set(post.id, post);
     return post;

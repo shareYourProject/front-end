@@ -49,7 +49,7 @@ export class ApiService {
             throw this.generateError(endpoint, "post", response.status);
           }
         )
-      );
+      ).toPromise();
   }
 
   public get<T = Object>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
@@ -63,7 +63,7 @@ export class ApiService {
             throw this.generateError(endpoint, "get", response.status);
           }
         )
-      );
+      ).toPromise();
   }
 
   public delete(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
@@ -76,7 +76,7 @@ export class ApiService {
               throw this.generateError(endpoint, "delete", response.status);
           }
         )
-      );
+      ).toPromise();
   }
 
   public put(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
@@ -89,7 +89,7 @@ export class ApiService {
               throw this.generateError(endpoint, "put", response.status);
           }
         )
-      );
+      ).toPromise();
   }
 
   /**
@@ -124,7 +124,7 @@ export class ApiService {
     )
       return false;
 
-    const session = await this.post<UserSessionData>('register', { firstname, lastname, username, password, email }).toPromise();
+    const session = await this.post<UserSessionData>('register', { firstname, lastname, username, password, email });
     this._user = this.users.merge(session.account);
     this.apiToken = session.api_token;
     return true;
@@ -135,7 +135,7 @@ export class ApiService {
     if (!USERNAME_PATTERN.test(username) || !PASSWORD_PATTERN.test(password))
       return false;
 
-    const session = await this.post<UserSessionData>('login', { username: username, password: password }).toPromise();
+    const session = await this.post<UserSessionData>('login', { username: username, password: password });
     this._user = this.users.merge(session.account);
     this.apiToken = session.api_token;
     return true;

@@ -6,14 +6,14 @@ import { CommentData } from 'src/app/models/api/PostBaseData';
 export class CommentCollection extends CollectionBase<Comment> {
 
   protected async buildObject(key: number) {
-    const data = await this.api.get<CommentData>(`user/${key}`).toPromise();
+    const data = await this.api.get<CommentData>(`user/${key}`);
     if (!data)
       throw new Error('Fail to build project.');
     return new Comment(this.api, data);
   }
 
   async create(content: string, postId: number) {
-    const data = await this.api.post<CommentData>('comment/', { content, post_id: postId }).toPromise();
+    const data = await this.api.post<CommentData>('comment/', { content, post_id: postId });
     const comment = new Comment(this.api, data);
     this.cache.set(comment.id, comment);
     return comment;

@@ -1,6 +1,7 @@
 import { ProjectData } from '../api/ProjectData';
 import { UserAccountResolvable, resolveUserAccount } from '../resolvables/UserAccountResolvable';
 import { MergeableApiObject } from './MergeableApiObject';
+import { PermissionsData } from '../api/Permissions';
 
 interface MergeableProjectData {
 
@@ -44,17 +45,16 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
     get visibility() { return this._visibility; }
 
     async addMember(member: UserAccountResolvable) {
-        await this.api.post(this.endpoint + '/members', { userId: resolveUserAccount(member) }).toPromise();
+        await this.api.post(this.endpoint + '/members', { userId: resolveUserAccount(member) });
         return await this.fetch();
     }
 
     async removeMember(member: UserAccountResolvable) {
-        await this.api.delete(this.endpoint + `/members/${resolveUserAccount(member)}`).toPromise();
+        await this.api.delete(this.endpoint + `/members/${resolveUserAccount(member)}`);
         return await this.fetch();
     }
 
     async createPost(content: string) {
         throw new Error("Not Implemented");
     }
-
 }
