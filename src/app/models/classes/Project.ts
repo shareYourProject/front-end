@@ -49,7 +49,7 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
         };
     }
 
-    public get endpoint() { return `project/${this.id}`; }
+    get endpoint() { return `project/${this.id}`; }
 
     get name() { return this._name; }
 
