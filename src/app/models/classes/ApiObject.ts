@@ -19,7 +19,7 @@ export abstract class ApiObject<Data extends ApiData> implements Collectionable 
 
     protected abstract setData(data: Data): void;
 
-    protected abstract get endpoint(): string;
+    public abstract get endpoint(): string;
 
     get deleted() { return this._deleted; }
 

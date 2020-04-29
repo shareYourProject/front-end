@@ -4,6 +4,7 @@ import { MergeableApiObject } from './MergeableApiObject';
 import { PermissionsCollection } from '../collections/PermissionsCollection';
 import { ApiService } from 'src/app/services/api.service';
 import { PermissionsData } from '../api/PermissionsData';
+import { PostCollection } from '../collections/PostCollection';
 
 interface MergeableProjectData {
 
@@ -17,7 +18,8 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
     private _links?: string[];
     private _visibility?: boolean;
 
-    private _permissions: PermissionsCollection;
+    private readonly _permissions: PermissionsCollection;
+    private readonly _posts: PostCollection;
 
     constructor(
         api: ApiService,
@@ -25,6 +27,7 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
     ) {
         super(api, data);
         this._permissions = new PermissionsCollection(api, this);
+        this._posts = new PostCollection(api, this);
     }
 
     protected setData(data: ProjectData) {
@@ -46,7 +49,7 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
         };
     }
 
-    protected get endpoint() { return `project/${this.id}`; }
+    public get endpoint() { return `project/${this.id}`; }
 
     get name() { return this._name; }
 
@@ -55,6 +58,8 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
     get links(): ReadonlyArray<string> | undefined { return this._links; }
 
     get visibility() { return this._visibility; }
+
+    get posts() { return this._posts; }
 
     async addMember(member: UserAccountResolvable) {
         await this.api.post(this.endpoint + '/members', { userId: resolveUserAccount(member) });
