@@ -3,6 +3,7 @@ import { UserAccountResolvable, resolveUserAccount } from '../resolvables/UserAc
 import { MergeableApiObject } from './MergeableApiObject';
 import { PermissionsCollection } from '../collections/PermissionsCollection';
 import { ApiService } from 'src/app/services/api.service';
+import { PermissionsData } from '../api/PermissionsData';
 
 interface MergeableProjectData {
 
@@ -71,5 +72,11 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
 
     async getPermissionsFor(user: UserAccountResolvable) {
         return await this._permissions.get(resolveUserAccount(user));
+    }
+
+    async setPermisisonsFor(user: UserAccountResolvable, permissions: PermissionsData) {
+        const userID = resolveUserAccount(user);
+        await this.api.put(this.endpoint + `/permissions/${userID}`, permissions);
+        return await this._permissions.get(userID);
     }
 }
