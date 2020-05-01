@@ -28,8 +28,6 @@ export class Post extends PostBase<PostData> {
 
     get directEndpoint() {return `/post/${this.id}`};
 
-    get comments() { return this._comments; }
-
     protected setData(data: PostData) {
         super.setData(data);
         this.commentIds = [...data.comment_ids];
@@ -38,5 +36,9 @@ export class Post extends PostBase<PostData> {
     async createComment(content: string) {
         if (this.deleted) throw new DeletedDataError();
         return await this._comments.create(content);
+    }
+
+    async getComments(from: number, count: number) {
+        throw new Error("Not implemented"); // TODO : check for pagination.
     }
 }
