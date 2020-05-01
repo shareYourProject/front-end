@@ -72,7 +72,7 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
     }
 
     async createPost(content: string) {
-        throw new Error("Not Implemented");
+        return this._posts.create(content);
     }
 
     async getPermissionsFor(user: UserAccountResolvable) {

@@ -20,7 +20,7 @@ export class PostCollection extends CollectionBase<Post> {
   }
 
   async create(content: string) {
-    const data = await this.api.post<PostData>(this.project.endpoint + `/post`, { content });
+    const data = await this.api.post<PostData>('/post', { content, project_id: this.project.id });
     const author = await this.api.users.get(data.author_id);
     const post = new Post(this.api, data, author, this.project);
     this.cache.set(post.id, post);
