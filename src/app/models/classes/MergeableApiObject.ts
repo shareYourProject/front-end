@@ -5,7 +5,9 @@ import { DeletedDataError } from '../errors/DeletedDataError';
 
 export abstract class MergeableApiObject<MergeableData, Data extends MergeableData & ApiData> extends ApiObject<Data> {
 
-    protected abstract getData(): Data;
+    protected abstract getData(): MergeableData;
+
+    protected abstract mergeData(data: MergeableData);
 
     async merge(data: Partial<MergeableData>) {
         if (this.deleted) throw new DeletedDataError();
@@ -14,7 +16,7 @@ export abstract class MergeableApiObject<MergeableData, Data extends MergeableDa
         Object.assign(merged, data);
 
         await this.api.put(this.endpoint, merged);
-        this.setData(merged);
+        this.mergeData(merged);
         return this;
     }
 }

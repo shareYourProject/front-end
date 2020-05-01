@@ -8,8 +8,6 @@ import { DeletedDataError } from '../errors/DeletedDataError';
 
 export class Post extends PostBase<PostData> {
 
-    private commentIds: number[];
-
     private readonly _comments: CommentCollection;
 
     constructor(
@@ -25,11 +23,6 @@ export class Post extends PostBase<PostData> {
     get endpoint() { return this.project.endpoint + `/post/${this.id}`; }
 
     get directEndpoint() {return `/post/${this.id}`};
-
-    protected setData(data: PostData) {
-        super.setData(data);
-        this.commentIds = [...data.comment_ids];
-    }
 
     async createComment(content: string) {
         if (this.deleted) throw new DeletedDataError();

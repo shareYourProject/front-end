@@ -14,6 +14,7 @@ interface MergeableProjectData {
 
 export class Project extends MergeableApiObject<MergeableProjectData, ProjectData> {
 
+
     private _memberIds?: number[];
     private _name?: string;
     private _description?: string;
@@ -40,10 +41,12 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
         this._visibility = data.visibility;
     }
 
+    protected mergeData(data: MergeableProjectData) {
+        throw new Error("Method not implemented.");
+    }
+    
     protected getData() {
         return {
-            id: this.id,
-            member_ids: this._memberIds,
             name: this._name,
             description: this._description,
             links: this._links,

@@ -8,7 +8,6 @@ export interface PostBaseData extends ApiData {
 
 export interface PostData extends PostBaseData {
     project_id: number;
-    comment_ids: number[];
 }
 
 export interface CommentData extends PostBaseData {

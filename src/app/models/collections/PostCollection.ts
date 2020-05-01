@@ -12,7 +12,7 @@ export class PostCollection extends CollectionBase<Post> {
   ) {
     super(api);
   }
-
+  
   protected async buildObject(key: number) {
     const data = await this.api.get<PostData>(this.project.endpoint + `/post/${key}`);
     const author = await this.api.users.get(data.author_id);

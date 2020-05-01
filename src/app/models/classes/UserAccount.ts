@@ -33,9 +33,18 @@ export class UserAccount extends MergeableApiObject<MergeableUserAccountData, Us
         this._projectIds = data.project_ids ? [...data.project_ids] : [];
     }
 
-    protected getData(): UserAccountData {
+    protected mergeData(data: MergeableUserAccountData) {
+        this._username = data.username;
+        this._email = data.email;
+        this._firstname = data.firstname;
+        this._lastname = data.lastname;
+        this._skills = data.skills ? [...data.skills] : [];
+        this._biography = data.biography;
+        this._links = data.links ? [...data.links] : [];
+    }
+
+    protected getData() {
         return {
-            id: this.id,
             username: this._username,
             email: this._email,
             firstname: this._firstname,
@@ -43,7 +52,6 @@ export class UserAccount extends MergeableApiObject<MergeableUserAccountData, Us
             skills: this._skills,
             biography: this._biography,
             links: this._links,
-            project_ids: this._projectIds,
         }
     }
 
