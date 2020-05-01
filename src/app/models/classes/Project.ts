@@ -6,6 +6,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { PermissionsData } from '../api/PermissionsData';
 import { PostCollection } from '../collections/PostCollection';
 import { DeletedDataError } from '../errors/DeletedDataError';
+import { UserAccount } from './UserAccount';
 
 interface MergeableProjectData {
 
@@ -61,6 +62,13 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
     get visibility() { return this._visibility; }
 
     get posts() { return this._posts; }
+
+    async getMembers() {
+        if (this._memberIds)
+            return (await Promise.all(this._memberIds.map(id => this.api.users.get(id).catch(() => {})))).filter(u => !!u) as UserAccount[];
+        else
+            return [];
+    }
 
     async addMember(member: UserAccountResolvable) {
         if (this.deleted) throw new DeletedDataError();
