@@ -64,6 +64,7 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
     get posts() { return this._posts; }
 
     async getMembers() {
+        await this.fetch();
         if (this._memberIds)
             return (await Promise.all(this._memberIds.map(id => this.api.users.get(id).catch(() => {})))).filter(u => !!u) as UserAccount[];
         else
