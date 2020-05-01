@@ -5,6 +5,7 @@ import { PermissionsCollection } from '../collections/PermissionsCollection';
 import { ApiService } from 'src/app/services/api.service';
 import { PermissionsData } from '../api/PermissionsData';
 import { PostCollection } from '../collections/PostCollection';
+import { DeletedDataError } from '../errors/DeletedDataError';
 
 interface MergeableProjectData {
 
@@ -62,24 +63,29 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
     get posts() { return this._posts; }
 
     async addMember(member: UserAccountResolvable) {
+        if (this.deleted) throw new DeletedDataError();
         await this.api.post(this.endpoint + '/members', { userId: resolveUserAccount(member) });
         return await this.fetch();
     }
 
     async removeMember(member: UserAccountResolvable) {
+        if (this.deleted) throw new DeletedDataError();
         await this.api.delete(this.endpoint + `/members/${resolveUserAccount(member)}`);
         return await this.fetch();
     }
 
     async createPost(content: string) {
+        if (this.deleted) throw new DeletedDataError();
         return this._posts.create(content);
     }
 
     async getPermissionsFor(user: UserAccountResolvable) {
+        if (this.deleted) throw new DeletedDataError();
         return await this._permissions.get(resolveUserAccount(user));
     }
 
     async setPermisisonsFor(user: UserAccountResolvable, permissions: PermissionsData) {
+        if (this.deleted) throw new DeletedDataError();
         const userID = resolveUserAccount(user);
         await this.api.put(this.endpoint + `/permissions/${userID}`, permissions);
         return await this._permissions.get(userID);

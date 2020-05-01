@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { PostBaseData } from '../api/PostBaseData';
 import { UserAccount } from './UserAccount';
 import { NotLoggedError } from '../errors/NotLoggedError';
+import { DeletedDataError } from '../errors/DeletedDataError';
 
 // WIP
 
@@ -34,17 +35,20 @@ export abstract class PostBase<Data extends PostBaseData> extends ApiObject<Data
     }
 
     async edit(content: string) {
+        if (this.deleted) throw new DeletedDataError();
         await this.api.put(this.directEndpoit, { content });
         return this.fetch();
     }
 
     async like() {
+        if (this.deleted) throw new DeletedDataError();
         if (!this.api.user) throw new NotLoggedError();
         await this.api.put(this.directEndpoit + '/like', { userId: this.api.user.id });
         return await this.fetch();
     }
 
     async unlike() {
+        if (this.deleted) throw new DeletedDataError();
         if (!this.api.user) throw new NotLoggedError();
         await this.api.put(this.directEndpoit + '/unlike', { userId: this.api.user.id });
         return await this.fetch();

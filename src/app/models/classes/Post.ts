@@ -4,6 +4,7 @@ import { PostBase } from './PostBase';
 import { UserAccount } from './UserAccount';
 import { Project } from './Project';
 import { CommentCollection } from '../collections/CommentCollection';
+import { DeletedDataError } from '../errors/DeletedDataError';
 
 // WIP
 
@@ -35,6 +36,7 @@ export class Post extends PostBase<PostData> {
     }
 
     async createComment(content: string) {
+        if (this.deleted) throw new DeletedDataError();
         return await this._comments.create(content);
     }
 }
