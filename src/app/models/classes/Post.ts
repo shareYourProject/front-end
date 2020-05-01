@@ -6,8 +6,6 @@ import { Project } from './Project';
 import { CommentCollection } from '../collections/CommentCollection';
 import { DeletedDataError } from '../errors/DeletedDataError';
 
-// WIP
-
 export class Post extends PostBase<PostData> {
 
     private commentIds: number[];
