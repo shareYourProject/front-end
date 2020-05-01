@@ -25,7 +25,7 @@ export abstract class PostBase<Data extends PostBaseData> extends ApiObject<Data
         this._likes = data.likes;
     }
 
-    protected abstract get directEndpoit(): string;
+    protected abstract get directEndpoint(): string;
 
     get content() { return this._content; }
 
@@ -36,21 +36,21 @@ export abstract class PostBase<Data extends PostBaseData> extends ApiObject<Data
 
     async edit(content: string) {
         if (this.deleted) throw new DeletedDataError();
-        await this.api.put(this.directEndpoit, { content });
+        await this.api.put(this.directEndpoint, { content });
         return this.fetch();
     }
 
     async like() {
         if (this.deleted) throw new DeletedDataError();
         if (!this.api.user) throw new NotLoggedError();
-        await this.api.put(this.directEndpoit + '/like', { userId: this.api.user.id });
+        await this.api.put(this.directEndpoint + '/like', { userId: this.api.user.id });
         return await this.fetch();
     }
 
     async unlike() {
         if (this.deleted) throw new DeletedDataError();
         if (!this.api.user) throw new NotLoggedError();
-        await this.api.put(this.directEndpoit + '/unlike', { userId: this.api.user.id });
+        await this.api.put(this.directEndpoint + '/unlike', { userId: this.api.user.id });
         return await this.fetch();
     }
 }
