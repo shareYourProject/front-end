@@ -20,7 +20,7 @@ export class CommentCollection extends CollectionBase<Comment> {
   }
 
   async create(content: string) {
-    const data = await this.api.post<CommentData>(this.post.endpoint + '/comments', { content });
+    const data = await this.api.post<CommentData>('/comment', { content, post_id: this.post.id });
     const author = await this.api.users.get(data.author_id);
     const comment = new Comment(this.api, data, author, this.post);
     this.cache.set(comment.id, comment);

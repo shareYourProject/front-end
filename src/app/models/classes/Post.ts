@@ -35,7 +35,6 @@ export class Post extends PostBase<PostData> {
     }
 
     async createComment(content: string) {
-        throw new Error("Not Implemented");
-        //return await this.api.comments.create(content, this.id);
+        return await this._comments.create(content);
     }
 }
