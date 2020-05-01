@@ -25,6 +25,8 @@ export class Post extends PostBase<PostData> {
 
     get endpoint() { return this.project.endpoint + `/post/${this.id}`; }
 
+    get directEndpoit() {return `/post/${this.id}`};
+
     get comments() { return this._comments; }
 
     protected setData(data: PostData) {

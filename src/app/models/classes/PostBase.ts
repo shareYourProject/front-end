@@ -2,6 +2,7 @@ import { ApiObject } from './ApiObject';
 import { ApiService } from 'src/app/services/api.service';
 import { PostBaseData } from '../api/PostBaseData';
 import { UserAccount } from './UserAccount';
+import { NotLoggedError } from '../errors/NotLoggedError';
 
 // WIP
 
@@ -23,6 +24,8 @@ export abstract class PostBase<Data extends PostBaseData> extends ApiObject<Data
         this._likes = data.likes;
     }
 
+    protected abstract get directEndpoit(): string;
+
     get content() { return this._content; }
 
     get liked() {
@@ -31,15 +34,19 @@ export abstract class PostBase<Data extends PostBaseData> extends ApiObject<Data
     }
 
     async edit(content: string) {
-        throw new Error("Not implemented");
-
-        return await this.fetch();
+        await this.api.put(this.directEndpoit, { content });
+        return this.fetch();
     }
 
     async like() {
-        throw new Error("Not implemented");
+        if (!this.api.user) throw new NotLoggedError();
+        await this.api.put(this.directEndpoit + '/like', { userId: this.api.user.id });
+        return await this.fetch();
+    }
 
-
+    async unlike() {
+        if (!this.api.user) throw new NotLoggedError();
+        await this.api.put(this.directEndpoit + '/unlike', { userId: this.api.user.id });
         return await this.fetch();
     }
 }
