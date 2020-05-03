@@ -19,6 +19,7 @@ import { NotAuthGuard } from './guards/not-auth.guard';
 import { ProjectPublicComponent } from './pages/project-public/project-public.component';
 import { UserSettingsComponent } from './pages/user-dashboard/user-settings/user-settings.component';
 import { ProjectSettingsComponent } from './pages/project/project-settings/project-settings.component';
+import { PostPageComponent } from './pages/post-page/post-page.component';
 
 
 
@@ -39,7 +40,8 @@ const routes: Routes = [
   {
     path: 'project/:id', component: ProjectMainComponent, children: [
       { path: 'dashboard', component: ProjectDashboardComponent },
-      { path: 'settings', component: ProjectSettingsComponent }
+      { path: 'settings', component: ProjectSettingsComponent },
+      { path: 'post/:postId', component: PostPageComponent }
     ]
   },
   { path: '**', redirectTo: '' } // keep it at last position !
