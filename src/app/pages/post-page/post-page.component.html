@@ -1,1 +1,15 @@
-<p>post-page works!</p>
+<div>Project #{{projectID}} > Post #{{postID}}</div>
+
+<div class="container-fluid border">
+    <div class="container rounded border">
+        <p>{{content}}</p>
+    </div>
+
+    <div *ngFor="let comment of comments" class="border">
+        <p>
+            {{comment.content}}
+        </p>
+    </div>
+
+    <button class="btn btn-primary" (click)="loadMore()">Load more ...</button>
+</div>
