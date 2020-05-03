@@ -2,10 +2,22 @@
 
 <div class="container-fluid border">
     <div class="container rounded border">
-        <p>{{content}}</p>
+        <div class="row border">
+            <div class="col-auto no-gutters"><img [src]="post.author.profilePictureUrl" width="50" height="50"></div>
+            <div class="col">{{post.author.username}}</div>
+        </div>
+        <div class="row border">
+            <p>{{post.content}}</p>
+        </div>
+        <div class="row border">
+            <div class="col"><button (click)="onLikeClick()" class="btn" [ngClass]="{'btn-outline-success': !post.liked, 'btn-success': post.liked}">
+                👍
+            </button></div>
+        </div>
+
     </div>
 
-    <div *ngFor="let comment of comments" class="border">
+    <div *ngFor="let comment of post.comments" class="border">
         <p>
             {{comment.content}}
         </p>
