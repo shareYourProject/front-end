@@ -24,7 +24,7 @@ import { ProjectPublicComponent } from './pages/project-public/project-public.co
 import { UserSettingsComponent } from './pages/user-dashboard/user-settings/user-settings.component';
 import { DebugNavComponent } from './components/debug-nav/debug-nav.component';
 import { ProjectSettingsComponent } from './pages/project/project-settings/project-settings.component';
-import { ViewObjectTableComponent } from './view-object-table/view-object-table.component';
+import { ViewObjectTableComponent } from './components/view-object-table/view-object-table.component';
 
 
 @NgModule({
