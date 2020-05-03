@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import { ADDRCONFIG } from 'dns';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-view-object-table',
@@ -12,6 +11,7 @@ export class ViewObjectTableComponent implements OnInit {
   constructor() { }
 
   headers: string[];
+  listObj: any[];
 
   files: any[] = [
     {
@@ -36,15 +36,36 @@ export class ViewObjectTableComponent implements OnInit {
     }
   ];
 
-  getListArgument(obj: any[]): void{
+  getArguments(obj: any): string[]{
     var headerTemp: string[] = [];
-    for(var argument in obj[0]){
+    for(var argument in obj){
       headerTemp.push(argument);
     }
-    this.headers = headerTemp;
+    return headerTemp;
+  }
+
+  setHeaders(listString: string[]): void{
+    this.headers = listString;
+  }
+
+  setListObj(listObjTemp: any[]): void{
+    this.listObj = listObjTemp;
+    this.listObj.forEach(element => {
+      for(var argument in element){
+        let type = typeof argument;
+        console.log(type);
+      }
+    });
+  }
+
+  setTable(listObjTemp: any[]): void{
+    var headersTemp = this.getArguments(listObjTemp[0]);
+    this.headers = headersTemp;
+    this.setListObj(listObjTemp);
   }
 
   ngOnInit(): void {
+    this.setTable(this.files);
   }
 
 }
