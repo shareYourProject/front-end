@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-view-object-table',
@@ -11,6 +10,7 @@ export class ViewObjectTableComponent implements OnInit {
   constructor() { }
 
   headers: string[];
+  arguments: string[];
   listObj: any[];
 
   files: any[] = [
@@ -36,36 +36,29 @@ export class ViewObjectTableComponent implements OnInit {
     }
   ];
 
-  getArguments(obj: any): string[]{
-    var headerTemp: string[] = [];
-    for(var argument in obj){
-      headerTemp.push(argument);
+  getEveryArguments(obj: any): string[]{
+    var argumentsTemp: string[] = [];
+    for(var arg in obj){
+      argumentsTemp.push(arg);
+      console.log()
     }
-    return headerTemp;
+    return argumentsTemp;
   }
 
-  setHeaders(listString: string[]): void{
-    this.headers = listString;
-  }
-
-  setListObj(listObjTemp: any[]): void{
-    this.listObj = listObjTemp;
-    this.listObj.forEach(element => {
-      for(var argument in element){
-        let type = typeof argument;
-        console.log(type);
-      }
-    });
-  }
-
-  setTable(listObjTemp: any[]): void{
-    var headersTemp = this.getArguments(listObjTemp[0]);
-    this.headers = headersTemp;
-    this.setListObj(listObjTemp);
+  setTable(objects: any[], argumentsWanted: string[] = null, headers: string[] = null): void{
+    this.headers = headers;
+    this.listObj = objects;
+    this.arguments = argumentsWanted;
+    if(!argumentsWanted){
+      this.arguments = this.getEveryArguments(objects[0]);
+    }
+    if(!headers){
+      this.headers = this.arguments;
+    }
   }
 
   ngOnInit(): void {
-    this.setTable(this.files);
+    this.setTable(this.files,['name','lastUser'],['Nom du fichier','Dernier utilisateur']);
   }
 
 }
