@@ -17,6 +17,5 @@ export class Comment extends PostBaseObject<CommentData> {
 
     get endpoint() { return this.post.endpoint + `/comments/${this.id}`; }
 
-    get directEndpoint() {return `/comment/${this.id}`};
-
+    get directEndpoint() { return `/comment/${this.id}` };
 }

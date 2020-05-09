@@ -28,8 +28,4 @@ export class Post extends PostBaseObject<PostData> {
         if (this.deleted) throw new DeletedDataError();
         return await this._comments.create(content);
     }
-
-    async getComments(from: number, count: number) {
-        throw new Error("Not implemented"); // TODO : check for pagination.
-    }
 }
