@@ -1,12 +1,12 @@
 import { ApiService } from 'src/app/services/api.service';
 import { PostData } from '../api/PostBaseData';
-import { PostBase } from './PostBase';
+import { PostBaseObject } from './PostBase';
 import { UserAccount } from './UserAccount';
 import { Project } from './Project';
 import { CommentCollection } from '../collections/CommentCollection';
 import { DeletedDataError } from '../errors/DeletedDataError';
 
-export class Post extends PostBase<PostData> {
+export class Post extends PostBaseObject<PostData> {
 
     private readonly _comments: CommentCollection;
 
@@ -27,9 +27,5 @@ export class Post extends PostBase<PostData> {
     async createComment(content: string) {
         if (this.deleted) throw new DeletedDataError();
         return await this._comments.create(content);
-    }
-
-    async getComments(from: number, count: number) {
-        throw new Error("Not implemented"); // TODO : check for pagination.
     }
 }

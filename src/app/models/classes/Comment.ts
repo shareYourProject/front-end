@@ -1,10 +1,10 @@
 import { ApiService } from 'src/app/services/api.service';
 import { CommentData } from '../api/PostBaseData';
-import { PostBase } from './PostBase';
+import { PostBaseObject } from './PostBase';
 import { UserAccount } from './UserAccount';
 import { Post } from './Post';
 
-export class Comment extends PostBase<CommentData> {
+export class Comment extends PostBaseObject<CommentData> {
 
     constructor(
         api: ApiService,
@@ -17,6 +17,5 @@ export class Comment extends PostBase<CommentData> {
 
     get endpoint() { return this.post.endpoint + `/comments/${this.id}`; }
 
-    get directEndpoint() {return `/comment/${this.id}`};
-
+    get directEndpoint() { return `/comment/${this.id}` };
 }

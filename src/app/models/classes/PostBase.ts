@@ -10,7 +10,15 @@ interface MergeablePostBaseData {
     likes: number[];
 }
 
-export abstract class PostBase<Data extends PostBaseData> extends MergeableApiObject<MergeablePostBaseData, Data> {
+interface PostBase {
+    readonly liked: boolean;
+    readonly content: string;
+    edit(content: string): Promise<this>;
+    like(): Promise<this>;
+    unlike(): Promise<this>;
+}
+
+export abstract class PostBaseObject<Data extends PostBaseData> extends MergeableApiObject<MergeablePostBaseData, Data> implements PostBase {
 
     private _content: string;
     private _likes: number[];
