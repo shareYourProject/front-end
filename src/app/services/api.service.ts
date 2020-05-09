@@ -110,7 +110,8 @@ export class ApiService {
   // === REQUESTS =========================================================================================================
 
   /** @deprecated */
-  isLogged(): Observable<boolean> {
+  isLogged(): Promise<boolean> {
+    // TODO : send request to check if api_token is still valid.
     throw new Error('API.isLogged is deprecated !');
   }
 
