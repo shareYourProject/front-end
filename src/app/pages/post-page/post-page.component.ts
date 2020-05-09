@@ -20,6 +20,8 @@ export class PostPageComponent implements OnInit {
   private _post: Post;
   private _comments: Comment[];
 
+  commentContent: string = "";
+
   constructor(
     private route: ActivatedRoute,
     private api: ApiService,
@@ -42,7 +44,7 @@ export class PostPageComponent implements OnInit {
   }
 
   async loadMore() {
-      this._comments = await this._post.comments.loadMore();
+    this._comments = await this._post.comments.loadMore();
   }
 
   // TODO: use correct PostBase interface !
