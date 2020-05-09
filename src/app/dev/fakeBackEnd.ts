@@ -1,10 +1,12 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
 
 import { UserAccountData } from '../models/api/UserAccountData';
+import { PostData } from '../models/api/PostBaseData';
+import { ProjectData } from '../models/api/ProjectData';
 
 const TOKEN = 'a0a0a0aa0a0a0a0a0a0';
 const USER_SESSION = {
@@ -51,6 +53,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getUser();
                 case url.endsWith('/user/0') && method === 'PUT':
                     return putUser();
+                case url.endsWith('/project/1/post/1') && method === 'GET':
+                    return getPost();
+                case url.endsWith('/project/1') && method === 'GET':
+                    return getProject();
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
@@ -60,7 +66,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         // route functions
 
         function getUser() {
-            const res = {...userTest};
+            const res = { ...userTest };
             userTest.username = names[++cur % names.length]; // simulate change
             return response(201, res);
         }
@@ -90,6 +96,23 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return response(200, { isValid: token === TOKEN })
         }
 
+        function getPost() {
+            const post: PostData = {
+                id: 1,
+                project_id: 1,
+                author_id: 0,
+                content: 'Hello world',
+                likes: [],
+            }
+            return response(200, post);
+        }
+
+        function getProject() {
+            const project: ProjectData = {
+                id: 1
+            }
+            return response(200, project);
+        }
 
         // helper functions
 
