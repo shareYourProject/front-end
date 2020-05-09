@@ -1,28 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Post } from 'src/app/models/classes/Post';
+import { ApiService } from 'src/app/services/api.service';
+import { PostBase } from 'src/app/models/classes/PostBase';
+import { Comment } from '@angular/compiler';
 
-interface DumbPostBase {
-  liked: boolean;
-}
-
-interface DumbPost extends DumbPostBase {
-  author: DumbUser;
-  content: string;
-  comments: DumbComment[];
-
-}
-
-interface DumbComment extends DumbPostBase {
-  content: string;
-  author: DumbUser;
-}
-
-interface DumbUser {
-  id: number;
-  username: string;
-  profilePictureUrl: string;
-}
-
+const COMMENTS_PER_REQUEST = 10;
 
 @Component({
   selector: 'app-post-page',
@@ -31,56 +14,44 @@ interface DumbUser {
 })
 export class PostPageComponent implements OnInit {
 
-  private _projectID: string;
-  private _postID: string;
+  private _projectID: number;
+  private _postID: number;
 
-  private _post: DumbPost
+  private _post: Post;
+  private _comments: Comment[];
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private route: ActivatedRoute,
+    private api: ApiService,
+  ) { }
 
   get projectID() { return this._projectID; }
 
   get postID() { return this._postID; }
 
-  get post(): DumbPost { return this._post; }
+  get post(): Post { return this._post; }
 
-  ngOnInit(): void {
-    this._projectID = this.route.parent.snapshot.params['id'];
+  get comments(): Comment[] { return this._comments; }
+
+  async ngOnInit() {
+    this._projectID = this.route.parent?.snapshot.params['id'];
     this._postID = this.route.snapshot.params['postId'];
 
-    // Todo: Get post data from api
-    const alice = {
-      id: 42,
-      username: 'Alice',
-      profilePictureUrl: 'https://www.journaldebrazza.com/wp-content/uploads/2018/04/IMAGE-DE-PHOTO-DE-PROFIL-VIDE.png',
-    };
-
-    this._post = {
-      content: 'I am the content',
-      author: alice,
-      comments: [
-        { content: 'I like this ^^', author: alice, liked: false },
-        { content: 'wow ! Awesome !', author: alice, liked: false },
-        { content: 'comment 3', author: alice, liked: false },
-      ],
-      liked: false,
-    };
+    this._post = await (await this.api.projects.get(this._projectID)).posts.get(this._postID);
+    await this.loadMore();
   }
 
-  loadMore(): void {
-    this._post.comments.push({
-      content: 'Another Comment',
-      author: {
-        id: 42,
-        username: 'Alice',
-        profilePictureUrl: 'https://www.journaldebrazza.com/wp-content/uploads/2018/04/IMAGE-DE-PHOTO-DE-PROFIL-VIDE.png',
-      },
-      liked: false
-    });
+  async loadMore() {
+      const comments = await this._post.getComments(this._comments.length, COMMENTS_PER_REQUEST);
+      // TODO: push comments into the array !
   }
 
-  onLikeClick(post: DumbPostBase): void {
-    post.liked = !post.liked;
+  // TODO: use correct PostBase interface !
+  async onLikeClick(post: PostBase<any>) {
+    if (post.liked)
+      await post.unlike();
+    else
+      await post.like();
   }
 
 }
