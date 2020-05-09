@@ -35,7 +35,6 @@ export class ViewObjectTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setTable(this.files,['name','lastUser'],['Nom du fichier','Dernier utilisateur']);
   }
 
 }
