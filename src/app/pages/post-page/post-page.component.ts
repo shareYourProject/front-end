@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-interface DumbPost {
-  author: DumbUser;
-  content: string;
-  comments: DumbComment[];
+interface DumbPostBase {
   liked: boolean;
 }
 
-interface DumbComment {
+interface DumbPost extends DumbPostBase {
+  author: DumbUser;
   content: string;
-  //author: DumbUser;
+  comments: DumbComment[];
+
+}
+
+interface DumbComment extends DumbPostBase {
+  content: string;
+  author: DumbUser;
 }
 
 interface DumbUser {
@@ -45,28 +49,38 @@ export class PostPageComponent implements OnInit {
     this._postID = this.route.snapshot.params['postId'];
 
     // Todo: Get post data from api
+    const alice = {
+      id: 42,
+      username: 'Alice',
+      profilePictureUrl: 'https://www.journaldebrazza.com/wp-content/uploads/2018/04/IMAGE-DE-PHOTO-DE-PROFIL-VIDE.png',
+    };
+
     this._post = {
       content: 'I am the content',
-      author: {
-        id: 42,
-        username: 'Alice',
-        profilePictureUrl: 'https://www.journaldebrazza.com/wp-content/uploads/2018/04/IMAGE-DE-PHOTO-DE-PROFIL-VIDE.png',
-      },
+      author: alice,
       comments: [
-        { content: 'I like this ^^' },
-        { content: 'wow ! Awesome !' },
-        { content: 'comment 3' },
+        { content: 'I like this ^^', author: alice, liked: false },
+        { content: 'wow ! Awesome !', author: alice, liked: false },
+        { content: 'comment 3', author: alice, liked: false },
       ],
       liked: false,
     };
   }
 
   loadMore(): void {
-    this._post.comments.push({ content: 'Another Comment' });
+    this._post.comments.push({
+      content: 'Another Comment',
+      author: {
+        id: 42,
+        username: 'Alice',
+        profilePictureUrl: 'https://www.journaldebrazza.com/wp-content/uploads/2018/04/IMAGE-DE-PHOTO-DE-PROFIL-VIDE.png',
+      },
+      liked: false
+    });
   }
 
-  onLikeClick(): void {
-    this._post.liked = !this._post.liked;
+  onLikeClick(post: DumbPostBase): void {
+    post.liked = !post.liked;
   }
 
 }
