@@ -1,0 +1,77 @@
+import { UserAccountData } from '../api/UserAccountData';
+import { MergeableApiObject } from './MergeableApiObject';
+
+export interface MergeableUserAccountData {
+    username: string;
+    email?: string;
+    firstname?: string;
+    lastname?: string;
+    skills?: string[];
+    biography?: string;
+    links?: string[];
+}
+
+export class UserAccount extends MergeableApiObject<MergeableUserAccountData, UserAccountData> {
+
+    private _username: string;
+    private _email?: string;
+    private _firstname?: string;
+    private _lastname?: string;
+    private _skills: string[];
+    private _biography?: string;
+    private _links: string[];
+    private _projectIds: number[];
+
+    protected setData(data: UserAccountData) {
+        this._username = data.username;
+        this._email = data.email;
+        this._firstname = data.firstname;
+        this._lastname = data.lastname;
+        this._skills = data.skills ? [...data.skills] : [];
+        this._biography = data.biography;
+        this._links = data.links ? [...data.links] : [];
+        this._projectIds = data.project_ids ? [...data.project_ids] : [];
+    }
+
+    protected mergeData(data: MergeableUserAccountData) {
+        this._username = data.username;
+        this._email = data.email;
+        this._firstname = data.firstname;
+        this._lastname = data.lastname;
+        this._skills = data.skills ? [...data.skills] : [];
+        this._biography = data.biography;
+        this._links = data.links ? [...data.links] : [];
+    }
+
+    protected getData() {
+        return {
+            username: this._username,
+            email: this._email,
+            firstname: this._firstname,
+            lastname: this._lastname,
+            skills: this._skills,
+            biography: this._biography,
+            links: this._links,
+        }
+    }
+
+    get endpoint() { return `user/${this.id}`; }
+
+    get username() { return this._username; }
+
+    get email() { return this._email; }
+
+    get firstname() { return this._firstname; }
+
+    get lastname() { return this._lastname; }
+
+    get skills() { return this._skills as ReadonlyArray<string>; }
+
+    get biography() { return this._biography; }
+
+    get links() { return this._links as ReadonlyArray<string>; }
+
+    get projectIds() { return this._projectIds as ReadonlyArray<number>; }
+
+    get profilePictureUrl() { return `/api/profilePicture/${this.id}`; }
+}

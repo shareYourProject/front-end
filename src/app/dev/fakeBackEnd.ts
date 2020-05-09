@@ -2,7 +2,9 @@ import { Injectable, isDevMode } from '@angular/core';
 import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
-import { registerLocaleData } from '@angular/common';
+
+
+import { UserAccountData } from '../models/api/UserAccountData';
 
 const TOKEN = 'a0a0a0aa0a0a0a0a0a0';
 const USER_SESSION = {
@@ -12,6 +14,16 @@ const USER_SESSION = {
         email: ""
     }
 }
+
+let userTest: UserAccountData = {
+    id: 0,
+    username: 'AliceDu29',
+    firstname: 'Alice',
+    lastname: undefined,
+};
+
+let cur = 0;
+let names = ['Alice', 'Bob', 'Conan', 'D'];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -35,6 +47,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return register();
                 case url.endsWith('/check-token') && method === 'POST':
                     return checkAuthToken();
+                case url.endsWith('/user/0') && method === 'GET':
+                    return getUser();
+                case url.endsWith('/user/0') && method === 'PUT':
+                    return putUser();
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
@@ -42,6 +58,17 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         // route functions
+
+        function getUser() {
+            const res = {...userTest};
+            userTest.username = names[++cur % names.length]; // simulate change
+            return response(201, res);
+        }
+
+        function putUser() {
+            userTest = body;
+            return response(200);
+        }
 
         function login() {
             const { username, password } = body;
