@@ -1,12 +1,12 @@
 import { ApiService } from 'src/app/services/api.service';
 import { PostData } from '../api/PostBaseData';
-import { PostBase } from './PostBase';
+import { PostBaseObject } from './PostBase';
 import { UserAccount } from './UserAccount';
 import { Project } from './Project';
 import { CommentCollection } from '../collections/CommentCollection';
 import { DeletedDataError } from '../errors/DeletedDataError';
 
-export class Post extends PostBase<PostData> {
+export class Post extends PostBaseObject<PostData> {
 
     private readonly _comments: CommentCollection;
 
