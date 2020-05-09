@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Post } from 'src/app/models/classes/Post';
 import { ApiService } from 'src/app/services/api.service';
 import { PostBase } from 'src/app/models/classes/PostBase';
-import { Comment } from '@angular/compiler';
+import { Comment } from 'src/app/models/classes/Comment';
 
 const COMMENTS_PER_REQUEST = 10;
 
@@ -42,12 +42,11 @@ export class PostPageComponent implements OnInit {
   }
 
   async loadMore() {
-      const comments = await this._post.getComments(this._comments.length, COMMENTS_PER_REQUEST);
-      // TODO: push comments into the array !
+      this._comments = await this._post.comments.loadMore();
   }
 
   // TODO: use correct PostBase interface !
-  async onLikeClick(post: PostBase<any>) {
+  async onLikeClick(post: PostBase) {
     if (post.liked)
       await post.unlike();
     else
