@@ -47,6 +47,8 @@ export class PostPageComponent implements OnInit {
       console.log(error);
       this.notFound = true;
     }
+
+    console.log(this._post);
     await this.loadMore();
   }
 
