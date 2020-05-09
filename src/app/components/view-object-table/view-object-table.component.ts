@@ -9,32 +9,9 @@ export class ViewObjectTableComponent implements OnInit {
 
   constructor() { }
 
-  headers: string[];
-  arguments: string[];
-  listObj: any[];
-
-  files: any[] = [
-    {
-      name: 'index.html',
-      dateModification: new Date('August 19, 1975 13:15:30'),
-      lastUser: 'Gérard D.'
-    },
-    {
-      name: 'style.css',
-      dateModification: new Date('August 20, 1975 16:40:30'),
-      lastUser: 'Alain C.'
-    },
-    {
-      name: 'code.js',
-      dateModification: new Date('August 19, 1975 14:20:30'),
-      lastUser: 'Jamel D.'
-    },
-    {
-      name: 'photo_de_chat.png',
-      dateModification: new Date('August 14, 1975 14:20:30'),
-      lastUser: 'Christian C.'
-    }
-  ];
+  public headers: string[];
+  public arguments: string[];
+  public listObj: any[];
 
   getEveryArguments(obj: any): string[]{
     var argumentsTemp: string[] = [];
