@@ -45,6 +45,7 @@ export class PostPageComponent implements OnInit {
   get post(): DumbPost { return this._post; }
 
   ngOnInit(): void {
+    /*
     this._projectID = this.route.parent.snapshot.params['id'];
     this._postID = this.route.snapshot.params['postId'];
 
@@ -65,6 +66,7 @@ export class PostPageComponent implements OnInit {
       ],
       liked: false,
     };
+    */
   }
 
   loadMore(): void {
