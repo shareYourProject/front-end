@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Post } from 'src/app/models/classes/Post';
 import { ApiService } from 'src/app/services/api.service';
@@ -16,7 +16,9 @@ export class PostPageComponent implements OnInit {
   private _projectID: number;
   private _postID: number;
 
-  private _post?: Post;
+  post: Promise<Post>;
+
+  private _post: Post;
   private _comments: Comment[];
 
   commentContent: string = "";
@@ -25,31 +27,26 @@ export class PostPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private api: ApiService,
+    private cdRef: ChangeDetectorRef
   ) { }
 
   get projectID() { return this._projectID; }
 
   get postID() { return this._postID; }
 
-  get post() { return this._post; }
-
   get comments(): Comment[] { return this._comments; }
 
-  async ngOnInit() {
+  ngOnInit() {
     this._projectID = this.route.parent?.snapshot.params['id'];
     this._postID = this.route.snapshot.params['postId'];
 
     console.log(this._projectID);
     console.log(this._postID);
-    try {
-      this._post = await (await this.api.projects.get(this._projectID)).posts.get(this._postID);
-    } catch (error) {
-      console.log(error);
-      this.notFound = true;
-    }
 
-    console.log(this._post);
-    await this.loadMore();
+
+    this.post = this.api.projects.get(this._projectID).then(p => p.posts.get(this._postID));
+
+    this.post.then(p => this._post = p).then(() => this.loadMore());
   }
 
   async loadMore() {

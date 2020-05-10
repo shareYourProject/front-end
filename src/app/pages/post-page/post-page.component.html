@@ -1,17 +1,17 @@
 <div>Project #{{projectID}} > Post #{{postID}}</div>
 
-<div class="container-fluid border" *ngIf="!notFound && post">
+<div class="container-fluid border" *ngIf="(post | async)">
     <div class="container rounded border">
         <div class="row border">
             <div class="col-auto no-gutters"><img [src]="post.author.profilePictureUrl" width="50" height="50"></div>
-            <div class="col">{{post.author.username}}</div>
+            <div class="col">{{post.author.username | async}}</div>
         </div>
         <div class="row border">
-            <p>{{post.content}}</p>
+            <p>{{post.content | async}}</p>
         </div>
         <div class="row border">
             <div class="col">
-                <button (click)="onLikeClick(post)" class="btn" [ngClass]="{'btn-outline-success': !post.liked, 'btn-success': post.liked}">
+                <button (click)="onLikeClick(post)" class="btn" [ngClass]="{'btn-outline-success': !(post | async).liked, 'btn-success': (post | async).liked}">
                     👍
                 </button>
             </div>
@@ -19,7 +19,7 @@
 
     </div>
 
-    <div *ngFor="let comment of post.comments" class="container rounded border">
+    <div *ngFor="let comment of (post | async).comments" class="container rounded border">
         <div class="row border">
             <div class="col-auto no-gutters"><img [src]="post.author.profilePictureUrl" width="50" height="50"></div>
             <div class="col">{{comment.author.username}}</div>
