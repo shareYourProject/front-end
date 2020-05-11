@@ -1,0 +1,22 @@
+<div class="container">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <div>
+            <label for="username">Username</label>
+            <input id="username" formControlName="username" />
+            <div *ngIf="form.controls.username.errors?.required && form.controls.username.touched">
+                *Required
+            </div>
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input type="password" id="password" formControlName="password" />
+            <div *ngIf="form.controls.password.errors?.required && form.controls.password.touched">
+                *Required
+            </div>
+        </div>
+
+        <button type="submit" [disabled]="!form.valid && !busy">Login</button>
+    </form>
+</div>

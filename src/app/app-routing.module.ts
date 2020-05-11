@@ -24,7 +24,7 @@ import { PostPageComponent } from './pages/post-page/post-page.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard] },
+  { path: 'login', component: LoginComponent, /*canActivate: [NotAuthGuard]*/ }, // TODO :remove comment
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthGuard] },
   {
     path: 'me', component: UserMainComponent, canActivateChild: [AuthGuard],

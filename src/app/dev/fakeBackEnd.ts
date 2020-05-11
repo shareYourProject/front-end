@@ -7,13 +7,6 @@ import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import { UserAccountData } from '../models/api/UserAccountData';
 
 const TOKEN = 'a0a0a0aa0a0a0a0a0a0';
-const USER_SESSION = {
-    token: TOKEN,
-    user: {
-        name: "",
-        email: ""
-    }
-}
 
 let userTest: UserAccountData = {
     id: 0,
@@ -73,7 +66,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function login() {
             const { username, password } = body;
             if (username === 'Alice' && password === '0123456789')
-                return response(201, { user: USER_SESSION });
+                return response(201, { api_token: TOKEN, account: userTest });
             else
                 return response(400);
         }
