@@ -41,6 +41,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function handleRoute(): Observable<HttpEvent<any>> {
             switch (true) {
+                case url.endsWith('/token') && method === 'POST':
+                    return token();
                 case url.endsWith('/login') && method === 'POST':
                     return login();
                 case url.endsWith('/register') && method === 'POST':
@@ -59,8 +61,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         // route functions
 
+        function token() {
+            const { token } = body;
+            return response(200, token === TOKEN);
+        }
+
         function getUser() {
-            const res = {...userTest};
+            const res = { ...userTest };
             userTest.username = names[++cur % names.length]; // simulate change
             return response(201, res);
         }
