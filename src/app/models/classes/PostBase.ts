@@ -10,7 +10,7 @@ interface MergeablePostBaseData {
     likes: number[];
 }
 
-export interface PostBase {
+interface PostBase {
     readonly liked: boolean;
     readonly content: string;
     edit(content: string): Promise<this>;

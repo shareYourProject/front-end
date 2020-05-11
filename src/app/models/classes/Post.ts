@@ -8,7 +8,7 @@ import { DeletedDataError } from '../errors/DeletedDataError';
 
 export class Post extends PostBaseObject<PostData> {
 
-    public readonly comments: CommentCollection;
+    private readonly _comments: CommentCollection;
 
     constructor(
         api: ApiService,
@@ -17,7 +17,7 @@ export class Post extends PostBaseObject<PostData> {
         public readonly project: Project,
     ) {
         super(api, data, author);
-        this.comments = new CommentCollection(api, this);
+        this._comments = new CommentCollection(api, this);
     }
 
     get endpoint() { return this.project.endpoint + `/post/${this.id}`; }
@@ -26,6 +26,6 @@ export class Post extends PostBaseObject<PostData> {
 
     async createComment(content: string) {
         if (this.deleted) throw new DeletedDataError();
-        return await this.comments.create(content);
+        return await this._comments.create(content);
     }
 }
