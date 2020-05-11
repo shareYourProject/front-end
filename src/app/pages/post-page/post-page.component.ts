@@ -1,28 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
-interface DumbPostBase {
-  liked: boolean;
-}
-
-interface DumbPost extends DumbPostBase {
-  author: DumbUser;
-  content: string;
-  comments: DumbComment[];
-
-}
-
-interface DumbComment extends DumbPostBase {
-  content: string;
-  author: DumbUser;
-}
-
-interface DumbUser {
-  id: number;
-  username: string;
-  profilePictureUrl: string;
-}
-
+import { Post } from 'src/app/models/classes/Post';
+import { ApiService } from 'src/app/services/api.service';
+import { PostBase } from 'src/app/models/classes/PostBase';
+import { Comment } from 'src/app/models/classes/Comment';
+import { NotFoundApiError } from 'src/app/models/errors/NotFoundApiError';
+import { Observable, of, from } from 'rxjs';
 
 @Component({
   selector: 'app-post-page',
@@ -31,58 +14,55 @@ interface DumbUser {
 })
 export class PostPageComponent implements OnInit {
 
-  private _projectID: string;
-  private _postID: string;
+  private _projectID: number;
+  private _postID: number;
 
-  private _post: DumbPost
+  post$: Promise<Post>;
 
-  constructor(private route: ActivatedRoute) { }
+  private _post: Post;
+  private _comments: Comment[];
+
+  commentContent: string = "";
+  notFound = false;
+
+  constructor(
+    private route: ActivatedRoute,
+    private api: ApiService
+  ) { }
 
   get projectID() { return this._projectID; }
 
   get postID() { return this._postID; }
 
-  get post(): DumbPost { return this._post; }
+  get comments(): Comment[] { return this._comments; }
 
-  ngOnInit(): void {
-    /*
-    this._projectID = this.route.parent.snapshot.params['id'];
+  ngOnInit() {
+    this._projectID = this.route.parent?.snapshot.params['id'];
     this._postID = this.route.snapshot.params['postId'];
 
-    // Todo: Get post data from api
-    const alice = {
-      id: 42,
-      username: 'Alice',
-      profilePictureUrl: 'https://www.journaldebrazza.com/wp-content/uploads/2018/04/IMAGE-DE-PHOTO-DE-PROFIL-VIDE.png',
-    };
+    console.log(this._projectID);
+    console.log(this._postID);
 
-    this._post = {
-      content: 'I am the content',
-      author: alice,
-      comments: [
-        { content: 'I like this ^^', author: alice, liked: false },
-        { content: 'wow ! Awesome !', author: alice, liked: false },
-        { content: 'comment 3', author: alice, liked: false },
-      ],
-      liked: false,
-    };
-    */
+
+    this.post$ = this.api.projects.get(this._projectID).then(p => p.posts.get(this._postID));
   }
 
-  loadMore(): void {
-    this._post.comments.push({
-      content: 'Another Comment',
-      author: {
-        id: 42,
-        username: 'Alice',
-        profilePictureUrl: 'https://www.journaldebrazza.com/wp-content/uploads/2018/04/IMAGE-DE-PHOTO-DE-PROFIL-VIDE.png',
-      },
-      liked: false
-    });
+  async loadMore() {
+    if (this._post)
+      this._comments = await this._post.comments.loadMore();
   }
 
-  onLikeClick(post: DumbPostBase): void {
-    post.liked = !post.liked;
+  async onLikeClick(post: PostBase) {
+    if (post.liked)
+      await post.unlike();
+    else
+      await post.like();
   }
 
+  async onPostClick() {
+    if (this._post) {
+      await this._post.createComment(this.commentContent);
+      this._comments = this._post.comments.cached;
+    }
+  }
 }
