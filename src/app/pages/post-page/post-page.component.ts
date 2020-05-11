@@ -61,11 +61,10 @@ export class PostPageComponent implements OnInit {
       await post.like();
   }
 
-  async onPost() {
+  async onPostClick() {
     if (this._post) {
       await this._post.createComment(this.commentContent);
       this._comments = this._post.comments.cached;
     }
   }
-
 }

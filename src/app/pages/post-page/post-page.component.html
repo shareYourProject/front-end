@@ -4,14 +4,14 @@
     <div class="container rounded border">
         <div class="row border">
             <div class="col-auto no-gutters"><img [src]="post.author.profilePictureUrl" width="50" height="50"></div>
-            <div class="col">{{post.author.username | async}}</div>
+            <div class="col">{{post.author.username}}</div>
         </div>
         <div class="row border">
-            <p>{{post.content | async}}</p>
+            <p>{{post.content}}</p>
         </div>
         <div class="row border">
             <div class="col">
-                <button (click)="onLikeClick(post)" class="btn" [ngClass]="{'btn-outline-success': !(post | async).liked, 'btn-success': (post | async).liked}">
+                <button (click)="onLikeClick(post)" class="btn" [ngClass]="{'btn-outline-success': !post.liked, 'btn-success': post.liked}">
                     👍
                 </button>
             </div>
@@ -19,7 +19,7 @@
 
     </div>
 
-    <div *ngFor="let comment of (post | async).comments" class="container rounded border">
+    <div *ngFor="let comment of post.comments" class="container rounded border">
         <div class="row border">
             <div class="col-auto no-gutters"><img [src]="post.author.profilePictureUrl" width="50" height="50"></div>
             <div class="col">{{comment.author.username}}</div>
@@ -39,7 +39,7 @@
 
 
     <div class="container">
-        <form (onPost())>
+        <form (onPostClick())>
             <input type="text" [(ngModel)]="commentContent">
             <button class="btn btn-success" type="submit">Post</button>
         </form>
