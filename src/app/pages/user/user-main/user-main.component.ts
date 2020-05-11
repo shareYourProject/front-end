@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-user-dashboard',
-  templateUrl: './user-dashboard.component.html',
-  styleUrls: ['./user-dashboard.component.scss']
+  templateUrl: './user-main.component.html',
+  styleUrls: ['./user-main.component.scss']
 })
-export class UserDashboardComponent implements OnInit {
+export class UserMainComponent implements OnInit {
 
   public routes = [
     { name: "Feed", path: "feed"}
