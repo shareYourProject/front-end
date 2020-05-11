@@ -7,10 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserDashboardComponent implements OnInit {
 
-  public routes = [
-    { name: "Feed", path: "feed"}
-  ];
-
   constructor() { }
 
   ngOnInit(): void {
