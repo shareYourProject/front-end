@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { UserAccount } from 'src/app/models/classes/UserAccount';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-user-public-page',
@@ -8,12 +10,19 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class UserPublicPageComponent implements OnInit {
 
-  userID: string;
+  user$: Promise<UserAccount>;
 
-  constructor(private route: ActivatedRoute) { }
+  private _user?: UserAccount;
+
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly api: ApiService,
+    ) { }
 
   ngOnInit(): void {
-    this.userID = this.route.snapshot.params['id'];
+    const userID = this.route.snapshot.params['id'];
+    this.user$ = this.api.users.get(userID);
+    this.user$.then(u => this._user = u);
   }
 
 }
