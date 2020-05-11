@@ -6,7 +6,7 @@ import { ApiObject } from '../classes/ApiObject';
 
 
 
-export abstract class PagingCollection<T extends ApiObject<Data>, Data extends ApiData> {
+export abstract class PagingCollection<T extends ApiObject<Data>, Data extends ApiData> implements Iterable<T> {
 
     protected cache = new Map<number, T>();
 
@@ -18,6 +18,10 @@ export abstract class PagingCollection<T extends ApiObject<Data>, Data extends A
         route: string,
     ) {
         this._currentPageUrl = route;
+    }
+
+    [Symbol.iterator](): Iterator<T, any, undefined> {
+        return this.cache.values();
     }
 
     get cached(): T[] { return Array.from(this.cache.values()); }
