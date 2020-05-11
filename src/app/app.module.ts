@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 
 import { HomeComponent } from './pages/home/home.component';
 import { UserMainComponent } from './pages/user/user-main/user-main.component';
-import { UserFeedComponent } from './pages/user/user-feed/user-feed.component';
+import { UserDashboardComponent } from './pages/user/user-dashboard/user-dashboard.component';
 import { UserPublicPageComponent } from './pages/user-public-page/user-public-page.component';
 import { ProjectDashboardComponent } from './pages/project/project-dashboard/project-dashboard.component';
 import { ProjectMainComponent } from './pages/project/project-main/project-main.component';
@@ -32,7 +32,7 @@ import { PostPageComponent } from './pages/post-page/post-page.component';
   declarations: [
     AppComponent,
     UserMainComponent,
-    UserFeedComponent,
+    UserDashboardComponent,
     UserPublicPageComponent,
     ProjectDashboardComponent,
     ProjectMainComponent,

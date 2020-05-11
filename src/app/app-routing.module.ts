@@ -7,7 +7,7 @@ import { UserPublicPageComponent } from './pages/user-public-page/user-public-pa
 
 // user dashboard pages
 import { UserMainComponent } from './pages/user/user-main/user-main.component';
-import { UserFeedComponent } from './pages/user/user-feed/user-feed.component';
+import { UserDashboardComponent } from './pages/user/user-dashboard/user-dashboard.component';
 
 // project pages
 import { ProjectMainComponent } from './pages/project/project-main/project-main.component';
@@ -22,7 +22,6 @@ import { ProjectSettingsComponent } from './pages/project/project-settings/proje
 import { PostPageComponent } from './pages/post-page/post-page.component';
 
 
-
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard] },
@@ -30,8 +29,8 @@ const routes: Routes = [
   {
     path: 'me', component: UserMainComponent, canActivateChild: [AuthGuard],
     children: [
-      { path: '', redirectTo: 'feed', pathMatch: 'full' },
-      { path: 'feed', component: UserFeedComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: UserDashboardComponent },
       { path: 'settings', component: UserSettingsComponent }
     ]
   },
