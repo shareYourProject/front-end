@@ -1,6 +1,6 @@
 <div>Project #{{projectID}} > Post #{{postID}}</div>
 
-<div class="container-fluid border" *ngIf="(post | async)">
+<div class="container-fluid border" *ngIf="(post$ | async) as post">
     <div class="container rounded border">
         <div class="row border">
             <div class="col-auto no-gutters"><img [src]="post.author.profilePictureUrl" width="50" height="50"></div>
@@ -16,7 +16,6 @@
                 </button>
             </div>
         </div>
-
     </div>
 
     <div *ngFor="let comment of post.comments" class="container rounded border">
@@ -28,23 +27,26 @@
             <p>{{comment.content}}</p>
         </div>
         <div class="row border">
-            <div class="col"><button (click)="onLikeClick(comment)" class="btn" [ngClass]="{'btn-outline-success': !comment.liked, 'btn-success': comment.liked}">
+            <div class="col">
+                <button (click)="onLikeClick(comment)" class="btn" [ngClass]="{'btn-outline-success': !comment.liked, 'btn-success': comment.liked}">
                     👍
-                </button></div>
+                </button>
+            </div>
         </div>
-
     </div>
 
     <button class="btn btn-primary" (click)="loadMore()">Load more ...</button>
 
-
+    <!--
     <div class="container">
         <form (onPostClick())>
             <input type="text" [(ngModel)]="commentContent">
             <button class="btn btn-success" type="submit">Post</button>
         </form>
     </div>
+    -->
 </div>
+
 
 <div *ngIf="notFound">
     <p>Post not found !</p>

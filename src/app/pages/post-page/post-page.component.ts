@@ -5,6 +5,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { PostBase } from 'src/app/models/classes/PostBase';
 import { Comment } from 'src/app/models/classes/Comment';
 import { NotFoundApiError } from 'src/app/models/errors/NotFoundApiError';
+import { Observable, of, from } from 'rxjs';
 
 @Component({
   selector: 'app-post-page',
@@ -16,7 +17,7 @@ export class PostPageComponent implements OnInit {
   private _projectID: number;
   private _postID: number;
 
-  post: Promise<Post>;
+  post$: Promise<Post>;
 
   private _post: Post;
   private _comments: Comment[];
@@ -26,8 +27,7 @@ export class PostPageComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private api: ApiService,
-    private cdRef: ChangeDetectorRef
+    private api: ApiService
   ) { }
 
   get projectID() { return this._projectID; }
@@ -44,9 +44,7 @@ export class PostPageComponent implements OnInit {
     console.log(this._postID);
 
 
-    this.post = this.api.projects.get(this._projectID).then(p => p.posts.get(this._postID));
-
-    this.post.then(p => this._post = p).then(() => this.loadMore());
+    this.post$ = this.api.projects.get(this._projectID).then(p => p.posts.get(this._postID));
   }
 
   async loadMore() {
