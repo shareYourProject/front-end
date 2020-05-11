@@ -4,8 +4,6 @@ import { Post } from 'src/app/models/classes/Post';
 import { ApiService } from 'src/app/services/api.service';
 import { PostBase } from 'src/app/models/classes/PostBase';
 import { Comment } from 'src/app/models/classes/Comment';
-import { NotFoundApiError } from 'src/app/models/errors/NotFoundApiError';
-import { Observable, of, from } from 'rxjs';
 
 @Component({
   selector: 'app-post-page',
@@ -22,7 +20,7 @@ export class PostPageComponent implements OnInit {
   private _post: Post;
   private _comments: Comment[];
 
-  commentContent: string = "";
+  newCommentContent: string = "";
   notFound = false;
 
   constructor(
@@ -45,11 +43,12 @@ export class PostPageComponent implements OnInit {
 
 
     this.post$ = this.api.projects.get(this._projectID).then(p => p.posts.get(this._postID));
+    this.post$.then(p => this._post = p);
   }
 
   async loadMore() {
     if (this._post)
-      this._comments = await this._post.comments.loadMore();
+      await this._post.comments.loadMore();
   }
 
   async onLikeClick(post: PostBase) {
@@ -61,8 +60,13 @@ export class PostPageComponent implements OnInit {
 
   async onPostClick() {
     if (this._post) {
+      console.log("Post new comment :", this.newCommentContent);
+      // TODO
+      /*
       await this._post.createComment(this.commentContent);
       this._comments = this._post.comments.cached;
+      */
+     this.newCommentContent = "";
     }
   }
 }
