@@ -4,13 +4,17 @@ export interface Collectionable {
     fetch(): Promise<this>;
 }
 
-export abstract class CollectionBase<T extends Collectionable> {
+export abstract class CollectionBase<T extends Collectionable> implements Iterable<T> {
 
     protected cache = new Map<number, T>();
 
     constructor(
         protected readonly api: ApiService,
     ) { }
+
+    [Symbol.iterator](): Iterator<T, any, undefined> {
+        return this.cache.values();
+    }
 
     async get(key: number) {
         const cached = this.cache.get(key);
