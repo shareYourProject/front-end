@@ -24,9 +24,9 @@ import { ProjectPublicComponent } from './pages/project-public/project-public.co
 import { UserSettingsComponent } from './pages/user/user-settings/user-settings.component';
 import { DebugNavComponent } from './components/debug-nav/debug-nav.component';
 import { ProjectSettingsComponent } from './pages/project/project-settings/project-settings.component';
+import { ViewObjectTableComponent } from './components/view-object-table/view-object-table.component';
 import { PostPageComponent } from './pages/post-page/post-page.component';
 import { UserListComponent } from './components/user-list/user-list.component';
-
 
 
 @NgModule({
@@ -46,6 +46,8 @@ import { UserListComponent } from './components/user-list/user-list.component';
     UserSettingsComponent,
     DebugNavComponent,
     ProjectSettingsComponent,
+    ViewObjectTableComponent,
+    PostPageComponent
     PostPageComponent,
     UserListComponent
   ],
