@@ -25,6 +25,7 @@ import { UserSettingsComponent } from './pages/user/user-settings/user-settings.
 import { DebugNavComponent } from './components/debug-nav/debug-nav.component';
 import { ProjectSettingsComponent } from './pages/project/project-settings/project-settings.component';
 import { PostPageComponent } from './pages/post-page/post-page.component';
+import { UserListComponent } from './components/user-list/user-list.component';
 
 
 
@@ -45,7 +46,8 @@ import { PostPageComponent } from './pages/post-page/post-page.component';
     UserSettingsComponent,
     DebugNavComponent,
     ProjectSettingsComponent,
-    PostPageComponent
+    PostPageComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,
