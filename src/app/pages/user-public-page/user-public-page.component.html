@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-3">
             <div class="card">
-                <img src="https://avatars0.githubusercontent.com/u/53428491?s=460&u=9cc74970e71d11588dc0dbbd786b5bdf385f6754&v=4" class="card-img-top" alt="...">
+                <img [src]="user.profilePictureUrl" class="card-img-top" alt="profile-picture">
                 <div class="card-body">
                     <h5 class="card-title">{{ user.firstname }} {{ user.lastname }}Cooppper</h5>
                     <p class="card-subtitle font-italic text-secondary">#{{ user.username }}</p>
@@ -26,7 +26,7 @@
                         <div class="col-md-10">
                             <div class="card-body">
                                 <h5 class="card-title">{{project.name}}</h5>
-                                <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam magnam perferendis excepturi sequi nisi soluta.</p>
+                                <p class="card-text">{{project.description}}</p>
                             </div>
                         </div>
                     </div>
@@ -41,11 +41,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Skills</h5>
                     <p class="card-text">
-                        <li class="list-group-item" *ngFor="let link of user.links | keyvalue">{{link}}</li>
-                        <a href="#" class="badge badge-primary mr-2">PHP</a>
-                        <a href="#" class="badge badge-secondary mr-2">Electronique</a>
-                        <a href="#" class="badge badge-success mr-2">Modélisation des systèmes</a>
-                        <a href="#" class="badge badge-danger mr-2">Catia v5</a>
+                        <a href="#" *ngFor="let skill of user.skills" class="badge badge-secondary mr-2">{{skill}}</a>
                     </p>
                 </div>
             </div>
@@ -53,10 +49,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Links</h5>
                     <ul class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action" *ngFor="let link of user.links  | keyvalue">{{link}}</a>
-                        <a href="#" class="list-group-item list-group-item-action">Facebook</a>
-                        <a href="#" class="list-group-item list-group-item-action">Instagram</a>
-                        <a href="#" class="list-group-item list-group-item-action">LinkedIn</a>
+                        <a [href]="link.value" class="list-group-item list-group-item-action" *ngFor="let link of user.links  | keyvalue">{{link.key}}</a>
                     </ul>
                 </div>
             </div>
