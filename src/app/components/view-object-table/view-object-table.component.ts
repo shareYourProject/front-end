@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-view-object-table',
@@ -9,32 +9,11 @@ export class ViewObjectTableComponent implements OnInit {
 
   constructor() { }
 
-  public headers: string[];
-  public arguments: string[];
-  public listObj: any[];
-
-  getEveryArguments(obj: any): string[]{
-    var argumentsTemp: string[] = [];
-    for(var arg in obj){
-      argumentsTemp.push(arg);
-      console.log()
-    }
-    return argumentsTemp;
-  }
-
-  setTable(objects: any[], argumentsWanted: string[] = null, headers: string[] = null): void{
-    this.headers = headers;
-    this.listObj = objects;
-    this.arguments = argumentsWanted;
-    if(!argumentsWanted){
-      this.arguments = this.getEveryArguments(objects[0]);
-    }
-    if(!headers){
-      this.headers = this.arguments;
-    }
-  }
+  @Input() list: any[];
+  keys: string[];
 
   ngOnInit(): void {
+    this.keys = Object.keys(this.list);
   }
 
 }

@@ -1,13 +1,13 @@
 <h4>view-object-table works!</h4>
 <table class="table table-dark table-hover table-borderless">
     <thead>
-      <tr>
-        <th *ngFor="let header of headers">{{header}}</th>
-      </tr>
+        <tr>
+            <th *ngFor="let key of keys">{{key}}</th>
+        </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let obj of listObj">
-        <td *ngFor="let argument of arguments">{{ obj[argument] }}</td>
-      </tr>
+        <tr *ngFor="let o of list">
+            <td *ngFor="let k of keys">{{o[k]}}</td>
+        </tr>
     </tbody>
 </table>
