@@ -10,9 +10,10 @@ interface MergeablePostBaseData {
     likes: number[];
 }
 
-export interface PostBase {
+interface PostBase {
     readonly liked: boolean;
     readonly content: string;
+    getLikers(): Promise<UserAccount[]>;
     edit(content: string): Promise<this>;
     like(): Promise<this>;
     unlike(): Promise<this>;
@@ -55,6 +56,11 @@ export abstract class PostBaseObject<Data extends PostBaseData> extends Mergeabl
     get liked() {
         const userId = this.api.user?.id;
         return userId ? this._likes.includes(userId) : false;
+    }
+
+    async getLikers() {
+        await this.fetch();
+        return await Promise.all(this._likes.map(id => this.api.users.get(id)));
     }
 
     async edit(content: string) {

@@ -5,28 +5,56 @@ import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
 
 import { UserAccountData } from '../models/api/UserAccountData';
-import { PostData, CommentData } from '../models/api/PostBaseData';
 import { ProjectData } from '../models/api/ProjectData';
-import { PagedData } from '../models/api/pagedData';
 
 const TOKEN = 'a0a0a0aa0a0a0a0a0a0';
-const USER_SESSION = {
-    token: TOKEN,
-    user: {
-        name: "",
-        email: ""
-    }
+
+const PROJECT: ProjectData = {
+    id: 0,
+    name: 'Projet Vichy',
+    description: 'A collaboration project',
+    member_ids: [0],
+    permissions: [
+        {
+            member_id: 0,
+            permissions: {
+                accessible_files: true,
+                create_post: true,
+                delete_file: true,
+                deposit_file: true,
+                manage_members: true,
+                manage_permission: true,
+                manage_project: true
+            }
+        },
+    ],
+    file_ids: [],
+    links: [],
+    post_ids: [0, 1],
+    visibility: true,
 }
 
-let userTest: UserAccountData = {
-    id: 0,
-    username: 'AliceDu29',
-    firstname: 'Alice',
-    lastname: undefined,
-};
+const users: UserAccountData[] = [
+    {
+        id: 0,
+        username: 'AliceDu29',
+        firstname: 'Alice',
+        lastname: undefined,
+    },
+    {
+        id: 1,
+        username: 'Bobby',
+        firstname: 'Bob',
+        lastname: 'Smith',
+    },
+    {
+        id: 2,
+        username: 'Detective Conan',
+        firstname: 'Conan',
+        lastname: 'Doyle',
+    },
 
-let cur = 0;
-let names = ['Alice', 'Bob', 'Conan', 'D'];
+];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -44,32 +72,22 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function handleRoute(): Observable<HttpEvent<any>> {
             switch (true) {
+                case url.endsWith('/token') && method === 'POST':
+                    return token();
                 case url.endsWith('/login') && method === 'POST':
                     return login();
                 case url.endsWith('/register') && method === 'POST':
                     return register();
-                case url.endsWith('/check-token') && method === 'POST':
-                    return checkAuthToken();
-                case url.endsWith('/user/0') && method === 'GET':
-                    return getUser();
-                case url.endsWith('/user/0') && method === 'PUT':
-                    return putUser();
-                case url.endsWith('/project/1/post/1') && method === 'GET':
-                    return getPost();
-                case url.endsWith('/project/1') && method === 'GET':
-                    return getProject();
-                case url.endsWith('/comments/1') && method === 'GET':
-                    return getComment(0);
 
-                case url.endsWith('/comments/1/0') && method === 'GET':
-                    return getComment(0);
-                case url.endsWith('/comments/1/1') && method === 'GET':
-                    return getComment(1);
-                case url.endsWith('/comments/1/2') && method === 'GET':
-                    return getComment(2);
-                case url.endsWith('/comments/1/3') && method === 'GET':
-                    return getComment(3);
+                case url.endsWith('/user/0') && method === 'GET': return getUser(0);
+                case url.endsWith('/user/1') && method === 'GET': return getUser(1);
+                case url.endsWith('/user/2') && method === 'GET': return getUser(2);
 
+                case url.endsWith('/project/0') && method === 'GET': return response(200, PROJECT);
+
+                case url.endsWith('/project/0/permissions/0') && method === 'GET': return response(200, (PROJECT.permissions ?? [])[0].permissions);
+                case url.endsWith('/project/0/permissions/1') && method === 'GET': return response(200, (PROJECT.permissions ?? [])[1].permissions);
+                case url.endsWith('/project/0/permissions/2') && method === 'GET': return response(200, (PROJECT.permissions ?? [])[2].permissions);
 
                 default:
                     // pass through any requests not handled above
@@ -79,21 +97,19 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         // route functions
 
-        function getUser() {
-            const res = { ...userTest };
-            userTest.username = names[++cur % names.length]; // simulate change
-            return response(201, res);
+        function token() {
+            const { token } = body;
+            return response(200, token === TOKEN);
         }
 
-        function putUser() {
-            userTest = body;
-            return response(200);
+        function getUser(i: number) {
+            return response(201, users[i]);
         }
 
         function login() {
             const { username, password } = body;
             if (username === 'Alice' && password === '0123456789')
-                return response(201, { user: USER_SESSION });
+                return response(201, { account: users[0], api_token: TOKEN });
             else
                 return response(400);
         }
@@ -103,64 +119,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
 
             return error("Not implemented"); // TODO
-        }
-
-        function checkAuthToken() {
-            const { token } = body;
-            return response(200, { isValid: token === TOKEN })
-        }
-
-        function getPost() {
-            const post: PostData = {
-                id: 1,
-                project_id: 1,
-                author_id: 0,
-                content: 'Hello world',
-                likes: [],
-            }
-            return response(200, post);
-        }
-
-        function getProject() {
-            const project: ProjectData = {
-                id: 1
-            }
-            return response(200, project);
-        }
-
-        function getComment(i: number) {
-            const per_page = 2;
-            const last = 3;
-            const res: PagedData<CommentData> = {
-                current_page: i + 1,
-                first_page_url: 'comments/1/0',
-                from: i * per_page,
-                to: (i + 1) * per_page,
-                per_page: per_page,
-                last_page: last,
-                last_page_url: `comments/1/${last}`,
-                next_page_url: `comments/1/${i + 1}`,
-                path: 'comments/1/',
-                prev_page_url: `comments/1/${i - 1}`,
-                total: 15,
-                data: [
-                    {
-                        id: i * per_page,
-                        post_id: 1,
-                        author_id: 0,
-                        content: `I'm comment #${i * per_page}`,
-                        likes: []
-                    },
-                    {
-                        id: i * per_page + 1,
-                        post_id: 1,
-                        author_id: 0,
-                        content: `I'm comment #${i * per_page + 1}`,
-                        likes: []
-                    },
-                ]
-            }
-            return response(200, res);
         }
 
         // helper functions

@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { USERNAME_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN, FIRST_LASTNAME_PATTERN } from '../regex';
 import { UserSessionData } from '../models/api/UserSessionData';
 import { AccessDeniedApiError } from '../models/errors/AccessDeniedApiError';
-import {  HttpMethod } from '../models/errors/ApiError';
+import { HttpMethod } from '../models/errors/ApiError';
 import { DefaultApiError } from '../models/errors/DefaultApiError';
 import { NotFoundApiError } from '../models/errors/NotFoundApiError';
 import { UserAccountCollection } from '../models/collections/UserAccountCollection';
@@ -21,7 +21,7 @@ const API_ROOT = '/api/v1/';
 export class ApiService {
 
   private _user: UserAccount | null = null;
-  private apiToken: string | null = null;
+  private _apiToken: string | null = null;
 
   public readonly users: UserAccountCollection;
   public readonly projects: ProjectCollection;
@@ -96,7 +96,7 @@ export class ApiService {
    * Generate a header with api_token
    */
   public getHeaderWithToken(headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return { api_token: this.apiToken ? this.apiToken : '', ...headers };
+    return { api_token: this._apiToken ? this._apiToken : '', ...headers };
   }
 
   private generateError(endpoint: string, method: HttpMethod, status: number) {
@@ -109,9 +109,14 @@ export class ApiService {
 
   // === REQUESTS =========================================================================================================
 
-  /** @deprecated */
-  isLogged(): Observable<boolean> {
-    throw new Error('API.isLogged is deprecated !');
+  async isLogged() {
+    if (!this._apiToken) return false;
+    if (!await this.post<boolean>('/token', { api_token: this._apiToken })) {
+      this._apiToken = null;
+      this._user = null;
+      return false;
+    }
+    return true;
   }
 
   async register(firstname: string, lastname: string, username: string, password: string, email: string) {
@@ -126,7 +131,7 @@ export class ApiService {
 
     const session = await this.post<UserSessionData>('register', { firstname, lastname, username, password, email });
     this._user = this.users.merge(session.account);
-    this.apiToken = session.api_token;
+    this._apiToken = session.api_token;
     return true;
   }
 
@@ -137,7 +142,7 @@ export class ApiService {
 
     const session = await this.post<UserSessionData>('login', { username: username, password: password });
     this._user = this.users.merge(session.account);
-    this.apiToken = session.api_token;
+    this._apiToken = session.api_token;
     return true;
   }
 }

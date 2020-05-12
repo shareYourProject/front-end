@@ -1,8 +1,9 @@
+import { CollectionBase } from './CollectionBase';
 import { Comment } from '../classes/Comment';
 import { CommentData } from 'src/app/models/api/PostBaseData';
 import { Post } from '../classes/Post';
 import { ApiService } from 'src/app/services/api.service';
-import { PagingCollection } from '../collections/PagingCollection';
+import { PagingCollection } from './PagingCollection';
 
 export class CommentCollection extends PagingCollection<Comment, CommentData> {
 
@@ -10,7 +11,7 @@ export class CommentCollection extends PagingCollection<Comment, CommentData> {
     api: ApiService,
     public readonly post: Post
   ) {
-    super(api, `comments/${post.id}`);
+    super(api, `/comments/${post.id}`);
   }
 
   protected async build(data: CommentData) {
