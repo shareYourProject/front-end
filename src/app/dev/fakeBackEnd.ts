@@ -32,7 +32,18 @@ const PROJECT: ProjectData = {
     description: "A collaboration project",
     member_ids: [0],
     permissions: [
-        { member_id: 0, permissions: {} },
+        {
+            member_id: 0,
+            permissions: {
+                accessible_files: true,
+                create_post: true,
+                delete_file: true,
+                deposit_file: true,
+                manage_members: true,
+                manage_permission: true,
+                manage_project: true
+            }
+        },
     ],
     file_ids: [],
     links: [],
