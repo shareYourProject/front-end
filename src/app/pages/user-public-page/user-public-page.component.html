@@ -18,7 +18,7 @@
         <div class="col-6">
             <div class="h2">Projects</div>
             <div *ngIf="(projects$ | async) as projects; else projectLoading">
-                <div class="card mb-2" *ngFor="let project from projects">
+                <div class="card mb-2" *ngFor="let project of projects">
                     <div class="row no-gutters">
                         <div class="col-md-2 d-flex justify-content-center align-items-center">
                             <img src="https://avatars0.githubusercontent.com/u/62944241?s=400&u=359d3273d61f46a45c264cde695baed9cb0ef593&v=4" class="project-profil" alt="...">
@@ -41,7 +41,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Skills</h5>
                     <p class="card-text">
-                        <li class="list-group-item" *ngFor="let link of user.links">{{link}}</li>
+                        <li class="list-group-item" *ngFor="let link of user.links | keyvalue">{{link}}</li>
                         <a href="#" class="badge badge-primary mr-2">PHP</a>
                         <a href="#" class="badge badge-secondary mr-2">Electronique</a>
                         <a href="#" class="badge badge-success mr-2">Modélisation des systèmes</a>
@@ -53,7 +53,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Links</h5>
                     <ul class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action" *ngFor="let link of user.links">{{link}}</a>
+                        <a href="#" class="list-group-item list-group-item-action" *ngFor="let link of user.links  | keyvalue">{{link}}</a>
                         <a href="#" class="list-group-item list-group-item-action">Facebook</a>
                         <a href="#" class="list-group-item list-group-item-action">Instagram</a>
                         <a href="#" class="list-group-item list-group-item-action">LinkedIn</a>

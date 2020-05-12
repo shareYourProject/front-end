@@ -14,8 +14,6 @@ export class UserPublicPageComponent implements OnInit {
   user$: Promise<UserAccount>;
   projects$: Promise<Project[]>;
 
-  private _user?: UserAccount;
-
   constructor(
     private readonly route: ActivatedRoute,
     private readonly api: ApiService,
@@ -24,10 +22,7 @@ export class UserPublicPageComponent implements OnInit {
   ngOnInit(): void {
     const userID = this.route.snapshot.params['id'];
     this.user$ = this.api.users.get(userID);
-    this.user$.then(u => {
-      this._user = u;
-      this.projects$ = u.getProjects();
-    });
+    this.projects$ = this.user$.then(u => u.getProjects());
   }
 
 }
