@@ -1,34 +1,38 @@
-<div class="container-fluid pt-3" *ngIf="(user$ | async) as user; else loading">
+<div class="container-fluid pt-3" id="public-page-container" *ngIf="(user$ | async) as user; else loading">
     <div class="row justify-content-center">
-        <div class="col">
-            <div class="card" style="width: 18rem;">
+        <div class="col-3">
+            <div class="card">
               <img src="https://avatars0.githubusercontent.com/u/53428491?s=460&u=9cc74970e71d11588dc0dbbd786b5bdf385f6754&v=4" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{ user.firstname }} {{ user.lastname }}Cooppper</h5>
-                <p class="card-text">#{{ user.username }}</p>
+                <p class="card-subtitle font-italic text-secondary">#{{ user.username }}</p>
               </div>
             </div>
-            <div class="card mt-2" style="width: 18rem;">
+            <div class="card mt-2">
               <div class="card-body">
                 <h5 class="card-title">Biography</h5>
-                <p class="card-text">{{ user.biography }} Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro, minima.
-                  Commodi quibusdam, a eaque ratione consectetur distinctio in sed delectus libero, esse nemo harum asperiores nihil corrupti quam dolorem assumenda?</p>
+                <p class="card-text">{{ user.biography }}</p>
               </div>
             </div>
         </div>
-        <div class="col">
-          <div class="card" style="width: 18rem;">
-            <div class="card-body">
-              <h5 class="card-title">Electronique S5</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
+        <div class="col-6">
+          <div class="h2">Projects</div>
+          <div class="card mb-2">
+            <div class="row no-gutters">
+              <div class="col-md-2 d-flex justify-content-center align-items-center">
+                <img src="https://avatars0.githubusercontent.com/u/62944241?s=400&u=359d3273d61f46a45c264cde695baed9cb0ef593&v=4" class="project-profil" alt="...">
+              </div>
+              <div class="col-md-10">
+                <div class="card-body">
+                  <h5 class="card-title">Electronique S5</h5>
+                  <p class="card-text">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsam magnam perferendis excepturi sequi nisi soluta.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col">
-          <div class="card mt-2" style="width: 18rem;">
+        <div class="col-3">
+          <div class="card">
             <div class="card-body">
               <h5 class="card-title">Skills</h5>
               <p class="card-text">
@@ -40,7 +44,7 @@
               </p>
             </div>
           </div>
-          <div class="card mt-2" style="width: 18rem;">
+          <div class="card mt-2">
             <div class="card-body">
               <h5 class="card-title">Links</h5>
               <ul class="list-group list-group-flush">
