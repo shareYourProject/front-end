@@ -5,6 +5,7 @@ import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
 
 import { UserAccountData } from '../models/api/UserAccountData';
+import { ProjectData } from '../models/api/ProjectData';
 
 const TOKEN = 'a0a0a0aa0a0a0a0a0a0';
 const USER_SESSION = {
@@ -24,6 +25,21 @@ let userTest: UserAccountData = {
 
 let cur = 0;
 let names = ['Alice', 'Bob', 'Conan', 'D'];
+
+const PROJECT: ProjectData = {
+    id: 0,
+    name: "Projet Vichy",
+    description: "A collaboration project",
+    member_ids: [0],
+    permissions: [
+        { member_id: 0, permissions: {} },
+    ],
+    file_ids: [],
+    links: [],
+    post_ids: [0],
+    visibility: true,
+}
+
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -53,6 +69,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getUser();
                 case url.endsWith('/user/0') && method === 'PUT':
                     return putUser();
+                case url.endsWith('/project/0') && method === 'GET':
+                    return getProject();
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
@@ -97,6 +115,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return response(200, { isValid: token === TOKEN })
         }
 
+        function getProject() {
+            return response(200, PROJECT);
+        }
 
         // helper functions
 
