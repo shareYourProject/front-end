@@ -1,5 +1,5 @@
 <app-debug-nav></app-debug-nav>
-<app-navbar [navs]="navs"></app-navbar>
+<app-navbar [navs]="navs$ | async"></app-navbar>
 
 <div class="container">
     <router-outlet></router-outlet>

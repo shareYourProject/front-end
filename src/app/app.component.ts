@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NavPath } from './components/navbar/navbar.component';
+import { ApiService } from './services/api.service'
 
 @Component({
   selector: 'app-root',
@@ -6,11 +8,22 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  
-  public navs = [
-    { name: 'Home', path: '/'},
-    { name: 'Me', path: 'me/'},
-    { name: 'User ID', path: 'user/0123456789'},
-    { name: 'Project ID', path: 'project/0123456789'},
+  constructor(private api: ApiService) { }
+
+  offlineNav: NavPath[] = [
+    { name: 'Home', path: '/', right: false },
+    { name: 'All Projects', path: '/', right: false },
+    { name: 'Login', path: '/', right: true },
+    { name: 'Register', path: '/', right: true },
   ];
+
+  onlineNav: NavPath[] = [
+    { name: 'Logged !', path: '/', right: false },
+  ];
+
+  navs$: Promise<NavPath[]>;
+
+  ngInit() {
+    this.navs$ = this.api.isLogged().then(logged => logged ? this.onlineNav : this.offlineNav);
+  }
 }
