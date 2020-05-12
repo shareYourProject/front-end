@@ -11,17 +11,9 @@ export class NotAuthGuard implements CanActivate, CanActivateChild {
 
   constructor(private api: ApiService, private router: Router) { }
 
-  private can(): Observable<boolean | UrlTree> {
-    return this.api.isLogged()
-      .pipe(
-        map(isLogged => {
-          return !isLogged;
-          /*if (!isLogged)
-            return true;
-          else
-            return this.router.parseUrl("/");*/
-        })
-      );
+  private async can(): Promise<boolean | UrlTree> {
+    const isLogged = await this.api.isLogged();
+    return !isLogged;
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot)

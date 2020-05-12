@@ -1,29 +1,60 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
 
 import { UserAccountData } from '../models/api/UserAccountData';
+import { ProjectData } from '../models/api/ProjectData';
 
 const TOKEN = 'a0a0a0aa0a0a0a0a0a0';
-const USER_SESSION = {
-    token: TOKEN,
-    user: {
-        name: "",
-        email: ""
-    }
+
+const PROJECT: ProjectData = {
+    id: 0,
+    name: 'Projet Vichy',
+    description: 'A collaboration project',
+    member_ids: [0],
+    permissions: [
+        {
+            member_id: 0,
+            permissions: {
+                accessible_files: true,
+                create_post: true,
+                delete_file: true,
+                deposit_file: true,
+                manage_members: true,
+                manage_permission: true,
+                manage_project: true
+            }
+        },
+    ],
+    file_ids: [],
+    links: [],
+    post_ids: [0, 1],
+    visibility: true,
 }
 
-let userTest: UserAccountData = {
-    id: 0,
-    username: 'AliceDu29',
-    firstname: 'Alice',
-    lastname: undefined,
-};
+const users: UserAccountData[] = [
+    {
+        id: 0,
+        username: 'AliceDu29',
+        firstname: 'Alice',
+        lastname: undefined,
+    },
+    {
+        id: 1,
+        username: 'Bobby',
+        firstname: 'Bob',
+        lastname: 'Smith',
+    },
+    {
+        id: 2,
+        username: 'Detective Conan',
+        firstname: 'Conan',
+        lastname: 'Doyle',
+    },
 
-let cur = 0;
-let names = ['Alice', 'Bob', 'Conan', 'D'];
+];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -41,16 +72,23 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function handleRoute(): Observable<HttpEvent<any>> {
             switch (true) {
+                case url.endsWith('/token') && method === 'POST':
+                    return token();
                 case url.endsWith('/login') && method === 'POST':
                     return login();
                 case url.endsWith('/register') && method === 'POST':
                     return register();
-                case url.endsWith('/check-token') && method === 'POST':
-                    return checkAuthToken();
-                case url.endsWith('/user/0') && method === 'GET':
-                    return getUser();
-                case url.endsWith('/user/0') && method === 'PUT':
-                    return putUser();
+
+                case url.endsWith('/user/0') && method === 'GET': return getUser(0);
+                case url.endsWith('/user/1') && method === 'GET': return getUser(1);
+                case url.endsWith('/user/2') && method === 'GET': return getUser(2);
+
+                case url.endsWith('/project/0') && method === 'GET': return response(200, PROJECT);
+
+                case url.endsWith('/project/0/permissions/0') && method === 'GET': return response(200, (PROJECT.permissions ?? [])[0].permissions);
+                case url.endsWith('/project/0/permissions/1') && method === 'GET': return response(200, (PROJECT.permissions ?? [])[1].permissions);
+                case url.endsWith('/project/0/permissions/2') && method === 'GET': return response(200, (PROJECT.permissions ?? [])[2].permissions);
+
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
@@ -59,21 +97,19 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         // route functions
 
-        function getUser() {
-            const res = {...userTest};
-            userTest.username = names[++cur % names.length]; // simulate change
-            return response(201, res);
+        function token() {
+            const { token } = body;
+            return response(200, token === TOKEN);
         }
 
-        function putUser() {
-            userTest = body;
-            return response(200);
+        function getUser(i: number) {
+            return response(201, users[i]);
         }
 
         function login() {
             const { username, password } = body;
             if (username === 'Alice' && password === '0123456789')
-                return response(201, { user: USER_SESSION });
+                return response(201, { account: users[0], api_token: TOKEN });
             else
                 return response(400);
         }
@@ -84,12 +120,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
             return error("Not implemented"); // TODO
         }
-
-        function checkAuthToken() {
-            const { token } = body;
-            return response(200, { isValid: token === TOKEN })
-        }
-
 
         // helper functions
 

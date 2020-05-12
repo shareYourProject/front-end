@@ -1,1 +1,7 @@
-<p>public project page of #{{projectID}}</p>
+<div class="container" *ngIf="(project$ | async) as project; else loading">
+    <p>Public page of the project {{project.name}}</p>
+</div>
+
+<ng-template #loading>
+    Loading ...
+</ng-template>
