@@ -6,8 +6,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { UserPublicPageComponent } from './pages/user-public-page/user-public-page.component';
 
 // user dashboard pages
-import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard/user-dashboard.component';
-import { UserFeedComponent } from './pages/user-dashboard/user-feed/user-feed.component';
+import { UserMainComponent } from './pages/user/user-main/user-main.component';
+import { UserDashboardComponent } from './pages/user/user-dashboard/user-dashboard.component';
 
 // project pages
 import { ProjectMainComponent } from './pages/project/project-main/project-main.component';
@@ -17,9 +17,9 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { NotAuthGuard } from './guards/not-auth.guard';
 import { ProjectPublicComponent } from './pages/project-public/project-public.component';
-import { UserSettingsComponent } from './pages/user-dashboard/user-settings/user-settings.component';
+import { UserSettingsComponent } from './pages/user/user-settings/user-settings.component';
 import { ProjectSettingsComponent } from './pages/project/project-settings/project-settings.component';
-
+import { PostPageComponent } from './pages/post-page/post-page.component';
 
 
 const routes: Routes = [
@@ -27,10 +27,10 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthGuard] },
   {
-    path: 'me', component: UserDashboardComponent, canActivateChild: [AuthGuard],
+    path: 'me', component: UserMainComponent, canActivateChild: [AuthGuard],
     children: [
-      { path: '', redirectTo: 'feed', pathMatch: 'full' },
-      { path: 'feed', component: UserFeedComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: UserDashboardComponent },
       { path: 'settings', component: UserSettingsComponent }
     ]
   },
@@ -39,7 +39,8 @@ const routes: Routes = [
   {
     path: 'project/:id', component: ProjectMainComponent, children: [
       { path: 'dashboard', component: ProjectDashboardComponent },
-      { path: 'settings', component: ProjectSettingsComponent }
+      { path: 'settings', component: ProjectSettingsComponent },
+      { path: 'post/:postId', component: PostPageComponent }
     ]
   },
   { path: '**', redirectTo: '' } // keep it at last position !

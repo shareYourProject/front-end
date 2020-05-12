@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm: FormGroup;
   logSubscription: Subscription;
-  hint: string = null;
+  hint: string | null = null;
   isBusy: boolean = false;
 
   constructor(
@@ -37,25 +37,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     console.log("login redirect to", this.redirectTo);
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
-  onSubmit(data): void {
-    console.log('logged as', data);
-    this.isBusy = true;
-    this.logSubscription = this.api.login(data.username, data.password)
-      .subscribe(
-        async result => {
-          if (result) {
-            await this.router.navigateByUrl(this.redirectTo).then(async success => { if(!success) await this.router.navigateByUrl('/'); });
-          } else {
-            this.hint = 'Username or password invalid.'
-            this.isBusy = false;
-          }
-        },
-        err => {
-          console.error('on login submit', err);
-          this.hint = 'An error occurs.'
-          this.isBusy = false;
-        });
-  }
 }
