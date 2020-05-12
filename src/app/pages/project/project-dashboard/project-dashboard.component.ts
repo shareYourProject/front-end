@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { Project } from 'src/app/models/classes/Project';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-project-dashboard',
@@ -8,12 +10,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ProjectDashboardComponent implements OnInit {
 
-  public projectID: number;
+  project$: Promise<Project>;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly api: ApiService
+  ) { }
 
   ngOnInit(): void {
-    this.projectID = parseInt(this.route.parent?.snapshot?.params?.id);
+    const projectID = parseInt(this.route.parent?.snapshot?.params?.id);
+    this.project$ = this.api.projects.get(projectID);
   }
 
 }
