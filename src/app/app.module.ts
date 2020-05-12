@@ -47,7 +47,6 @@ import { UserListComponent } from './components/user-list/user-list.component';
     DebugNavComponent,
     ProjectSettingsComponent,
     ViewObjectTableComponent,
-    PostPageComponent
     PostPageComponent,
     UserListComponent
   ],
