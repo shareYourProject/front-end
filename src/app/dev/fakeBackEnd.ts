@@ -1,4 +1,4 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
@@ -55,36 +55,6 @@ const users: UserAccountData[] = [
     },
 
 ];
-
-
-
-
-
-const PROJECT: ProjectData = {
-    id: 0,
-    name: "Projet Vichy",
-    description: "A collaboration project",
-    member_ids: [0],
-    permissions: [
-        {
-            member_id: 0,
-            permissions: {
-                accessible_files: true,
-                create_post: true,
-                delete_file: true,
-                deposit_file: true,
-                manage_members: true,
-                manage_permission: true,
-                manage_project: true
-            }
-        },
-    ],
-    file_ids: [],
-    links: [],
-    post_ids: [0],
-    visibility: true,
-}
-
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {

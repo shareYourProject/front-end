@@ -71,7 +71,10 @@ export class UserAccount extends MergeableApiObject<MergeableUserAccountData, Us
 
     get links() { return this._links as ReadonlyArray<string>; }
 
-    get projectIds() { return this._projectIds as ReadonlyArray<number>; }
-
     get profilePictureUrl() { return `/api/profilePicture/${this.id}`; }
+
+    async getProjects() {
+        await this.fetch();
+        return await Promise.all(this._projectIds.map(id => this.api.projects.get(id)));
+    }
 }
