@@ -18,7 +18,7 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
     private _memberIds?: number[];
     private _name?: string;
     private _description?: string;
-    private _links?: string[];
+    private _links = new Map<string, string>();
     private _visibility?: boolean;
 
     private readonly _permissions: PermissionsCollection;
@@ -37,7 +37,7 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
         this._memberIds = data.member_ids ? [...data.member_ids] : undefined;
         this._name = data.name;
         this._description = data.description;
-        this._links = data.links ? [...data.links] : undefined;
+        this._links = new Map(data.links ? data.links.map(l => [l.name, l.link]) : []);
         this._visibility = data.visibility;
     }
 
@@ -49,7 +49,7 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
         return {
             name: this._name,
             description: this._description,
-            links: this._links,
+            links: Array.from(this._links.entries()).map(l => { return { name: l[0], link: l[1] } }),
             visibility: this._visibility
         };
     }
@@ -60,7 +60,7 @@ export class Project extends MergeableApiObject<MergeableProjectData, ProjectDat
 
     get description() { return this._description; }
 
-    get links(): ReadonlyArray<string> | undefined { return this._links; }
+    get links() { return this._links as ReadonlyMap<string, string>; }
 
     get visibility() { return this._visibility; }
 
