@@ -1,15 +1,15 @@
 <div>Project #{{projectID}} > Post #{{postID}}</div>
 
-<div class="container-fluid border" *ngIf="(post$ | async) as post">
-    <div class="container rounded border">
-        <div class="row border">
+<div class="list-group-item list-group-item-dark" *ngIf="(post$ | async) as post">
+    <div class="list-group-item list-group-item-light, row border rounded">
+        <div class="row">
             <div class="col-auto no-gutters"><img [src]="post.author.profilePictureUrl" width="50" height="50"></div>
             <div class="col">{{post.author.username}}</div>
         </div>
-        <div class="row border">
+        <div class="container">
             <p>{{post.content}}</p>
         </div>
-        <div class="row border">
+        <div class="container">
             <div class="col">
                 <button (click)="onLikeClick(post)" class="btn" [ngClass]="{'btn-outline-success': !post.liked, 'btn-success': post.liked}">
                     👍
@@ -18,15 +18,17 @@
         </div>
     </div>
 
-    <div *ngFor="let comment of post.comments" class="container rounded border">
-        <div class="row border">
+    <br/>
+
+    <div *ngFor="let comment of post.comments" class="list-group-item list-group-item-secondary">
+        <div class="row">
             <div class="col-auto no-gutters"><img [src]="post.author.profilePictureUrl" width="50" height="50"></div>
             <div class="col">{{comment.author.username}}</div>
         </div>
-        <div class="row border">
+        <div class="container">
             <p>{{comment.content}}</p>
         </div>
-        <div class="row border">
+        <div class="container">
             <div class="col">
                 <button (click)="onLikeClick(comment)" class="btn" [ngClass]="{'btn-outline-success': !comment.liked, 'btn-success': comment.liked}">
                     👍
@@ -35,13 +37,13 @@
         </div>
     </div>
 
-    <button class="btn btn-primary" (click)="loadMore()">Load more ...</button>
+    <button class="btn btn-secondary btn-block" (click)="loadMore()">Load more ...</button>
 
-
-    <div class="container">
+    <div class="row">
         <form (ngSubmit)="onPostClick()">
+            <div>Respond : </div>
             <input type="text" [(ngModel)]="newCommentContent" [ngModelOptions]="{standalone: true}">
-            <button class="btn btn-success" type="submit">Post</button>
+            <button class="btn btn-success" type="submit">Comment</button>
         </form>
     </div>
 </div>
