@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavPath } from './components/navbar/navbar.component';
 import { ApiService } from './services/api.service'
 
@@ -7,23 +7,26 @@ import { ApiService } from './services/api.service'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  constructor(private api: ApiService) { }
+export class AppComponent implements OnInit {
 
-  offlineNav: NavPath[] = [
+  constructor(private readonly api: ApiService) { console.log("SALUT CTOR"); }
+
+  private readonly offlineNav: NavPath[] = [
     { name: 'Home', path: '/', right: false },
     { name: 'All Projects', path: '/', right: false },
     { name: 'Login', path: '/', right: true },
     { name: 'Register', path: '/', right: true },
   ];
 
-  onlineNav: NavPath[] = [
+  private readonly onlineNav: NavPath[] = [
     { name: 'Logged !', path: '/', right: false },
   ];
 
   navs$: Promise<NavPath[]>;
 
-  ngInit() {
+  ngOnInit() {
+    console.log("SALUT");
     this.navs$ = this.api.isLogged().then(logged => logged ? this.onlineNav : this.offlineNav);
+    this.navs$.then(p => console.log(p));
   }
 }
