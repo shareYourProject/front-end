@@ -12,7 +12,7 @@
         <div class="container">
             <div class="col">
                 <button (click)="onLikeClick(post)" class="btn" [ngClass]="{'btn-outline-success': !post.liked, 'btn-success': post.liked}">
-                    👍
+                    👍 NbOfLike
                 </button>
             </div>
         </div>
@@ -31,7 +31,7 @@
         <div class="container">
             <div class="col">
                 <button (click)="onLikeClick(comment)" class="btn" [ngClass]="{'btn-outline-success': !comment.liked, 'btn-success': comment.liked}">
-                    👍
+                    👍 NbOfLike
                 </button>
             </div>
         </div>
@@ -39,12 +39,15 @@
 
     <button class="btn btn-secondary btn-block" (click)="loadMore()">Load more ...</button>
 
-    <div class="row">
-        <form (ngSubmit)="onPostClick()">
-            <div>Respond : </div>
-            <input type="text" [(ngModel)]="newCommentContent" [ngModelOptions]="{standalone: true}">
-            <button class="btn btn-success" type="submit">Comment</button>
-        </form>
+    <br/>
+
+    <div class="container">
+        <div class="row justify-content-center ">
+            <form (ngSubmit)="onPostClick()">
+                <input type="text" [(ngModel)]="newCommentContent" [ngModelOptions]="{standalone: true}">
+                <button class="btn btn-success" type="submit">Comment</button>
+            </form>
+        </div>
     </div>
 </div>
 
