@@ -8,7 +8,7 @@ import { UserAccount } from 'src/app/models/classes/UserAccount';
 })
 export class UserListComponent implements OnInit {
 
-  @Input() members$: UserAccount[] | Promise<UserAccount[]>;
+  @Input() members: UserAccount[];
 
   constructor() { }
 
