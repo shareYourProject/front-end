@@ -1,7 +1,56 @@
-<div class="container" *ngIf="(user$ | async) as user; else loading">
-    <div class="row">
-        <div class="col-xs-12">
-            <p>This is the public page of {{user.username}} !</p>
+<div class="container-fluid pt-3" *ngIf="(user$ | async) as user; else loading">
+    <div class="row justify-content-center">
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+              <img src="https://avatars0.githubusercontent.com/u/53428491?s=460&u=9cc74970e71d11588dc0dbbd786b5bdf385f6754&v=4" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">{{ user.firstname }} {{ user.lastname }}Cooppper</h5>
+                <p class="card-text">#{{ user.username }}</p>
+              </div>
+            </div>
+            <div class="card mt-2" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Biography</h5>
+                <p class="card-text">{{ user.biography }} Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro, minima.
+                  Commodi quibusdam, a eaque ratione consectetur distinctio in sed delectus libero, esse nemo harum asperiores nihil corrupti quam dolorem assumenda?</p>
+              </div>
+            </div>
+        </div>
+        <div class="col">
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Electronique S5</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="card-link">Card link</a>
+              <a href="#" class="card-link">Another link</a>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card mt-2" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Skills</h5>
+              <p class="card-text">
+                <li class="list-group-item" *ngFor="let link of user.links">{{link}}</li>
+                <a href="#" class="badge badge-primary mr-2">PHP</a>
+                <a href="#" class="badge badge-secondary mr-2">Electronique</a>
+                <a href="#" class="badge badge-success mr-2">Modélisation des systèmes</a>
+                <a href="#" class="badge badge-danger mr-2">Catia v5</a>
+              </p>
+            </div>
+          </div>
+          <div class="card mt-2" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Links</h5>
+              <ul class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action" *ngFor="let link of user.links">{{link}}</a>
+                <a href="#" class="list-group-item list-group-item-action">Facebook</a>
+                <a href="#" class="list-group-item list-group-item-action">Instagram</a>
+                <a href="#" class="list-group-item list-group-item-action">LinkedIn</a>
+              </ul>
+            </div>
+          </div>
         </div>
     </div>
 </div>
