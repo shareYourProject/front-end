@@ -1,5 +1,47 @@
 <div class="container" *ngIf="(project$ | async) as project; else loading">
-    <p>Public page of the project {{project.name}}</p>
+    <div class="row justify-content-center border rounded">
+        <div class="col">
+            <h1>
+                {{project.name}}
+            </h1>
+        </div>
+    </div>
+    <div class="row justify-content-between">
+        <div class="col-md-3">
+            <div class="card">
+                <h1 class="card-text">TEXTE 1</h1>
+                <p>
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias similique ullam saepe et tempore repellat, labore nostrum cumque? Vero tempore delectus a? Illo impedit, accusamus mollitia blanditiis distinctio hic pariatur!
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6 border rounded">
+            <div class="row border rounded">
+                <div class="col">
+                    <h1>Description</h1>
+                    <p>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias similique ullam saepe et tempore repellat, labore nostrum cumque? Vero tempore delectus a? Illo impedit, accusamus mollitia blanditiis distinctio hic pariatur!
+                    </p>
+                </div>
+            </div>
+            <div class="row border rounded">
+                <div class="col">
+                    <h1>TEXTE 2</h1>
+                    <p>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias similique ullam saepe et tempore repellat, labore nostrum cumque? Vero tempore delectus a? Illo impedit, accusamus mollitia blanditiis distinctio hic pariatur!
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <h1>TEXTE 1</h1>
+                <p>
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias similique ullam saepe et tempore repellat, labore nostrum cumque? Vero tempore delectus a? Illo impedit, accusamus mollitia blanditiis distinctio hic pariatur!
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <ng-template #loading>
