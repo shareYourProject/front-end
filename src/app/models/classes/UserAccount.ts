@@ -59,7 +59,7 @@ export class UserAccount extends MergeableApiObject<MergeableUserAccountData, Us
         }
     }
 
-    get endpoint() { return `user/${this.id}`; }
+    get endpoint() { return `/user/${this.id}`; }
 
     get username() { return this._username; }
 
