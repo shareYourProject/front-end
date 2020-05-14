@@ -4,6 +4,7 @@ import { Post } from 'src/app/models/classes/Post';
 import { ApiService } from 'src/app/services/api.service';
 import { PostBase } from 'src/app/models/classes/PostBase';
 import { Comment } from 'src/app/models/classes/Comment';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-post-page',
@@ -23,10 +24,17 @@ export class PostPageComponent implements OnInit {
   newCommentContent: string = "";
   notFound = false;
 
+  commentForm: FormGroup;
+
   constructor(
-    private route: ActivatedRoute,
-    private api: ApiService
-  ) { }
+    private readonly route: ActivatedRoute,
+    private readonly api: ApiService,
+    private readonly formBuilder: FormBuilder,
+  ) {
+    this.commentForm = formBuilder.group({
+      content: ['', Validators.required],
+    });
+  }
 
   get projectID() { return this._projectID; }
 
@@ -58,15 +66,16 @@ export class PostPageComponent implements OnInit {
       await post.like();
   }
 
-  async onPostClick() {
-    if (this._post) {
-      console.log("Post new comment :", this.newCommentContent);
+  async onCommentFormSubmit() {
+    if (this._post && this.commentForm.valid) {
+      const content = this.commentForm.value.content;
+      console.log("Post new comment :", content);
       // TODO
       /*
       await this._post.createComment(this.commentContent);
       this._comments = this._post.comments.cached;
       */
-     this.newCommentContent = "";
+      this.commentForm.reset();
     }
   }
 }

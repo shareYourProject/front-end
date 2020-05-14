@@ -43,9 +43,9 @@
 
     <div class="container">
         <div class="row justify-content-center ">
-            <form (ngSubmit)="onPostClick()">
-                <input type="text" [(ngModel)]="newCommentContent" [ngModelOptions]="{standalone: true}">
-                <button class="btn btn-success" type="submit">Comment</button>
+            <form [formGroup]="commentForm" (ngSubmit)="onCommentFormSubmit()">
+                <input type="text" id="content" formControlName="content">
+                <button class="btn btn-success" type="submit" [disabled]="!commentForm.valid">Comment</button>
             </form>
         </div>
     </div>
