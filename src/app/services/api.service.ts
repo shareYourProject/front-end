@@ -17,7 +17,7 @@ import { UserAccount } from '../models/classes/UserAccount';
 })
 export class ApiService {
 
-  public static readonly API_ROOT = '/api/v1/';
+  public static readonly API_ROOT = '/api/v1';
 
   private _user: UserAccount | null = null;
   private _apiToken: string | null = null;
