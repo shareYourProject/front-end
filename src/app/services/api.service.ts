@@ -13,12 +13,12 @@ import { UserAccountCollection } from '../models/collections/UserAccountCollecti
 import { ProjectCollection } from '../models/collections/ProjectCollection';
 import { UserAccount } from '../models/classes/UserAccount';
 
-const API_ROOT = '/api/v1/';
-
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
+
+  public static readonly API_ROOT = '/api/v1/';
 
   private _user: UserAccount | null = null;
   private _apiToken: string | null = null;
@@ -40,7 +40,7 @@ export class ApiService {
 
   public post<T = Object>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient
-      .post<T>(API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+      .post<T>(ApiService.API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
       .pipe(
         map(
           response => {
@@ -54,7 +54,7 @@ export class ApiService {
 
   public get<T = Object>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient
-      .get<T>(API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+      .get<T>(ApiService.API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
       .pipe(
         map(
           response => {
@@ -68,7 +68,7 @@ export class ApiService {
 
   public delete(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient
-      .delete(API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+      .delete(ApiService.API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
       .pipe(
         map(
           response => {
@@ -81,7 +81,7 @@ export class ApiService {
 
   public put(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient
-      .put(API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+      .put(ApiService.API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
       .pipe(
         map(
           response => {
