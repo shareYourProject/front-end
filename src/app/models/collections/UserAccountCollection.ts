@@ -5,7 +5,7 @@ import { MergeableCollection } from './MergeableCollection';
 export class UserAccountCollection extends MergeableCollection<UserAccount, MergeableUserAccountData, UserAccountData> {
 
   protected async buildObject(key: number) {
-    const data = await this.api.get<UserAccountData>(`user/${key}`);
+    const data = await this.api.get<UserAccountData>(`/user/${key}`);
     if (!data)
       throw new Error('Fail to build project.');
     return new UserAccount(this.api, data);
