@@ -23,6 +23,8 @@ export class ProjectDashboardComponent implements OnInit {
     const projectID = parseInt(this.route.parent?.snapshot?.params?.id);
     this.project$ = this.api.projects.get(projectID);
     this.members$ = this.project$.then(p => p.getMembers());
+    this.project$.then(p => console.log(p));
+    this.members$.then(m => console.log(m));
   }
 
 }
