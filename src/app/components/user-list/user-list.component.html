@@ -1,5 +1,8 @@
-<div class="container rounded">
-    <div *ngFor="let user of users">
-        <img [src]="user.profilePictureUrl"><span><a [href]="'/user/' + user.id">{{user.username}}</a></span>
+<div class="container d-flex rounded border p-2">
+    <div class="row" *ngFor="let user of users">
+        <div class="col">
+            <img [src]="user.profilePictureUrl" width="50" height="50">
+        </div>
+        <div class="col"><a [href]="'/user/' + user.id">{{user.username}}</a></div>
     </div>
 </div>

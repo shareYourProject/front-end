@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Project } from 'src/app/models/classes/Project';
 import { ApiService } from 'src/app/services/api.service';
 import { UserAccount } from 'src/app/models/classes/UserAccount';
+import { Post } from 'src/app/models/classes/Post';
 
 @Component({
   selector: 'app-project-dashboard',
@@ -13,6 +14,7 @@ export class ProjectDashboardComponent implements OnInit {
 
   project$: Promise<Project>;
   members$: Promise<UserAccount[]>;
+  posts$: Promise<Post[]>;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -23,8 +25,6 @@ export class ProjectDashboardComponent implements OnInit {
     const projectID = parseInt(this.route.parent?.snapshot?.params?.id);
     this.project$ = this.api.projects.get(projectID);
     this.members$ = this.project$.then(p => p.getMembers());
-    this.project$.then(p => console.log(p));
-    this.members$.then(m => console.log(m));
   }
 
 }
