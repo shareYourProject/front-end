@@ -1,44 +1,59 @@
-<div class="container" *ngIf="(project$ | async) as project; else loading">
-    <div class="row justify-content-center border rounded">
-        <div class="col">
-            <h1>
-                {{project.name}}
-            </h1>
-        </div>
-    </div>
-    <div class="row justify-content-between">
-        <div class="col-md-3">
-            <div class="card">
-                <h1 class="card-text">TEXTE 1</h1>
-                <p>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias similique ullam saepe et tempore repellat, labore nostrum cumque? Vero tempore delectus a? Illo impedit, accusamus mollitia blanditiis distinctio hic pariatur!
-                </p>
+<div *ngIf="(project$ | async) as project; else loading">
+    <div class="container" *ngIf="project.visibility; else private">
+        <div class="row justify-content-center">
+            <div class="col">
+                <h1>
+                    {{project.name}}
+                </h1>
             </div>
         </div>
-        <div class="col-md-6 border rounded">
-            <div class="row border rounded">
-                <div class="col">
-                    <h1>Description</h1>
+        <div class="row justify-content-center">
+            <div class="col">
+                <br/>
+            </div>
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-md-3">
+                <div class="card">
+                    <h2 class="card-text">Members</h2>
                     <p>
                         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias similique ullam saepe et tempore repellat, labore nostrum cumque? Vero tempore delectus a? Illo impedit, accusamus mollitia blanditiis distinctio hic pariatur!
                     </p>
                 </div>
             </div>
-            <div class="row border rounded">
-                <div class="col">
-                    <h1>TEXTE 2</h1>
-                    <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias similique ullam saepe et tempore repellat, labore nostrum cumque? Vero tempore delectus a? Illo impedit, accusamus mollitia blanditiis distinctio hic pariatur!
-                    </p>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col">
+                        <h2>Description</h2>
+                        <p>
+                            {{project.description}}
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <br/>
+                    </div>
+                </div>
+                <div class="row border-top">
+                    <div class="col">
+                        <br/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h2>Posts</h2>
+                        <div *ngIf="project.posts!=[]; else no_post">
+                            <div class="card" *ngFor="let post of project.posts">
+                                <h4 class="card-title">{{post.author}}</h4>
+                                <p class="card-text">card text</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card">
-                <h1>TEXTE 1</h1>
-                <p>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias similique ullam saepe et tempore repellat, labore nostrum cumque? Vero tempore delectus a? Illo impedit, accusamus mollitia blanditiis distinctio hic pariatur!
-                </p>
+            <div class="col-md-3">
+                <app-links-list [links]="project.links"></app-links-list>
             </div>
         </div>
     </div>
@@ -46,4 +61,12 @@
 
 <ng-template #loading>
     Loading ...
+</ng-template>
+
+<ng-template #private>
+    Sorry, but this project is private.
+</ng-template>
+
+<ng-template #no_post>
+    This project have no post for now.
 </ng-template>
