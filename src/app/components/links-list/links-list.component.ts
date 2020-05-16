@@ -6,8 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./links-list.component.scss']
 })
 export class LinksListComponent implements OnInit {
-
-  @Input() links: ReadonlyMap<string, string>;
+  @Input() links: Map<string, string>;
 
   constructor() { }
 
