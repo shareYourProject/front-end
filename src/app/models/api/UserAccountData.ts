@@ -1,4 +1,5 @@
 import { ApiData } from './ApiData';
+import { LinkData } from './LinkData';
 
 export interface UserAccountData extends ApiData {
     username: string;
@@ -7,6 +8,6 @@ export interface UserAccountData extends ApiData {
     lastname?: string;
     skills?: string[];
     biography?: string;
-    links?: string[];
+    links?: LinkData[];
     project_ids?: number[];
 }
