@@ -1,6 +1,6 @@
 <div>Project #{{projectID}} > Post #{{postID}}</div>
 
-<div class="list-group-item list-group-item-dark" *ngIf="(post$ | async) as post">
+<div class="list-group-item list-group-item-dark" *ngIf="(post$ | async) as post; else loading">
     <div class="list-group-item list-group-item-light, row border rounded">
         <div class="row">
             <div class="col-auto no-gutters"><img [src]="post.author.profilePictureUrl" width="50" height="50"></div>
@@ -51,7 +51,6 @@
     </div>
 </div>
 
-
-<div *ngIf="notFound">
-    <p>Post not found !</p>
-</div>
+<ng-template #loading>
+    Loading ...
+</ng-template>
