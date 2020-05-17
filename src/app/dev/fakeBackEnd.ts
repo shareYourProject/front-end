@@ -110,7 +110,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 case url.endsWith('/project/0/post/0') && method === 'GET': return response(200, post0);
                 case url.endsWith('/project/0/post/1') && method === 'GET': return response(200, post1);
 
-
+                case url.endsWith('/comments/1') && method === 'GET':
+                    return getComment(0);
                 case url.endsWith('/comments/1/0') && method === 'GET':
                     return getComment(0);
                 case url.endsWith('/comments/1/1') && method === 'GET':
