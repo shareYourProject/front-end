@@ -6,6 +6,7 @@ import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
 import { UserAccountData } from '../models/api/UserAccountData';
 import { ProjectData } from '../models/api/ProjectData';
+import { PostData } from '../models/api/PostBaseData';
 
 const TOKEN = 'a0a0a0aa0a0a0a0a0a0';
 
@@ -56,6 +57,22 @@ const users: UserAccountData[] = [
 
 ];
 
+const post0: PostData = {
+    id: 0,
+    author_id: 0,
+    project_id: 0,
+    content: "Hello world folks !",
+    likes: [1, 2],
+}
+
+const post1: PostData = {
+    id: 1,
+    author_id: 2,
+    project_id: 0,
+    likes: [0, 2],
+    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur enim purus, viverra eu libero ut, tempus pellentesque ipsum. Nulla ullamcorper gravida augue, in ultrices odio posuere eget. Fusce vestibulum varius mi, et auctor nulla interdum et. Duis sed ante non urna sollicitudin finibus at ut felis. Suspendisse vel scelerisque orci, non consectetur neque. Donec pharetra ullamcorper ipsum ac dapibus. Sed hendrerit vel sem ut ultricies. Mauris maximus laoreet orci in vestibulum. "
+}
+
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -88,6 +105,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 case url.endsWith('/project/0/permissions/0') && method === 'GET': return response(200, (PROJECT.permissions ?? [])[0].permissions);
                 case url.endsWith('/project/0/permissions/1') && method === 'GET': return response(200, (PROJECT.permissions ?? [])[1].permissions);
                 case url.endsWith('/project/0/permissions/2') && method === 'GET': return response(200, (PROJECT.permissions ?? [])[2].permissions);
+
+                case url.endsWith('/project/0/post/0') && method === 'GET': return response(200, post0);
+                case url.endsWith('/project/0/post/1') && method === 'GET': return response(200, post1);
 
                 default:
                     // pass through any requests not handled above
