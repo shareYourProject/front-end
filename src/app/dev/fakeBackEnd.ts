@@ -6,7 +6,8 @@ import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
 import { UserAccountData } from '../models/api/UserAccountData';
 import { ProjectData } from '../models/api/ProjectData';
-import { PostData } from '../models/api/PostBaseData';
+import { PostData, CommentData } from '../models/api/PostBaseData';
+import { PagedData } from '../models/api/pagedData';
 
 const TOKEN = 'a0a0a0aa0a0a0a0a0a0';
 
@@ -109,6 +110,16 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 case url.endsWith('/project/0/post/0') && method === 'GET': return response(200, post0);
                 case url.endsWith('/project/0/post/1') && method === 'GET': return response(200, post1);
 
+
+                case url.endsWith('/comments/1/0') && method === 'GET':
+                    return getComment(0);
+                case url.endsWith('/comments/1/1') && method === 'GET':
+                    return getComment(1);
+                case url.endsWith('/comments/1/2') && method === 'GET':
+                    return getComment(2);
+                case url.endsWith('/comments/1/3') && method === 'GET':
+                    return getComment(3);
+
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
@@ -140,6 +151,43 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
             return error("Not implemented"); // TODO
         }
+
+        function getComment(i: number) {
+            const per_page = 2;
+            const last = 3;
+            const res: PagedData<CommentData> = {
+                current_page: i + 1,
+                first_page_url: 'comments/1/0',
+                from: i * per_page,
+                to: (i + 1) * per_page,
+                per_page: per_page,
+                last_page: last,
+                last_page_url: `comments/1/${last}`,
+                next_page_url: i === last ? null : `comments/1/${i + 1}`,
+                path: 'comments/1/',
+                prev_page_url: `comments/1/${i - 1}`,
+                total: 15,
+                data: [
+                    {
+                        id: i * per_page,
+                        post_id: 1,
+                        author_id: 0,
+                        content: `I'm comment #${i * per_page}`,
+                        likes: []
+                    },
+                    {
+                        id: i * per_page + 1,
+                        post_id: 1,
+                        author_id: 0,
+                        content: `I'm comment #${i * per_page + 1}`,
+                        likes: []
+                    },
+                ]
+            }
+            return response(200, res);
+        }
+
+
 
         // helper functions
 
