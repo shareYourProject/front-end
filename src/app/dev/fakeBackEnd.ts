@@ -112,7 +112,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
                 case url.endsWith('/comments/1') && method === 'GET':
                     return getComment(0);
-
                 case url.endsWith('/comments/1/0') && method === 'GET':
                     return getComment(0);
                 case url.endsWith('/comments/1/1') && method === 'GET':
@@ -159,15 +158,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             const last = 3;
             const res: PagedData<CommentData> = {
                 current_page: i + 1,
-                first_page_url: 'comments/1/0',
+                first_page_url: '/comments/1/0',
                 from: i * per_page,
                 to: (i + 1) * per_page,
                 per_page: per_page,
                 last_page: last,
-                last_page_url: `comments/1/${last}`,
-                next_page_url: i === last ? null : `comments/1/${i + 1}`,
-                path: 'comments/1/',
-                prev_page_url: `comments/1/${i - 1}`,
+                last_page_url: `/comments/1/${last}`,
+                next_page_url: i === last ? null : `/comments/1/${i + 1}`,
+                path: '/comments/1/',
+                prev_page_url: `/comments/1/${i - 1}`,
                 total: 15,
                 data: [
                     {
