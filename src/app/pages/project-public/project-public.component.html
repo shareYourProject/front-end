@@ -16,9 +16,12 @@
             <div class="col-md-3">
                 <div class="card">
                     <h2 class="card-text">Members</h2>
-                    <p>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias similique ullam saepe et tempore repellat, labore nostrum cumque? Vero tempore delectus a? Illo impedit, accusamus mollitia blanditiis distinctio hic pariatur!
-                    </p>
+                    <div class="my-2" *ngIf="(members$ | async) as members; else membersLoading">
+                        <app-user-list [users]="members"></app-user-list>
+                    </div>
+                    <ng-template #membersLoading>
+                        Loading ...
+                    </ng-template>
                 </div>
             </div>
             <div class="col-md-6">

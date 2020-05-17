@@ -1,5 +1,5 @@
 <div class="container rounded">
-    <div *ngFor="let member of members">
-        <img [src]="member.profilePictureUrl"><span><a [href]="'/user/' + member.id">{{member.username}}</a></span>
+    <div *ngFor="let user of users">
+        <img [src]="user.profilePictureUrl"><span><a [href]="'/user/' + user.id">{{user.username}}</a></span>
     </div>
 </div>
