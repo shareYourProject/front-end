@@ -25,11 +25,12 @@ export class PostPageComponent implements OnInit {
   notFound = false;
 
   commentForm: FormGroup;
+  postCommentError = false;
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly api: ApiService,
-    private readonly formBuilder: FormBuilder,
+    formBuilder: FormBuilder,
   ) {
     this.commentForm = formBuilder.group({
       content: ['', Validators.required],
@@ -70,12 +71,11 @@ export class PostPageComponent implements OnInit {
     if (this._post && this.commentForm.valid) {
       const content = this.commentForm.value.content;
       console.log("Post new comment :", content);
-      // TODO
-      /*
-      await this._post.createComment(this.commentContent);
-      this._comments = this._post.comments.cached;
-      */
-      this.commentForm.reset();
+      const comment = await this._post.createComment(this.commentForm.value.content).catch(() => { });
+      if (comment)
+        this._comments.push(comment);
+      else
+        this.postCommentError = true;
     }
   }
 }

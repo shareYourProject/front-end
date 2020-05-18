@@ -1,54 +1,67 @@
 <div>Project #{{projectID}} > Post #{{postID}}</div>
 
-<div class="list-group-item list-group-item-dark" *ngIf="(post$ | async) as post; else loading">
-    <div class="list-group-item list-group-item-light, row border rounded">
-        <div class="row">
-            <div class="col-auto no-gutters"><img [src]="post.author.profilePictureUrl" width="50" height="50"></div>
-            <div class="col">{{post.author.username}}</div>
-        </div>
-        <div class="container">
-            <p>{{post.content}}</p>
-        </div>
-        <div class="container">
-            <div class="col">
-                <button (click)="onLikeClick(post)" class="btn" [ngClass]="{'btn-outline-success': !post.liked, 'btn-success': post.liked}">
-                    👍 {{post.likes}}
-                </button>
+<div class="container justify-content-md-center" *ngIf="(post$ | async) as post; else loading">
+    <div class="row border rounded">
+        <div class="col p-2">
+            <div class="row">
+                <div class="col-auto no-gutters">
+                    <img [src]="post.author.profilePictureUrl" width="50" height="50">
+                </div>
+                <div class="col">{{post.author.username}}</div>
+            </div>
+            <div class="row mx-3 my-2">
+                <p>{{post.content}}</p>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button (click)="onLikeClick(post)" class="btn" [ngClass]="{'btn-outline-success': !post.liked, 'btn-success': post.liked}">
+                        👍
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <br/>
-
-    <div *ngFor="let comment of post.comments" class="list-group-item list-group-item-secondary">
-        <div class="row">
-            <div class="col-auto no-gutters"><img [src]="post.author.profilePictureUrl" width="50" height="50"></div>
-            <div class="col">{{comment.author.username}}</div>
-        </div>
-        <div class="container">
-            <p>{{comment.content}}</p>
-        </div>
-        <div class="container">
+    <div class="row mt-2 px-5 list-group">
+        <div *ngFor="let comment of post.comments" class="list-group-item">
             <div class="col">
-                <button (click)="onLikeClick(comment)" class="btn" [ngClass]="{'btn-outline-success': !comment.liked, 'btn-success': comment.liked}">
-                    👍 {{post.likes}}
-                </button>
+                <div class="row">
+                    <div class="col-auto no-gutters">
+                        <img [src]="post.author.profilePictureUrl" width="50" height="50">
+                    </div>
+                    <div class="col">{{comment.author.username}}</div>
+                </div>
+                <div class="row mx-3 my-2">
+                    <p>{{comment.content}}</p>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button (click)="onLikeClick(comment)" class="btn" [ngClass]="{'btn-outline-success': !comment.liked, 'btn-success': comment.liked}">
+                            👍
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <button class="btn btn-secondary btn-block" (click)="loadMore()">Load more ...</button>
-
-    <br/>
-
-    <div class="container">
-        <div class="row justify-content-center ">
-            <form [formGroup]="commentForm" (ngSubmit)="onCommentFormSubmit()">
-                <input type="text" id="content" formControlName="content">
-                <button class="btn btn-success" type="submit" [disabled]="!commentForm.valid">Comment</button>
-            </form>
-        </div>
+    <div class="row mt-2">
+        <button class="btn btn-success btn-block" (click)="loadMore()">Load more ...</button>
     </div>
+
+    <div class="row mt-2 justify-content-md-center">
+        <form [formGroup]="commentForm" (ngSubmit)="onCommentFormSubmit()">
+            <div class="form-group">
+                <div *ngIf=" postCommentError " class="alert alert-danger ">
+                    <p>An error occurs.</p>
+                </div>
+                <textarea id="content" class="form-control input-lg" formControlName="content"></textarea>
+            </div>
+
+            <button class="btn btn-success " type="submit " [disabled]="!commentForm.valid ">Comment</button>
+        </form>
+    </div>
+
 </div>
 
 <ng-template #loading>
