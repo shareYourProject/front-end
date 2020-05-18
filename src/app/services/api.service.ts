@@ -128,7 +128,7 @@ export class ApiService {
     )
       return false;
 
-    const session = await this.post<UserSessionData>('register', { firstname, lastname, username, password, email });
+    const session = await this.post<UserSessionData>('/register', { firstname, lastname, username, password, email });
     this._user = this.users.merge(session.account);
     this._apiToken = session.api_token;
     return true;
@@ -139,7 +139,7 @@ export class ApiService {
     if (!USERNAME_PATTERN.test(username) || !PASSWORD_PATTERN.test(password))
       return false;
 
-    const session = await this.post<UserSessionData>('login', { username: username, password: password });
+    const session = await this.post<UserSessionData>('/login', { username: username, password: password });
     this._user = this.users.merge(session.account);
     this._apiToken = session.api_token;
     return true;
