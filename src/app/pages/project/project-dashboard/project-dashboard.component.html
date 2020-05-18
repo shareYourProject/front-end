@@ -4,8 +4,8 @@
     </div>
 
     <div class="row">
-
-        <div class="col-md-auto">
+        <div class="col-md-3 mr-2 p-3 card">
+            <h5>Members</h5>
             <div *ngIf="(members$ | async) as members; else membersLoading">
                 <app-user-list [users]="members"></app-user-list>
             </div>
@@ -18,6 +18,18 @@
             <div class="alert alert-info">
                 <p>{{project.description}}</p>
             </div>
+
+            <form [formGroup]="postForm" (submit)="onSubmitPost()">
+                <div class="form-group">
+                    <label for="postContent">Create a new post</label>
+                    <div *ngIf="postError" class="alert alert-danger">
+                        <p>An error occurs</p>
+                    </div>
+                    <textarea class="form-control" id="postContent" formControlName="postContent" rows=" 3 "></textarea>
+                </div>
+
+                <button class="btn btn-primary ">Post</button>
+            </form>
         </div>
     </div>
 
