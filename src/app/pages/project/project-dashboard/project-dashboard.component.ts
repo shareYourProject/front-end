@@ -29,7 +29,7 @@ export class ProjectDashboardComponent implements OnInit {
     private readonly router: Router,
   ) {
     this.postForm = formBuilder.group({
-      postContent: ['', Validators.minLength(5)]
+      postContent: ['', Validators.required]
     })
   }
 
