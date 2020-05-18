@@ -62,9 +62,9 @@ export class PostPageComponent implements OnInit {
 
   async onLikeClick(post: PostBase) {
     if (post.liked)
-      await post.unlike();
+      await post.unlike().catch(() => {});
     else
-      await post.like();
+      await post.like().catch(() => {});
   }
 
   async onCommentFormSubmit() {
