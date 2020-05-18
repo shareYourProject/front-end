@@ -12,7 +12,7 @@
         <div class="container">
             <div class="col">
                 <button (click)="onLikeClick(post)" class="btn" [ngClass]="{'btn-outline-success': !post.liked, 'btn-success': post.liked}">
-                    👍 NbOfLike
+                    👍 {{post.likes}}
                 </button>
             </div>
         </div>
@@ -31,7 +31,7 @@
         <div class="container">
             <div class="col">
                 <button (click)="onLikeClick(comment)" class="btn" [ngClass]="{'btn-outline-success': !comment.liked, 'btn-success': comment.liked}">
-                    👍 NbOfLike
+                    👍 {{post.likes}}
                 </button>
             </div>
         </div>
