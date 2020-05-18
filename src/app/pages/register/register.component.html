@@ -1,1 +1,46 @@
-<p>register works!</p>
+<div class="container">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div>
+            <label for="firstname">Firstname</label>
+            <input id="firstname" formControlName="firstname" />
+            <div *ngIf="form.controls.firstname.errors?.required && form.controls.firstname.touched">
+                *Required
+            </div>
+        </div>
+
+        <div>
+            <label for="lastname">Lastname</label>
+            <input id="lastname" formControlName="lastname" />
+            <div *ngIf="form.controls.lastname.errors?.required && form.controls.lastname.touched">
+                *Required
+            </div>
+        </div>
+
+
+        <div>
+            <label for="username">Username</label>
+            <input id="username" formControlName="username" />
+            <div *ngIf="form.controls.username.errors?.required && form.controls.username.touched">
+                *Required
+            </div>
+        </div>
+
+        <div>
+            <label for="password">Email</label>
+            <input type="email" id="email" formControlName="email" />
+            <div *ngIf="form.controls.email.errors?.required && form.controls.email.touched">
+                *Required
+            </div>
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input type="password" id="password" formControlName="password" />
+            <div *ngIf="form.controls.password.errors?.required && form.controls.password.touched">
+                *Required
+            </div>
+        </div>
+
+        <button type="submit" [disabled]="!form.valid && !busy">Login</button>
+    </form>
+</div>
