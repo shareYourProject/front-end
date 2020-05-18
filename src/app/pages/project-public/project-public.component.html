@@ -48,7 +48,8 @@
                         <h2>Posts</h2>
                         <div class="card" *ngFor="let post of project.posts">
                             <h4 class="card-title">{{post.author.username}}</h4>
-                            <p class="card-text">card text</p>
+                            <p class="card-text">{{post.content}}</p>
+                            <p>a test</p>
                         </div>
                         <div *ngIf="project.posts!=[]; else no_post">
                             
