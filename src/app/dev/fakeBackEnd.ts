@@ -31,7 +31,7 @@ const PROJECT: ProjectData = {
         },
     ],
     file_ids: [],
-    links: [],
+    links: [{ name: "Facebook", link: "https://facebook.com" }, { name: "GitHub", link: "https://github.com" }, { name: "Twitter", link: "https://twitter.com" }],
     post_ids: [0, 1],
     visibility: true,
 }
