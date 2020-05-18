@@ -13,7 +13,7 @@ const PROJECT: ProjectData = {
     id: 0,
     name: 'Projet Vichy',
     description: 'A collaboration project',
-    member_ids: [0],
+    member_ids: [0, 1],
     permissions: [
         {
             member_id: 0,
@@ -29,7 +29,7 @@ const PROJECT: ProjectData = {
         },
     ],
     file_ids: [],
-    links: [],
+    links: [{ name: "Facebook", link: "https://facebook.com" }, { name: "GitHub", link: "https://github.com" }, { name: "Twitter", link: "https://twitter.com" }],
     post_ids: [0, 1],
     visibility: true,
 }
