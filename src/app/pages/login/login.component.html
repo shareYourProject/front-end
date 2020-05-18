@@ -1,22 +1,22 @@
-<div class="container">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+<div class="container mt-3">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
 
-        <div>
+        <div class="form-group">
             <label for="username">Username</label>
-            <input id="username" formControlName="username" />
+            <input id="username" class="form-control" formControlName="username" />
             <div *ngIf="form.controls.username.errors?.required && form.controls.username.touched">
-                *Required
+              <small class="form-text text-danger">This field is required !</small>
             </div>
         </div>
 
-        <div>
+        <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" id="password" formControlName="password" />
+            <input type="password" class="form-control" id="password" formControlName="password" />
             <div *ngIf="form.controls.password.errors?.required && form.controls.password.touched">
-                *Required
+              <small class="form-text text-danger">This field is required !</small>
             </div>
         </div>
 
-        <button type="submit" [disabled]="!form.valid && !busy">Login</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid && !busy">Login</button>
     </form>
 </div>
