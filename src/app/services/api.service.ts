@@ -11,6 +11,7 @@ import { NotFoundApiError } from '../models/errors/NotFoundApiError';
 import { UserAccountCollection } from '../models/collections/UserAccountCollection';
 import { ProjectCollection } from '../models/collections/ProjectCollection';
 import { UserAccount } from '../models/classes/UserAccount';
+import { Subject } from 'rxjs';
 
 const API_TOKEN_KEY = 'api_token';
 
@@ -27,6 +28,8 @@ export class ApiService implements OnInit {
   public readonly users: UserAccountCollection;
   public readonly projects: ProjectCollection;
 
+  private readonly _logChanged: Subject<boolean>;
+
   constructor(
     private httpClient: HttpClient,
 
@@ -41,6 +44,8 @@ export class ApiService implements OnInit {
   }
 
   get user() { return this._user; }
+
+  get logChanged() { return this._logChanged.asObservable(); }
 
   // === HELP METHODS =========================================================================================================
 
@@ -142,6 +147,7 @@ export class ApiService implements OnInit {
     this._user = this.users.merge(session.account);
     this._apiToken = session.access_token;
     localStorage.setItem(API_TOKEN_KEY, this._apiToken);
+    this._logChanged.next(true);
     return true;
   }
 
@@ -154,6 +160,7 @@ export class ApiService implements OnInit {
     this._user = this.users.merge(session.account);
     this._apiToken = session.access_token;
     localStorage.setItem(API_TOKEN_KEY, this._apiToken);
+    this._logChanged.next(true);
     return true;
   }
 
@@ -162,7 +169,7 @@ export class ApiService implements OnInit {
     localStorage.removeItem(API_TOKEN_KEY);
     this._apiToken = null;
     this._user = null;
-
+    this._logChanged.next(false);
     // TODO : call backend
   }
 }
