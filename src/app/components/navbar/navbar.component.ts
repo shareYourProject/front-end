@@ -2,7 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 
 export interface NavPath {
   name: string,
-  path: string
+  path: string,
+  right: boolean
 }
 
 @Component({

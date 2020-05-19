@@ -29,7 +29,6 @@ import { PostPageComponent } from './pages/post-page/post-page.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { LinksListComponent } from './components/links-list/links-list.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

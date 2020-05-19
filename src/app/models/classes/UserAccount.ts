@@ -1,6 +1,7 @@
 import { UserAccountData } from '../api/UserAccountData';
 import { MergeableApiObject } from './MergeableApiObject';
 import { LinkData } from '../api/LinkData';
+import { ApiService } from 'src/app/services/api.service';
 
 export interface MergeableUserAccountData {
     username: string;
@@ -58,7 +59,7 @@ export class UserAccount extends MergeableApiObject<MergeableUserAccountData, Us
         }
     }
 
-    get endpoint() { return `user/${this.id}`; }
+    get endpoint() { return `/user/${this.id}`; }
 
     get username() { return this._username; }
 
@@ -74,7 +75,7 @@ export class UserAccount extends MergeableApiObject<MergeableUserAccountData, Us
 
     get links() { return this._links as ReadonlyMap<string, string>; }
 
-    get profilePictureUrl() { return `/api/profilePicture/${this.id}`; }
+    get profilePictureUrl() { return `${ApiService.API_ROOT}/user/${this.id}/profilePicture/`; }
 
     async getProjects() {
         await this.fetch();

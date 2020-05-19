@@ -7,7 +7,7 @@ export abstract class MergeableApiObject<MergeableData, Data extends MergeableDa
 
     protected abstract getData(): MergeableData;
 
-    protected abstract mergeData(data: MergeableData);
+    protected abstract mergeData(data: MergeableData): void;
 
     async merge(data: Partial<MergeableData>) {
         if (this.deleted) throw new DeletedDataError();

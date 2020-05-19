@@ -4,6 +4,7 @@ import { CommentData } from 'src/app/models/api/PostBaseData';
 import { Post } from '../classes/Post';
 import { ApiService } from 'src/app/services/api.service';
 import { PagingCollection } from './PagingCollection';
+import { DeletedDataError } from '../errors/DeletedDataError';
 
 export class CommentCollection extends PagingCollection<Comment, CommentData> {
 
@@ -20,6 +21,7 @@ export class CommentCollection extends PagingCollection<Comment, CommentData> {
   }
 
   async create(content: string) {
+    if (this.post.deleted) throw new DeletedDataError();
     const data = await this.api.post<CommentData>('/comment', { content, post_id: this.post.id });
     const author = await this.api.users.get(data.author_id);
     const comment = new Comment(this.api, data, author, this.post);
