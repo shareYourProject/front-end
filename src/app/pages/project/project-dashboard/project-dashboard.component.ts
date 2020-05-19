@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Project } from 'src/app/models/classes/Project';
 import { ApiService } from 'src/app/services/api.service';
 import { UserAccount } from 'src/app/models/classes/UserAccount';
@@ -28,6 +28,11 @@ export class ProjectDashboardComponent implements OnInit {
     private readonly formBuilder: FormBuilder,
     private readonly router: Router,
   ) {
+    router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.ngOnInit();
+      }
+    });
     this.postForm = formBuilder.group({
       postContent: ['', Validators.required]
     })

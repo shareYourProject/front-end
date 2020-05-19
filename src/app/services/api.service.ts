@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
@@ -12,12 +12,14 @@ import { UserAccountCollection } from '../models/collections/UserAccountCollecti
 import { ProjectCollection } from '../models/collections/ProjectCollection';
 import { UserAccount } from '../models/classes/UserAccount';
 
+const API_TOKEN_KEY = 'api_token';
+
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class ApiService implements OnInit {
 
-  public static readonly API_ROOT = '/api/v1';
+  public static readonly API_ROOT = 'https://api.shareyourproject.fr/api';
 
   private _user: UserAccount | null = null;
   private _apiToken: string | null = null;
@@ -31,6 +33,11 @@ export class ApiService {
   ) {
     this.users = new UserAccountCollection(this);
     this.projects = new ProjectCollection(this);
+    this._apiToken = localStorage.getItem(API_TOKEN_KEY);
+  }
+
+  ngOnInit(): void {
+    
   }
 
   get user() { return this._user; }
@@ -95,7 +102,7 @@ export class ApiService {
    * Generate a header with api_token
    */
   public getHeaderWithToken(headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return { api_token: this._apiToken ? this._apiToken : '', ...headers };
+    return { Authorization: this._apiToken ? 'Bearer ' + this._apiToken : '', ...headers };
   }
 
   private generateError(endpoint: string, method: HttpMethod, status: number) {
@@ -110,11 +117,14 @@ export class ApiService {
 
   async isLogged() {
     if (!this._apiToken) return false;
-    if (!await this.post<boolean>('/token', { api_token: this._apiToken })) {
+    if (!await this.post<boolean>('/token', {})) {
       this._apiToken = null;
       this._user = null;
       return false;
     }
+    // TODO: get user data from back end api
+    /*if (!this._user)
+      this._user = await this.users.get()*/
     return true;
   }
 
@@ -130,7 +140,8 @@ export class ApiService {
 
     const session = await this.post<UserSessionData>('/register', { firstname, lastname, username, password, email });
     this._user = this.users.merge(session.account);
-    this._apiToken = session.api_token;
+    this._apiToken = session.access_token;
+    localStorage.setItem(API_TOKEN_KEY, this._apiToken);
     return true;
   }
 
@@ -141,7 +152,8 @@ export class ApiService {
 
     const session = await this.post<UserSessionData>('/login', { username: username, password: password });
     this._user = this.users.merge(session.account);
-    this._apiToken = session.api_token;
+    this._apiToken = session.access_token;
+    localStorage.setItem(API_TOKEN_KEY, this._apiToken);
     return true;
   }
 }

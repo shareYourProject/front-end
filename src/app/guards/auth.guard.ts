@@ -13,6 +13,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
   private async can(redirectTo: string): Promise<boolean | UrlTree> {
     const isLogged = await this.api.isLogged();
+    console.log("authGuard is logged ?", isLogged);
     if (isLogged)
       return true;
     else

@@ -102,6 +102,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             switch (true) {
                 case url.endsWith('/token') && method === 'POST':
                     return token();
+                case url.endsWith('/user/0') && method === 'PUT':
+                    return response(200);
                 case url.endsWith('/login') && method === 'POST':
                     return login();
                 case url.endsWith('/register') && method === 'POST':
@@ -140,8 +142,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         // route functions
 
         function token() {
-            const { token } = body;
-            return response(200, token === TOKEN);
+            const { api_token } = body;
+            return response(200, api_token === TOKEN);
         }
 
         function getUser(i: number) {

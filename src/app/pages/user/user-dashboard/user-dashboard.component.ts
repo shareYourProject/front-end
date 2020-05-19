@@ -20,22 +20,8 @@ export class UserDashboardComponent implements OnInit {
   }
 
   async ngOnInit() {
-    /*
-    if (!this.api.user) throw new Error("Loggin needed.");
+    if (!this.api.user) throw new Error("Not Logged !");
     this.user = this.api.user;
-    */
-    // simulate user
-    this.user = new UserAccount(this.api, {
-      id: 0,
-      username: "AliceDu29",
-      firstname: "Alice",
-      lastname: "DuBois",
-      biography: "I like coding !",
-      email: "Alice.DuBois@notamail.com",
-      links: [],
-      project_ids: [],
-      skills: [],
-    });
   }
 
 }

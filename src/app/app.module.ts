@@ -59,7 +59,7 @@ import { LinksListComponent } from './components/links-list/links-list.component
     CommonModule,
   ],
   providers: [
-    fakeBackendProvider, // REMOVE THIS BEFORE DEPLOY !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //fakeBackendProvider, // REMOVE THIS BEFORE DEPLOY !!!!!!!!!!!!!!!!!!!!!!!!!!!!
   ],
   bootstrap: [AppComponent]
 })

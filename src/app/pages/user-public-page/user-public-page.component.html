@@ -4,7 +4,7 @@
             <div class="card">
                 <img [src]="user.profilePictureUrl" class="card-img-top" alt="profile-picture">
                 <div class="card-body">
-                    <h5 class="card-title">{{ user.firstname }} {{ user.lastname }}Cooppper</h5>
+                    <h5 class="card-title">{{ user.firstname }} {{ user.lastname }}</h5>
                     <p class="card-subtitle font-italic text-secondary">#{{ user.username }}</p>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Skills</h5>
                     <p class="card-text">
-                        <a href="#" *ngFor="let skill of user.skills" class="badge badge-secondary mr-2">{{skill}}</a>
+                        <span *ngFor="let skill of user.skills" class="badge badge-secondary mr-2">{{skill}}</span>
                     </p>
                 </div>
             </div>

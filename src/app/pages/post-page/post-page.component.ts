@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Post } from 'src/app/models/classes/Post';
 import { ApiService } from 'src/app/services/api.service';
 import { PostBase } from 'src/app/models/classes/PostBase';
@@ -31,7 +31,13 @@ export class PostPageComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly api: ApiService,
     formBuilder: FormBuilder,
+    router: Router,
   ) {
+    router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.ngOnInit();
+      }
+    });
     this.commentForm = formBuilder.group({
       content: ['', Validators.required],
     });
@@ -62,9 +68,9 @@ export class PostPageComponent implements OnInit {
 
   async onLikeClick(post: PostBase) {
     if (post.liked)
-      await post.unlike().catch(() => {});
+      await post.unlike().catch(() => { });
     else
-      await post.like().catch(() => {});
+      await post.like().catch(() => { });
   }
 
   async onCommentFormSubmit() {
