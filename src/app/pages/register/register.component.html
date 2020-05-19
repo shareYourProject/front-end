@@ -1,1 +1,49 @@
-<p>register works!</p>
+<div class="container mt-3">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <div class="form-group col">
+          <label for="firstname">Firstname</label>
+          <input id="firstname" class="form-control" formControlName="firstname" />
+          <div *ngIf="form.controls.firstname.errors?.required && form.controls.firstname.touched">
+            <small class="form-text text-danger">This field is required !</small>
+          </div>
+      </div>
+
+      <div class="form-group col">
+          <label for="lastname">Lastname</label>
+          <input id="lastname" class="form-control" formControlName="lastname" />
+          <div *ngIf="form.controls.lastname.errors?.required && form.controls.lastname.touched">
+              <small class="form-text text-danger">This field is required !</small>
+          </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col">
+          <label for="username">Username</label>
+          <input id="username" class="form-control" formControlName="username" />
+          <div *ngIf="form.controls.username.errors?.required && form.controls.username.touched">
+              <small class="form-text text-danger">This field is required !</small>
+          </div>
+      </div>
+
+      <div class="form-group col">
+          <label for="password">Email</label>
+          <input type="email" class="form-control" id="email" formControlName="email" />
+          <div *ngIf="form.controls.email.errors?.required && form.controls.email.touched">
+              <small class="form-text text-danger">This field is required !</small>
+          </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" formControlName="password" />
+        <div *ngIf="form.controls.password.errors?.required && form.controls.password.touched">
+            <small class="form-text text-danger">This field is required !</small>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="!form.valid && !busy">Register</button>
+  </form>
+</div>

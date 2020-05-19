@@ -1,28 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
-interface DumbPostBase {
-  liked: boolean;
-}
-
-interface DumbPost extends DumbPostBase {
-  author: DumbUser;
-  content: string;
-  comments: DumbComment[];
-
-}
-
-interface DumbComment extends DumbPostBase {
-  content: string;
-  author: DumbUser;
-}
-
-interface DumbUser {
-  id: number;
-  username: string;
-  profilePictureUrl: string;
-}
-
+import { Post } from 'src/app/models/classes/Post';
+import { ApiService } from 'src/app/services/api.service';
+import { PostBase } from 'src/app/models/classes/PostBase';
+import { Comment } from 'src/app/models/classes/Comment';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-post-page',
@@ -31,58 +13,69 @@ interface DumbUser {
 })
 export class PostPageComponent implements OnInit {
 
-  private _projectID: string;
-  private _postID: string;
+  private _projectID: number;
+  private _postID: number;
 
-  private _post: DumbPost
+  post$: Promise<Post>;
 
-  constructor(private route: ActivatedRoute) { }
+  private _post: Post;
+  private _comments: Comment[];
+
+  newCommentContent: string = "";
+  notFound = false;
+
+  commentForm: FormGroup;
+  postCommentError = false;
+
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly api: ApiService,
+    formBuilder: FormBuilder,
+  ) {
+    this.commentForm = formBuilder.group({
+      content: ['', Validators.required],
+    });
+  }
 
   get projectID() { return this._projectID; }
 
   get postID() { return this._postID; }
 
-  get post(): DumbPost { return this._post; }
+  get comments(): Comment[] { return this._comments; }
 
-  ngOnInit(): void {
-    /*
-    this._projectID = this.route.parent.snapshot.params['id'];
+  ngOnInit() {
+    this._projectID = this.route.parent?.snapshot.params['id'];
     this._postID = this.route.snapshot.params['postId'];
 
-    // Todo: Get post data from api
-    const alice = {
-      id: 42,
-      username: 'Alice',
-      profilePictureUrl: 'https://www.journaldebrazza.com/wp-content/uploads/2018/04/IMAGE-DE-PHOTO-DE-PROFIL-VIDE.png',
-    };
+    console.log(this._projectID);
+    console.log(this._postID);
 
-    this._post = {
-      content: 'I am the content',
-      author: alice,
-      comments: [
-        { content: 'I like this ^^', author: alice, liked: false },
-        { content: 'wow ! Awesome !', author: alice, liked: false },
-        { content: 'comment 3', author: alice, liked: false },
-      ],
-      liked: false,
-    };
-    */
+
+    this.post$ = this.api.projects.get(this._projectID).then(p => p.posts.get(this._postID));
+    this.post$.then(p => this._post = p);
   }
 
-  loadMore(): void {
-    this._post.comments.push({
-      content: 'Another Comment',
-      author: {
-        id: 42,
-        username: 'Alice',
-        profilePictureUrl: 'https://www.journaldebrazza.com/wp-content/uploads/2018/04/IMAGE-DE-PHOTO-DE-PROFIL-VIDE.png',
-      },
-      liked: false
-    });
+  async loadMore() {
+    if (this._post)
+      await this._post.comments.loadMore();
   }
 
-  onLikeClick(post: DumbPostBase): void {
-    post.liked = !post.liked;
+  async onLikeClick(post: PostBase) {
+    if (post.liked)
+      await post.unlike().catch(() => {});
+    else
+      await post.like().catch(() => {});
   }
 
+  async onCommentFormSubmit() {
+    if (this._post && this.commentForm.valid) {
+      const content = this.commentForm.value.content;
+      console.log("Post new comment :", content);
+      const comment = await this._post.createComment(this.commentForm.value.content).catch(() => { });
+      if (comment)
+        this._comments.push(comment);
+      else
+        this.postCommentError = true;
+    }
+  }
 }
