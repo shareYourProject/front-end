@@ -37,7 +37,7 @@ export class ApiService implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
   }
 
   get user() { return this._user; }
@@ -155,5 +155,14 @@ export class ApiService implements OnInit {
     this._apiToken = session.access_token;
     localStorage.setItem(API_TOKEN_KEY, this._apiToken);
     return true;
+  }
+
+  async logout() {
+    if (!this._apiToken) return;
+    localStorage.removeItem(API_TOKEN_KEY);
+    this._apiToken = null;
+    this._user = null;
+
+    // TODO : call backend
   }
 }

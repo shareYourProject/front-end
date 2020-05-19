@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-debug-nav',
@@ -20,10 +21,15 @@ export class DebugNavComponent implements OnInit {
     { name: 'post 1', path: '/project/0/post/1' },
   ];
 
-  constructor() { }
+  constructor(private readonly api: ApiService) { }
 
   ngOnInit(): void {
 
+  }
+
+  async logout() {
+    console.log("logout");
+    await this.api.logout();
   }
 
 }
