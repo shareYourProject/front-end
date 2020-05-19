@@ -18,7 +18,7 @@ import { LoginComponent } from './pages/login/login.component';
 // simulate a back end
 import { fakeBackendProvider } from './dev/fakeBackEnd';
 import { RegisterComponent } from './pages/register/register.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
+import { NavbarComponent } from './components/core/navbar/navbar.component';
 import { WatchDogComponent } from './dev/watch-dog/watch-dog.component';
 import { ProjectPublicComponent } from './pages/project-public/project-public.component';
 import { UserSettingsComponent } from './pages/user/user-settings/user-settings.component';
