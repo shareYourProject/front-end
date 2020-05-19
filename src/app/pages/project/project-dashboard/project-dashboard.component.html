@@ -1,1 +1,40 @@
-<p>dashbord of project #{{projectID}}</p>
+<div class="container" *ngIf="(project$ | async) as project; else loading">
+    <div class="row mb-3">
+        <h2>{{project.name}}</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 mr-2 p-3 card">
+            <h5>Members</h5>
+            <div *ngIf="(members$ | async) as members; else membersLoading">
+                <app-user-list [users]="members"></app-user-list>
+            </div>
+            <ng-template #membersLoading>
+                Loading members...
+            </ng-template>
+        </div>
+
+        <div class="col border p-2">
+            <div class="alert alert-info">
+                <p>{{project.description}}</p>
+            </div>
+
+            <form [formGroup]="postForm" (submit)="onSubmitPost()">
+                <div class="form-group">
+                    <label for="postContent">Create a new post</label>
+                    <div *ngIf="postError" class="alert alert-danger">
+                        <p>An error occurs</p>
+                    </div>
+                    <textarea class="form-control" id="postContent" formControlName="postContent" rows=" 3 "></textarea>
+                </div>
+
+                <button class="btn btn-primary ">Post</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<ng-template #loading>
+    Loading ...
+</ng-template>
