@@ -27,7 +27,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, /*canActivate: [NotAuthGuard]*/ }, // TODO :remove comment
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthGuard] },
   {
-    path: 'me', component: UserMainComponent, canActivateChild: [AuthGuard],
+    path: 'me', component: UserMainComponent, /*canActivateChild: [AuthGuard],*/ // TODO : restore this after see #32
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: UserDashboardComponent },
