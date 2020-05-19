@@ -1,7 +1,67 @@
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <p>This is the public page of user {{userID}}</p>
+<div class="container-fluid pt-3" id="public-page-container" *ngIf="(user$ | async) as user; else loading">
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <div class="card">
+                <img [src]="user.profilePictureUrl" class="card-img-top" alt="profile-picture">
+                <div class="card-body">
+                    <h5 class="card-title">{{ user.firstname }} {{ user.lastname }}Cooppper</h5>
+                    <p class="card-subtitle font-italic text-secondary">#{{ user.username }}</p>
+                </div>
+            </div>
+            <div class="card mt-2">
+                <div class="card-body">
+                    <h5 class="card-title">Biography</h5>
+                    <p class="card-text">{{ user.biography }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="h2">Projects</div>
+            <div *ngIf="(projects$ | async) as projects; else projectLoading">
+                <div class="card mb-2" *ngFor="let project of projects">
+                    <div class="row no-gutters">
+                        <div class="col-md-2 d-flex justify-content-center align-items-center">
+                            <img src="https://avatars0.githubusercontent.com/u/62944241?s=400&u=359d3273d61f46a45c264cde695baed9cb0ef593&v=4" class="project-profil" alt="...">
+                        </div>
+                        <div class="col-md-10">
+                            <div class="card-body">
+                                <h5 class="card-title">{{project.name}}</h5>
+                                <p class="card-text">{{project.description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-template #projectLoading>
+                Loading ...
+            </ng-template>
+        </div>
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Skills</h5>
+                    <p class="card-text">
+                        <a href="#" *ngFor="let skill of user.skills" class="badge badge-secondary mr-2">{{skill}}</a>
+                    </p>
+                </div>
+            </div>
+            <div class="mt-2">
+                <app-links-list [links]="user.links"></app-links-list>
+            </div>
+            <!--
+            <div class="card mt-2">
+                <div class="card-body">
+                    <h5 class="card-title">Links</h5>
+                    <ul class="list-group list-group-flush">
+                        <a [href]="link.value" class="list-group-item list-group-item-action" *ngFor="let link of user.links  | keyvalue">{{link.key}}</a>
+                    </ul>
+                </div>
+            </div>
+        -->
         </div>
     </div>
 </div>
+
+<ng-template #loading>
+    <p>Loading ...</p>
+</ng-template>

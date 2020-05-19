@@ -42,12 +42,22 @@ const users: UserAccountData[] = [
         username: 'AliceDu29',
         firstname: 'Alice',
         lastname: undefined,
+        biography: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. In ea deserunt sed quia rerum blanditiis corrupti cumque illum quam libero ullam maiores est voluptates animi, sequi perspiciatis velit? Exercitationem, illum.',
+        project_ids: [0],
+        links: [
+            {name: "Facebook", link: "facebook.com"},
+            {name: "Twitter", link: "twitter.com"},
+            {name: "Github", link: "gitchub.com"},
+        ],
+        email: 'Alice@email.com',
+        skills: ["php", "angular", "ts", "catia v5"]
     },
     {
         id: 1,
         username: 'Bobby',
         firstname: 'Bob',
         lastname: 'Smith',
+        project_ids: [0]
     },
     {
         id: 2,
