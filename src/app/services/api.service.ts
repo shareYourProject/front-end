@@ -28,7 +28,7 @@ export class ApiService implements OnInit {
   public readonly users: UserAccountCollection;
   public readonly projects: ProjectCollection;
 
-  private readonly _logChanged: Subject<boolean>;
+  private readonly _logChanged = new Subject<boolean>();
 
   constructor(
     private httpClient: HttpClient,
