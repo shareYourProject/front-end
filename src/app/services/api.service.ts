@@ -170,6 +170,6 @@ export class ApiService implements OnInit {
     this._apiToken = null;
     this._user = null;
     this._logChanged.next(false);
-    // TODO : call backend
+    await this.get('/logout').catch(() => {});
   }
 }
