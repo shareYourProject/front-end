@@ -27,7 +27,7 @@ import { ProjectSettingsComponent } from './pages/project/project-settings/proje
 import { ViewObjectTableComponent } from './components/view-object-table/view-object-table.component';
 import { PostPageComponent } from './pages/post-page/post-page.component';
 import { UserListComponent } from './components/user-list/user-list.component';
-
+import { LinksListComponent } from './components/links-list/links-list.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +48,8 @@ import { UserListComponent } from './components/user-list/user-list.component';
     ProjectSettingsComponent,
     ViewObjectTableComponent,
     PostPageComponent,
-    UserListComponent
+    UserListComponent,
+    LinksListComponent
   ],
   imports: [
     BrowserModule,
