@@ -11,16 +11,12 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
   constructor(private api: ApiService, private router: Router) { }
 
-  private can(redirectTo: string): Observable<boolean | UrlTree> {
-    return this.api.isLogged()
-      .pipe(
-        map(isLogged => {
-          if (isLogged)
-            return true;
-          else
-            return this.router.parseUrl(`/login?redirectTo=${encodeURIComponent(redirectTo)}`);
-        })
-      );
+  private async can(redirectTo: string): Promise<boolean | UrlTree> {
+    const isLogged = await this.api.isLogged();
+    if (isLogged)
+      return true;
+    else
+      return this.router.parseUrl(`/login?redirectTo=${encodeURIComponent(redirectTo)}`);
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot)

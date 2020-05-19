@@ -1,1 +1,84 @@
-<p>public project page of #{{projectID}}</p>
+<div *ngIf="(project$ | async) as project; else loading">
+    <div class="container" *ngIf="project.visibility; else private">
+        <div class="row justify-content-center">
+            <div class="col">
+                <h1>
+                    {{project.name}}
+                </h1>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col">
+                <br />
+            </div>
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-md-3">
+                <div class="card">
+                    <h2 class="card-text">Members</h2>
+                    <div class="my-2" *ngIf="(members$ | async) as members; else membersLoading">
+                        <app-user-list [users]="members"></app-user-list>
+                    </div>
+                    <ng-template #membersLoading>
+                        Loading ...
+                    </ng-template>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col">
+                        <h2>Description</h2>
+                        <p>
+                            {{project.description}}
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <br />
+                    </div>
+                </div>
+                <div class="row border-top">
+                    <div class="col">
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h2>Posts</h2>
+                        <!--
+                        <div class="card" *ngFor="let post of project.posts">
+                            <h4 class="card-title">{{post.author.username}}</h4>
+                            <p class="card-text">{{post.content}}</p>
+                            <p>a test</p>
+                        </div>
+                        <div *ngIf="project.posts!=[]; else no_post">
+                            
+                        </div>
+                        -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <h2 class="card-title">Links</h2>
+                    <div class="list-group list-group-flush">
+                        <a [href]="l.value" class="list-group-item list-group-item-action" *ngFor="let l of project.links | keyvalue">{{l.key}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #loading>
+    Loading ...
+</ng-template>
+
+<ng-template #private>
+    Sorry, but this project is private.
+</ng-template>
+
+<ng-template #no_post>
+    This project have no post for now.
+</ng-template>

@@ -1,0 +1,5 @@
+<div class="container rounded">
+    <div *ngFor="let user of users">
+        <img [src]="user.profilePictureUrl"><span><a [href]="'/user/' + user.id">{{user.username}}</a></span>
+    </div>
+</div>

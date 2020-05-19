@@ -1,5 +1,7 @@
 import { UserAccountData } from '../api/UserAccountData';
 import { MergeableApiObject } from './MergeableApiObject';
+import { LinkData } from '../api/LinkData';
+import { ApiService } from 'src/app/services/api.service';
 
 export interface MergeableUserAccountData {
     username: string;
@@ -8,7 +10,7 @@ export interface MergeableUserAccountData {
     lastname?: string;
     skills?: string[];
     biography?: string;
-    links?: string[];
+    links?: LinkData[];
 }
 
 export class UserAccount extends MergeableApiObject<MergeableUserAccountData, UserAccountData> {
@@ -19,7 +21,7 @@ export class UserAccount extends MergeableApiObject<MergeableUserAccountData, Us
     private _lastname?: string;
     private _skills: string[];
     private _biography?: string;
-    private _links: string[];
+    private _links = new Map<string, string>();
     private _projectIds: number[];
 
     protected setData(data: UserAccountData) {
@@ -29,7 +31,7 @@ export class UserAccount extends MergeableApiObject<MergeableUserAccountData, Us
         this._lastname = data.lastname;
         this._skills = data.skills ? [...data.skills] : [];
         this._biography = data.biography;
-        this._links = data.links ? [...data.links] : [];
+        this._links = new Map(data.links ? data.links.map(l => [l.name, l.link]) : []);
         this._projectIds = data.project_ids ? [...data.project_ids] : [];
     }
 
@@ -40,7 +42,9 @@ export class UserAccount extends MergeableApiObject<MergeableUserAccountData, Us
         this._lastname = data.lastname;
         this._skills = data.skills ? [...data.skills] : [];
         this._biography = data.biography;
-        this._links = data.links ? [...data.links] : [];
+        if (data.links)
+            for (const l of data.links)
+                this._links.set(l.name, l.link);
     }
 
     protected getData() {
@@ -51,11 +55,11 @@ export class UserAccount extends MergeableApiObject<MergeableUserAccountData, Us
             lastname: this._lastname,
             skills: this._skills,
             biography: this._biography,
-            links: this._links,
+            links: Array.from(this._links.entries()).map(l => { return { name: l[0], link: l[1] } }),
         }
     }
 
-    get endpoint() { return `user/${this.id}`; }
+    get endpoint() { return `/user/${this.id}`; }
 
     get username() { return this._username; }
 
@@ -69,9 +73,12 @@ export class UserAccount extends MergeableApiObject<MergeableUserAccountData, Us
 
     get biography() { return this._biography; }
 
-    get links() { return this._links as ReadonlyArray<string>; }
+    get links() { return this._links as ReadonlyMap<string, string>; }
 
-    get projectIds() { return this._projectIds as ReadonlyArray<number>; }
+    get profilePictureUrl() { return `${ApiService.API_ROOT}/user/${this.id}/profilePicture/`; }
 
-    get profilePictureUrl() { return `/api/profilePicture/${this.id}`; }
+    async getProjects() {
+        await this.fetch();
+        return await Promise.all(this._projectIds.map(id => this.api.projects.get(id)));
+    }
 }

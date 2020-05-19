@@ -1,27 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { USERNAME_PATTERN, PASSWORD_PATTERN, EMAIL_PATTERN, FIRST_LASTNAME_PATTERN } from '../regex';
 import { UserSessionData } from '../models/api/UserSessionData';
 import { AccessDeniedApiError } from '../models/errors/AccessDeniedApiError';
-import {  HttpMethod } from '../models/errors/ApiError';
+import { HttpMethod } from '../models/errors/ApiError';
 import { DefaultApiError } from '../models/errors/DefaultApiError';
 import { NotFoundApiError } from '../models/errors/NotFoundApiError';
 import { UserAccountCollection } from '../models/collections/UserAccountCollection';
 import { ProjectCollection } from '../models/collections/ProjectCollection';
 import { UserAccount } from '../models/classes/UserAccount';
 
-const API_ROOT = '/api/v1/';
-
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
+  public static readonly API_ROOT = '/api/v1';
+
   private _user: UserAccount | null = null;
-  private apiToken: string | null = null;
+  private _apiToken: string | null = null;
 
   public readonly users: UserAccountCollection;
   public readonly projects: ProjectCollection;
@@ -40,7 +39,7 @@ export class ApiService {
 
   public post<T = Object>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient
-      .post<T>(API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+      .post<T>(ApiService.API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
       .pipe(
         map(
           response => {
@@ -54,7 +53,7 @@ export class ApiService {
 
   public get<T = Object>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient
-      .get<T>(API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+      .get<T>(ApiService.API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
       .pipe(
         map(
           response => {
@@ -68,7 +67,7 @@ export class ApiService {
 
   public delete(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient
-      .delete(API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+      .delete(ApiService.API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
       .pipe(
         map(
           response => {
@@ -81,7 +80,7 @@ export class ApiService {
 
   public put(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient
-      .put(API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+      .put(ApiService.API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
       .pipe(
         map(
           response => {
@@ -96,7 +95,7 @@ export class ApiService {
    * Generate a header with api_token
    */
   public getHeaderWithToken(headers?: HttpHeaders | { [header: string]: string | string[] }) {
-    return { api_token: this.apiToken ? this.apiToken : '', ...headers };
+    return { api_token: this._apiToken ? this._apiToken : '', ...headers };
   }
 
   private generateError(endpoint: string, method: HttpMethod, status: number) {
@@ -109,9 +108,14 @@ export class ApiService {
 
   // === REQUESTS =========================================================================================================
 
-  /** @deprecated */
-  isLogged(): Observable<boolean> {
-    throw new Error('API.isLogged is deprecated !');
+  async isLogged() {
+    if (!this._apiToken) return false;
+    if (!await this.post<boolean>('/token', { api_token: this._apiToken })) {
+      this._apiToken = null;
+      this._user = null;
+      return false;
+    }
+    return true;
   }
 
   async register(firstname: string, lastname: string, username: string, password: string, email: string) {
@@ -124,9 +128,9 @@ export class ApiService {
     )
       return false;
 
-    const session = await this.post<UserSessionData>('register', { firstname, lastname, username, password, email });
+    const session = await this.post<UserSessionData>('/register', { firstname, lastname, username, password, email });
     this._user = this.users.merge(session.account);
-    this.apiToken = session.api_token;
+    this._apiToken = session.api_token;
     return true;
   }
 
@@ -135,9 +139,9 @@ export class ApiService {
     if (!USERNAME_PATTERN.test(username) || !PASSWORD_PATTERN.test(password))
       return false;
 
-    const session = await this.post<UserSessionData>('login', { username: username, password: password });
+    const session = await this.post<UserSessionData>('/login', { username: username, password: password });
     this._user = this.users.merge(session.account);
-    this.apiToken = session.api_token;
+    this._apiToken = session.api_token;
     return true;
   }
 }
