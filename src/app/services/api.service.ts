@@ -12,6 +12,7 @@ import { UserAccountCollection } from '../models/collections/UserAccountCollecti
 import { ProjectCollection } from '../models/collections/ProjectCollection';
 import { UserAccount } from '../models/classes/UserAccount';
 import { Subject } from 'rxjs';
+import { UserAccountData } from '../models/api/UserAccountData';
 
 const API_TOKEN_KEY = 'api_token';
 
@@ -127,9 +128,10 @@ export class ApiService implements OnInit {
       this._user = null;
       return false;
     }
-    // TODO: get user data from back end api
-    /*if (!this._user)
-      this._user = await this.users.get()*/
+    if (!this._user) {
+      const data = await this.get<UserAccountData>('/user');
+      this._user = this.users.merge(data);
+    }
     return true;
   }
 
