@@ -1,5 +1,70 @@
-<div>
-
-    <p>Username: {{user.username}}</p>
-
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <br/>
+            <h1>Welcome home {{user.username}} !</h1>
+            <br/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Your projects</h2>
+            <div *ngIf="(projects$ | async) as projects; else loading">
+                <!--
+                    mettre les lignes suivantes dans une boucle ngFor
+                -->
+                <a href="#">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <img src="#">
+                                <h4 class="card-title">Project #0</h4>
+                                <p class="card-text">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus iusto illum odit, nobis pariatur sed repellat architecto, sapiente, quia numquam suscipit praesentium. Quisquam, doloremque quibusdam porro atque perferendis libero repudiandae?
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!--
+                    fin ngFor
+                -->
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h2>Projects followed</h2>
+            <div>
+                <!--
+                    à faire si le follow est dispo
+                -->
+                <a href="#">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <img src="#">
+                                <h4 class="card-title">Project #0</h4>
+                                <p class="card-text">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus iusto illum odit, nobis pariatur sed repellat architecto, sapiente, quia numquam suscipit praesentium. Quisquam, doloremque quibusdam porro atque perferendis libero repudiandae?
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!--
+                    fin ngFor
+                -->
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col">
+            <h2>Your feed</h2>
+            <p>to do</p>
+        </div>
+    </div>
 </div>
+
+<ng-template #loading>
+    Loading projects...
+</ng-template>
