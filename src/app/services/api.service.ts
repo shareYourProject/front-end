@@ -130,7 +130,7 @@ export class ApiService implements OnInit {
     }
     if (!this._user) {
       const data = await this.get<UserAccountData>('/user');
-      this._user = this.users.merge(data);
+      this._user = await this.users.merge(data);
     }
     return true;
   }
