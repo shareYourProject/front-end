@@ -27,5 +27,5 @@ export abstract class CollectionBase<T extends Collectionable> implements Iterab
         return o;
     }
 
-    protected abstract buildObject(key: number): Promise<T>;
+    protected abstract buildObject(key: number): Promise<T> | T;
 }

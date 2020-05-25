@@ -93,7 +93,7 @@ export class ApiService implements OnInit {
 
   public put(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient
-      .put(ApiService.API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+      .put(ApiService.API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response', responseType: 'text' })
       .pipe(
         map(
           response => {
@@ -146,7 +146,7 @@ export class ApiService implements OnInit {
       return false;
 
     const session = await this.post<UserSessionData>('/register', { firstname, lastname, username, password, email });
-    this._user = this.users.merge(session.account);
+    this._user = await this.users.merge(session.account);
     this._apiToken = session.access_token;
     localStorage.setItem(API_TOKEN_KEY, this._apiToken);
     this._logChanged.next(true);
@@ -159,7 +159,7 @@ export class ApiService implements OnInit {
       return false;
 
     const session = await this.post<UserSessionData>('/login', { username: username, password: password });
-    this._user = this.users.merge(session.account);
+    this._user = await this.users.merge(session.account);
     this._apiToken = session.access_token;
     localStorage.setItem(API_TOKEN_KEY, this._apiToken);
     this._logChanged.next(true);

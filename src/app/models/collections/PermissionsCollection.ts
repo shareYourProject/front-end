@@ -4,9 +4,7 @@ import { Project } from '../classes/Project';
 import { ApiService } from 'src/app/services/api.service';
 import { PermissionsData } from '../api/PermissionsData';
 
-
 export class PermissionsCollection extends CollectionBase<Permissions> {
-
 
     public constructor(
         api: ApiService,

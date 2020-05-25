@@ -1,17 +1,12 @@
 import { ApiService } from 'src/app/services/api.service';
 import { PagedData } from '../api/pagedData';
 import { ApiData } from '../api/ApiData';
-import { MergeableApiObject } from '../classes/MergeableApiObject';
 import { ApiObject } from '../classes/ApiObject';
-
-
 
 export abstract class PagingCollection<T extends ApiObject<Data>, Data extends ApiData> implements Iterable<T> {
 
     protected cache = new Map<number, T>();
-
     private _currentPageUrl: string;
-
 
     constructor(
         protected readonly api: ApiService,
