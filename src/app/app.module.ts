@@ -28,6 +28,7 @@ import { ViewObjectTableComponent } from './components/view-object-table/view-ob
 import { PostPageComponent } from './pages/post-page/post-page.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { LinksListComponent } from './components/links-list/links-list.component';
+import { SearchComponent } from './pages/search/search.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { LinksListComponent } from './components/links-list/links-list.component
     ViewObjectTableComponent,
     PostPageComponent,
     UserListComponent,
-    LinksListComponent
+    LinksListComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

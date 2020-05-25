@@ -1,0 +1,29 @@
+<div class="container mt-3">
+    <div class="flex-row mb-3">
+        <form [formGroup]="queryForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <input type="text" class="form-control" formControlName="query">
+            </div>
+        </form>
+    </div>
+
+    <div class="flex-row mx-5">
+        <div class="list-group">
+            <div class="list-group-item" *ngFor="let data of results">
+                <div *ngIf="data.type === 'user'" class="row">
+                    <div class="col-1">
+                        <img [src]="data.value.profilePictureUrl" width="50" height="50">
+                    </div>
+                    <div class="col">
+                        <h5><a [routerLink]="'/user/' + data.value.id">{{data.value.username}}</a></h5>
+                        {{data.value.biography}}
+                    </div>
+                </div>
+                <div *ngIf="data.type === 'project'">
+                    <h5><a [routerLink]="'/project/' + data.value.id">{{data.value.name}}</a></h5>
+                    {{data.value.description}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

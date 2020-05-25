@@ -12,10 +12,13 @@ export class SearchService {
 
   constructor(private readonly api: ApiService) { }
 
-  search(query: string): Observable<{ type: "project", value: Project } | { type: "user", value: UserAccount }> {
-    return new Observable<{ type: "project", value: Project } | { type: "user", value: UserAccount }>(
+  search(query: string): Observable<SearchValue> {
+    const parsedQuery = (query.match(/[^\s"]+|"([^"]*)"/g) || [])
+      .map(a => /^(".*")$/.test(a) ? a.substring(1, a.length - 1) : a)
+      .join('/');
+    return new Observable<SearchValue>(
       subscriber => {
-        this.api.get<SearchResult>(`/search/${query}`)
+        this.api.get<SearchResult>(`/search/${parsedQuery}`)
           .then(
             async r => {
               for (const id of r.project_ids)
@@ -29,3 +32,5 @@ export class SearchService {
     );
   }
 }
+
+export type SearchValue = { type: "project", value: Project } | { type: "user", value: UserAccount };
