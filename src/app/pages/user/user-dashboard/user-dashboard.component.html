@@ -13,21 +13,23 @@
                 <!--
                     mettre les lignes suivantes dans une boucle ngFor
                 -->
-                <a href="#">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <img src="#">
-                                <h4 class="card-title">Project #0</h4>
-                                <p class="card-text">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus iusto illum odit, nobis pariatur sed repellat architecto, sapiente, quia numquam suscipit praesentium. Quisquam, doloremque quibusdam porro atque perferendis libero repudiandae?
-                                </p>
+                <div *ngFor="let project of projects">
+                    <a href="#">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <img src="#">
+                                    <h4 class="card-title">{{project.name}}</h4><br/>
+                                    <p class="card-text">
+                                        {{project.description}}
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
                 <!--
-                    fin ngFor
+                    fin
                 -->
             </div>
         </div>
@@ -51,7 +53,7 @@
                     </div>
                 </a>
                 <!--
-                    fin ngFor
+                    fin
                 -->
             </div>
         </div>

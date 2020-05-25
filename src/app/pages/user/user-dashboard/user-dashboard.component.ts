@@ -25,6 +25,7 @@ export class UserDashboardComponent implements OnInit {
     if (!this.api.user) throw new Error("Not Logged !");
     this.user = this.api.user;
     this.projects$ = this.user.getProjects();
+    console.log(this.user);
   }
 
 }
