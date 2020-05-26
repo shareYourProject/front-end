@@ -28,12 +28,13 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.queryForm.patchValue({
-      query: this.route.snapshot.paramMap.get('query') ?? ''
-    });
+
     this.route.paramMap.subscribe(paramMap => {
       if (this.searchSubscription)
         this.searchSubscription.unsubscribe();
+      this.queryForm.patchValue({
+        query: paramMap.get('query') ?? ''
+      });
       this.results = [];
       this.searchSubscription = this.searchService.search(paramMap.get('query') ?? '')
         .subscribe(value => this.results.push(value))

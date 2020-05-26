@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 type NavPath = {
   name: string;
@@ -41,9 +43,18 @@ export class NavbarComponent implements OnInit {
   leftNavs$: Promise<NavPath[]>;
   rightNavs$: Promise<NavPath[]>;
 
+  searchForm: FormGroup;
+
+  searchFocused = false;
+
   constructor(
     private readonly api: ApiService,
+    private readonly router: Router,
+    formBuilder: FormBuilder
   ) {
+    this.searchForm = formBuilder.group({
+      query: ''
+    });
     this.api.logChanged.subscribe(logged => {
       this.setNavs(Promise.resolve(logged));
     })
@@ -61,6 +72,14 @@ export class NavbarComponent implements OnInit {
 
   async logout() {
     await this.api.logout();
+  }
+
+  onSearchSubmit() {
+    const query = this.searchForm.value.query;
+    if (typeof query === "string" && query.length > 0) {
+      this.searchForm.reset();
+      this.router.navigateByUrl(`/search/${query}`);
+    }
   }
 
 }
