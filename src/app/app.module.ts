@@ -18,7 +18,7 @@ import { LoginComponent } from './pages/login/login.component';
 // simulate a back end
 import { fakeBackendProvider } from './dev/fakeBackEnd';
 import { RegisterComponent } from './pages/register/register.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
+import { NavbarComponent } from './components/core/navbar/navbar.component';
 import { WatchDogComponent } from './dev/watch-dog/watch-dog.component';
 import { ProjectPublicComponent } from './pages/project-public/project-public.component';
 import { UserSettingsComponent } from './pages/user/user-settings/user-settings.component';
@@ -28,6 +28,10 @@ import { ViewObjectTableComponent } from './components/view-object-table/view-ob
 import { PostPageComponent } from './pages/post-page/post-page.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { LinksListComponent } from './components/links-list/links-list.component';
+import { SearchComponent } from './pages/search/search.component';
+import { ProjectCardComponent } from './components/project-card/project-card.component';
+import { SkillsListComponent } from './components/skills-list/skills-list.component';
+import { UserCardComponent } from './components/user-card/user-card.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +53,11 @@ import { LinksListComponent } from './components/links-list/links-list.component
     ViewObjectTableComponent,
     PostPageComponent,
     UserListComponent,
-    LinksListComponent
+    LinksListComponent,
+    SearchComponent,
+    ProjectCardComponent,
+    SkillsListComponent,
+    UserCardComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +67,7 @@ import { LinksListComponent } from './components/links-list/links-list.component
     CommonModule,
   ],
   providers: [
-    fakeBackendProvider, // REMOVE THIS BEFORE DEPLOY !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //fakeBackendProvider, // REMOVE THIS BEFORE DEPLOY !!!!!!!!!!!!!!!!!!!!!!!!!!!!
   ],
   bootstrap: [AppComponent]
 })

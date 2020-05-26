@@ -1,4 +1,3 @@
-import { CollectionBase } from './CollectionBase';
 import { Comment } from '../classes/Comment';
 import { CommentData } from 'src/app/models/api/PostBaseData';
 import { Post } from '../classes/Post';

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { UserAccount } from 'src/app/models/classes/UserAccount';
 import { ApiService } from 'src/app/services/api.service';
 import { Project } from 'src/app/models/classes/Project';
@@ -17,7 +17,14 @@ export class UserPublicPageComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly api: ApiService,
-  ) { }
+    router: Router,
+  ) {
+    router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.ngOnInit();
+      }
+    });
+  }
 
   ngOnInit(): void {
     const userID = this.route.snapshot.params['id'];

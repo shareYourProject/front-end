@@ -4,7 +4,7 @@
             <div class="card">
                 <img [src]="user.profilePictureUrl" class="card-img-top" alt="profile-picture">
                 <div class="card-body">
-                    <h5 class="card-title">{{ user.firstname }} {{ user.lastname }}Cooppper</h5>
+                    <h5 class="card-title">{{ user.firstname }} {{ user.lastname }}</h5>
                     <p class="card-subtitle font-italic text-secondary">#{{ user.username }}</p>
                 </div>
             </div>
@@ -18,6 +18,8 @@
         <div class="col-6">
             <div class="h2">Projects</div>
             <div *ngIf="(projects$ | async) as projects; else projectLoading">
+                <app-project-card class="mb-2 d-block" *ngFor="let project of projects" [project]="project"></app-project-card>
+                <!--
                 <div class="card mb-2" *ngFor="let project of projects">
                     <div class="row no-gutters">
                         <div class="col-md-2 d-flex justify-content-center align-items-center">
@@ -31,6 +33,7 @@
                         </div>
                     </div>
                 </div>
+                -->
             </div>
             <ng-template #projectLoading>
                 Loading ...
@@ -41,7 +44,8 @@
                 <div class="card-body">
                     <h5 class="card-title">Skills</h5>
                     <p class="card-text">
-                        <a href="#" *ngFor="let skill of user.skills" class="badge badge-secondary mr-2">{{skill}}</a>
+                        <app-skills-list [user]="user"></app-skills-list>
+                        <!--<span *ngFor="let skill of user.skills" class="badge badge-secondary mr-2">{{skill}}</span>-->
                     </p>
                 </div>
             </div>

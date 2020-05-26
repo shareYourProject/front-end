@@ -20,14 +20,17 @@ import { ProjectPublicComponent } from './pages/project-public/project-public.co
 import { UserSettingsComponent } from './pages/user/user-settings/user-settings.component';
 import { ProjectSettingsComponent } from './pages/project/project-settings/project-settings.component';
 import { PostPageComponent } from './pages/post-page/post-page.component';
+import { SearchComponent } from './pages/search/search.component';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent, /*canActivate: [NotAuthGuard]*/ }, // TODO :remove comment
+  { path: 'search', redirectTo: 'search/', pathMatch: 'full' },
+  { path: 'search/:query', component: SearchComponent },
+  { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthGuard] },
   {
-    path: 'me', component: UserMainComponent, /*canActivateChild: [AuthGuard],*/ // TODO : restore this after see #32
+    path: 'me', component: UserMainComponent, canActivateChild: [AuthGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: UserDashboardComponent },

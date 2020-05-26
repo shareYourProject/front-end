@@ -3,12 +3,7 @@ import { PostBaseData } from '../api/PostBaseData';
 import { UserAccount } from './UserAccount';
 import { NotLoggedError } from '../errors/NotLoggedError';
 import { DeletedDataError } from '../errors/DeletedDataError';
-import { MergeableApiObject } from './MergeableApiObject';
-
-interface MergeablePostBaseData {
-    content: string;
-    likes: number[];
-}
+import { ApiObject } from './ApiObject';
 
 export interface PostBase {
     readonly liked: boolean;
@@ -19,10 +14,10 @@ export interface PostBase {
     unlike(): Promise<this>;
 }
 
-export abstract class PostBaseObject<Data extends PostBaseData> extends MergeableApiObject<MergeablePostBaseData, Data> implements PostBase {
+export abstract class PostBaseObject<Data extends PostBaseData> extends ApiObject<Data> implements PostBase {
 
-    private _content: string;
-    private _likes: number[];
+    protected _content: string;
+    protected _likes: number[];
 
     constructor(
         api: ApiService,
@@ -30,18 +25,6 @@ export abstract class PostBaseObject<Data extends PostBaseData> extends Mergeabl
         public readonly author: UserAccount,
     ) {
         super(api, data);
-    }
-
-    protected getData() {
-        return {
-            content: this.content,
-            likes: this._likes,
-        }
-    }
-
-    protected mergeData(data: MergeablePostBaseData) {
-        this._content = data.content;
-        this._likes = data.likes;
     }
 
     protected setData(data: Data) {
