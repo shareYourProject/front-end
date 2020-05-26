@@ -13,6 +13,7 @@ import { ProjectCollection } from '../models/collections/ProjectCollection';
 import { UserAccount } from '../models/classes/UserAccount';
 import { Subject } from 'rxjs';
 import { UserAccountData } from '../models/api/UserAccountData';
+import { CollectionsService } from './collections.service';
 
 const API_TOKEN_KEY = 'api_token';
 
@@ -26,17 +27,12 @@ export class ApiService implements OnInit {
   private _user: UserAccount | null = null;
   private _apiToken: string | null = null;
 
-  public readonly users: UserAccountCollection;
-  public readonly projects: ProjectCollection;
-
   private readonly _logChanged = new Subject<boolean>();
 
   constructor(
     private httpClient: HttpClient,
-
+    public readonly collections: CollectionsService,
   ) {
-    this.users = new UserAccountCollection(this);
-    this.projects = new ProjectCollection(this);
     this._apiToken = localStorage.getItem(API_TOKEN_KEY);
   }
 
@@ -130,7 +126,7 @@ export class ApiService implements OnInit {
     }
     if (!this._user) {
       const data = await this.get<UserAccountData>('/user');
-      this._user = await this.users.merge(data);
+      this._user = await this.collections.users.merge(data);
     }
     return true;
   }
@@ -146,7 +142,7 @@ export class ApiService implements OnInit {
       return false;
 
     const session = await this.post<UserSessionData>('/register', { firstname, lastname, username, password, email });
-    this._user = await this.users.merge(session.account);
+    this._user = await this.collections.users.merge(session.account);
     this._apiToken = session.access_token;
     localStorage.setItem(API_TOKEN_KEY, this._apiToken);
     this._logChanged.next(true);
@@ -159,7 +155,7 @@ export class ApiService implements OnInit {
       return false;
 
     const session = await this.post<UserSessionData>('/login', { username: username, password: password });
-    this._user = await this.users.merge(session.account);
+    this._user = await this.collections.users.merge(session.account);
     this._apiToken = session.access_token;
     localStorage.setItem(API_TOKEN_KEY, this._apiToken);
     this._logChanged.next(true);

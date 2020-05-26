@@ -22,9 +22,9 @@ export class SearchService {
           .then(
             async r => {
               for (const id of r.project_ids)
-                subscriber.next({ type: "project", value: await this.api.projects.get(id) });
+                subscriber.next({ type: "project", value: await this.api.collections.projects.get(id) });
               for (const id of r.user_ids)
-                subscriber.next({ type: "user", value: await this.api.users.get(id) });
+                subscriber.next({ type: "user", value: await this.api.collections.users.get(id) });
               subscriber.complete();
             }
           )

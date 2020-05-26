@@ -57,7 +57,7 @@ export class PostPageComponent implements OnInit {
     console.log(this._postID);
 
 
-    this.post$ = this.api.projects.get(this._projectID).then(p => p.posts.get(this._postID));
+    this.post$ = this.api.collections.posts.get(this._postID);
     this.post$.then(p => this._post = p);
   }
 

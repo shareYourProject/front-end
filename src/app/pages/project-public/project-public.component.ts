@@ -28,7 +28,7 @@ export class ProjectPublicComponent implements OnInit {
 
   ngOnInit(): void {
     const projectID = parseInt(this.route.snapshot.params['id']);
-    this.project$ = this.api.projects.get(projectID);
+    this.project$ = this.api.collections.projects.get(projectID);
     this.members$ = this.project$.then(p => p.getMembers());
   }
 }

@@ -28,7 +28,7 @@ export class UserPublicPageComponent implements OnInit {
 
   ngOnInit(): void {
     const userID = this.route.snapshot.params['id'];
-    this.user$ = this.api.users.get(userID);
+    this.user$ = this.api.collections.users.get(userID);
     this.projects$ = this.user$.then(u => u.getProjects());
   }
 

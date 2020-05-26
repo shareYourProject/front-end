@@ -43,7 +43,7 @@ export abstract class PostBaseObject<Data extends PostBaseData> extends ApiObjec
 
     async getLikers() {
         await this.fetch();
-        return await Promise.all(this._likes.map(id => this.api.users.get(id)));
+        return await Promise.all(this._likes.map(id => this.api.collections.users.get(id)));
     }
 
     async edit(content: string) {

@@ -15,14 +15,14 @@ export class CommentCollection extends PagingCollection<Comment, CommentData> {
   }
 
   protected async build(data: CommentData) {
-    const author = await this.api.users.get(data.author_id);
+    const author = await this.api.collections.users.get(data.author_id);
     return new Comment(this.api, data, author, this.post);
   }
 
   async create(content: string) {
     if (this.post.deleted) throw new DeletedDataError();
     const data = await this.api.post<CommentData>('/comment', { content, post_id: this.post.id });
-    const author = await this.api.users.get(data.author_id);
+    const author = await this.api.collections.users.get(data.author_id);
     const comment = new Comment(this.api, data, author, this.post);
     this.cache.set(comment.id, comment);
     return comment;

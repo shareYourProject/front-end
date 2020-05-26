@@ -40,14 +40,14 @@ export class ProjectDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     const projectID = parseInt(this.route.parent?.snapshot?.params?.id);
-    this.project$ = this.api.projects.get(projectID);
+    this.project$ = this.api.collections.projects.get(projectID);
     this.project$.then(p => this._project = p);
     this.members$ = this.project$.then(p => p.getMembers());
   }
 
   async onSubmitPost() {
     if (this._project && this.postForm.valid) {
-      const post = await this._project.posts.create(this.postForm.value.postContent).catch(() => { });
+      const post = await this._project.createPost(this.postForm.value.postContent).catch(() => { });
       if (post)
         this.router.navigateByUrl(`/project/${this._project.id}/post/${post.id}`);
       else

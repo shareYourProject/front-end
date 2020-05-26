@@ -14,7 +14,7 @@ export class PermissionsCollection extends CollectionBase<Permissions> {
     }
 
     protected async buildObject(id: number) {
-        const user = await this.api.users.get(id);
+        const user = await this.api.collections.users.get(id);
         const data = await this.api.get<PermissionsData>(`/project/${this.project.id}/permissions/${user.id}`);
         return new Permissions(this.api, this.project, user, data);
     }

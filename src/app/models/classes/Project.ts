@@ -19,9 +19,9 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
     private _description?: string;
     private _links = new Map<string, string>();
     private _visibility?: boolean;
+    private _post_ids: number[];
 
     private readonly _permissions: PermissionsCollection;
-    private readonly _posts: PostCollection;
 
     constructor(
         api: ApiService,
@@ -29,7 +29,6 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
     ) {
         super(api, data);
         this._permissions = new PermissionsCollection(api, this);
-        this._posts = new PostCollection(api, this);
     }
 
     protected setData(data: ProjectData) {
@@ -38,6 +37,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
         this._description = data.description;
         this._links = new Map(data.links ? data.links.map(l => [l.key, l.value]) : []);
         this._visibility = data.visibility;
+        this._post_ids = data.post_ids ? [...data.post_ids] : [];
     }
 
     protected getData() {
@@ -60,7 +60,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
 
     get visibility() { return this._visibility; }
 
-    get posts() { return this._posts; }
+    get postIds() { return this._post_ids as readonly number[]; }
 
     getEditableData(): IProject {
         return {
@@ -81,7 +81,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
     async getMembers() {
         await this.fetch();
         if (this._memberIds)
-            return (await Promise.all(this._memberIds.map(id => this.api.users.get(id).catch(() => { })))).filter(u => !!u) as UserAccount[];
+            return (await Promise.all(this._memberIds.map(id => this.api.collections.users.get(id).catch(() => { })))).filter(u => !!u) as UserAccount[];
         else
             return [];
     }
@@ -100,7 +100,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
 
     async createPost(content: string) {
         if (this.deleted) throw new DeletedDataError();
-        return this._posts.create(content);
+        return this.api.collections.posts.create(this, content);
     }
 
     async getPermissionsFor(user: UserAccountResolvable) {
@@ -120,7 +120,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
         if (!this.api.user) throw new NotLoggedError();
         try {
             await this.api.put(this.endpoint + '/follow', {});
-        } catch(e) {
+        } catch (e) {
             console.error('project follow', e);
             return false;
         }
@@ -132,8 +132,8 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
         if (this.deleted) throw new DeletedDataError();
         if (!this.api.user) throw new NotLoggedError();
         try {
-        await this.api.put(this.endpoint + '/unfollow', {});
-        } catch(e) {
+            await this.api.put(this.endpoint + '/unfollow', {});
+        } catch (e) {
             console.error('project unfollow', e);
             return false;
         }

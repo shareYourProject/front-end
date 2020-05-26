@@ -96,6 +96,6 @@ export class UserAccount extends EditalbeApiObject<IUserAccount, UserAccountData
 
     async getProjects() {
         await this.fetch();
-        return await Promise.all(this._projectIds.map(id => this.api.projects.get(id)));
+        return await Promise.all(this._projectIds.map(id => this.api.collections.projects.get(id)));
     }
 }
