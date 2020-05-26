@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { SearchResult } from '../models/api/SearchResult';
 import { Project } from '../models/classes/Project';
 import { UserAccount } from '../models/classes/UserAccount';
+import { Post } from '../models/classes/Post';
+import { FeedResponse } from '../models/api/FeedResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +28,26 @@ export class SearchService {
               for (const id of r.user_ids)
                 subscriber.next({ type: "user", value: await this.api.collections.users.get(id) });
               subscriber.complete();
+            }
+          )
+      }
+    );
+  }
+
+  getFeed(): Observable<Post> {
+    return new Observable<Post>(
+      subscriber => {
+        this.api.get<FeedResponse>('/feed/')
+          .then(
+            async res => {
+              for (const id of res.post_ids) {
+                try {
+                  const post = await this.api.collections.posts.get(id);
+                  subscriber.next(post);
+                } catch (e) {
+                  console.error(e);
+                }
+              }
             }
           )
       }
