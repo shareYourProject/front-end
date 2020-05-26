@@ -1,0 +1,14 @@
+<div class="card mb-2">
+    <div class="row no-gutters">
+        <div class="col-md-2 d-flex justify-content-center align-items-center">
+            <img [src]="user.profilePictureUrl" width="64" height="64" alt="...">
+        </div>
+        <div class="col-md-10">
+            <div class="card-body">
+                <h5 class="card-title"><a [routerLink]="'/user/' + user.id">{{user.username}}</a></h5>
+                <app-skills-list [user]="user"></app-skills-list>
+                <p class="card-text">{{user.biography}}</p>
+            </div>
+        </div>
+    </div>
+</div>

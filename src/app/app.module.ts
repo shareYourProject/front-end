@@ -31,6 +31,7 @@ import { LinksListComponent } from './components/links-list/links-list.component
 import { SearchComponent } from './pages/search/search.component';
 import { ProjectCardComponent } from './components/project-card/project-card.component';
 import { SkillsListComponent } from './components/skills-list/skills-list.component';
+import { UserCardComponent } from './components/user-card/user-card.component';
 
 @NgModule({
   declarations: [
@@ -54,8 +55,9 @@ import { SkillsListComponent } from './components/skills-list/skills-list.compon
     UserListComponent,
     LinksListComponent,
     SearchComponent,
-    ProjectCardComponent
-    SkillsListComponent
+    ProjectCardComponent,
+    SkillsListComponent,
+    UserCardComponent
   ],
   imports: [
     BrowserModule,
