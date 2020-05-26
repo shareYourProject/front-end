@@ -30,5 +30,6 @@ export class ProjectPublicComponent implements OnInit {
     const projectID = parseInt(this.route.snapshot.params['id']);
     this.project$ = this.api.projects.get(projectID);
     this.members$ = this.project$.then(p => p.getMembers());
+    console.log(this.project$.then(p => console.log(p)));
   }
 }
