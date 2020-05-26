@@ -8,11 +8,10 @@
     </div>
 
     <div class="flex-row mx-5">
-        <div class="list-group">
-            <div class="list-group-item" *ngFor="let data of results">
-                <div *ngIf="data.type === 'user'" class="row">
-                    <app-user-card [user]="data.value"></app-user-card>
-                    <!--
+        <div class="w-100 mb-2" *ngFor="let data of results">
+            <div class="w-100" *ngIf="data.type === 'user'">
+                <app-user-card [user]="data.value"></app-user-card>
+                <!--
                     <div class="col-1">
                         <img [src]="data.value.profilePictureUrl" width="50" height="50">
                     </div>
@@ -21,12 +20,15 @@
                         {{data.value.biography}}
                     </div>
                     -->
-                </div>
-                <div *ngIf="data.type === 'project'">
+            </div>
+            <div class="w-100" *ngIf="data.type === 'project'">
+                <app-project-card [project]="data.value"></app-project-card>
+                <!--
                     <h5><a [routerLink]="'/project/' + data.value.id">{{data.value.name}}</a></h5>
                     {{data.value.description}}
-                </div>
+                    -->
             </div>
+
         </div>
     </div>
 </div>
