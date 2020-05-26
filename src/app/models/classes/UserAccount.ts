@@ -1,19 +1,11 @@
 import { UserAccountData } from '../api/UserAccountData';
-import { MergeableApiObject } from './MergeableApiObject';
 import { LinkData } from '../api/LinkData';
 import { ApiService } from 'src/app/services/api.service';
+import { EditalbeApiObject } from './EditableApiObject';
+import { IUserAccount } from '../objectInterfaces/IUserAccount';
+import { DeepReadonly } from '../utils/DeepReadonly';
 
-export interface MergeableUserAccountData {
-    username: string;
-    email?: string;
-    firstname?: string;
-    lastname?: string;
-    skills?: string[];
-    biography?: string;
-    links?: LinkData[];
-}
-
-export class UserAccount extends MergeableApiObject<MergeableUserAccountData, UserAccountData> {
+export class UserAccount extends EditalbeApiObject<IUserAccount, UserAccountData> implements DeepReadonly<IUserAccount> {
 
     private _username: string;
     private _email?: string;
@@ -31,10 +23,11 @@ export class UserAccount extends MergeableApiObject<MergeableUserAccountData, Us
         this._lastname = data.lastname;
         this._skills = data.skills ? [...data.skills] : [];
         this._biography = data.biography;
-        this._links = new Map(data.links ? data.links.map(l => [l.name, l.link]) : []);
+        this._links = new Map(data.links ? data.links.map(l => [l.key, l.value]) : []);
         this._projectIds = data.project_ids ? [...data.project_ids] : [];
     }
 
+    /*
     protected mergeData(data: MergeableUserAccountData) {
         this._username = data.username;
         this._email = data.email;
@@ -46,17 +39,41 @@ export class UserAccount extends MergeableApiObject<MergeableUserAccountData, Us
             for (const l of data.links)
                 this._links.set(l.name, l.link);
     }
+    */
 
     protected getData() {
         return {
+            id: this.id,
             username: this._username,
             email: this._email,
             firstname: this._firstname,
             lastname: this._lastname,
             skills: this._skills,
             biography: this._biography,
-            links: Array.from(this._links.entries()).map(l => { return { name: l[0], link: l[1] } }),
+            links: Array.from(this._links.entries()).map(l => { return { key: l[0], value: l[1] } }),
         }
+    }
+
+    getEditableData(): IUserAccount {
+        return {
+            username: this.username,
+            email: this.email,
+            firstname: this.firstname,
+            lastname: this.lastname,
+            skills: [...this.skills],
+            biography: this.biography,
+            links: new Map(this.links)
+        }
+    }
+
+    protected setEditableData(data: IUserAccount): void {
+        this._username = data.username;
+        this._email = data.email;
+        this._firstname = data.firstname;
+        this._lastname = data.lastname;
+        this._skills = [...data.skills];
+        this._biography = data.biography;
+        this._links = new Map(data.links);
     }
 
     get endpoint() { return `/user/${this.id}`; }

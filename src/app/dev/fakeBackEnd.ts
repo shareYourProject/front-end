@@ -8,6 +8,7 @@ import { UserAccountData } from '../models/api/UserAccountData';
 import { ProjectData } from '../models/api/ProjectData';
 import { PostData, CommentData } from '../models/api/PostBaseData';
 import { PagedData } from '../models/api/pagedData';
+import { SearchResult } from '../models/api/SearchResult';
 
 const TOKEN = 'a0a0a0aa0a0a0a0a0a0';
 
@@ -31,7 +32,7 @@ const PROJECT: ProjectData = {
         },
     ],
     file_ids: [],
-    links: [{ name: "Facebook", link: "https://facebook.com" }, { name: "GitHub", link: "https://github.com" }, { name: "Twitter", link: "https://twitter.com" }],
+    links: [{ key: "Facebook", value: "https://facebook.com" }, { key: "GitHub", value: "https://github.com" }, { key: "Twitter", value: "https://twitter.com" }],
     post_ids: [0, 1],
     visibility: true,
 }
@@ -45,9 +46,9 @@ const users: UserAccountData[] = [
         biography: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. In ea deserunt sed quia rerum blanditiis corrupti cumque illum quam libero ullam maiores est voluptates animi, sequi perspiciatis velit? Exercitationem, illum.',
         project_ids: [0],
         links: [
-            {name: "Facebook", link: "facebook.com"},
-            {name: "Twitter", link: "twitter.com"},
-            {name: "Github", link: "gitchub.com"},
+            { key: "Facebook", value: "facebook.com" },
+            { key: "Twitter", value: "twitter.com" },
+            { key: "Github", value: "gitchub.com" },
         ],
         email: 'Alice@email.com',
         skills: ["php", "angular", "ts", "catia v5"]
@@ -100,38 +101,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function handleRoute(): Observable<HttpEvent<any>> {
             switch (true) {
-                case url.endsWith('/token') && method === 'POST':
-                    return token();
-                case url.endsWith('/user/0') && method === 'PUT':
-                    return response(200);
-                case url.endsWith('/login') && method === 'POST':
-                    return login();
-                case url.endsWith('/register') && method === 'POST':
-                    return register();
-
-                case url.endsWith('/user/0') && method === 'GET': return getUser(0);
-                case url.endsWith('/user/1') && method === 'GET': return getUser(1);
-                case url.endsWith('/user/2') && method === 'GET': return getUser(2);
-
-                case url.endsWith('/project/0') && method === 'GET': return response(200, PROJECT);
-
-                case url.endsWith('/project/0/permissions/0') && method === 'GET': return response(200, (PROJECT.permissions ?? [])[0].permissions);
-                case url.endsWith('/project/0/permissions/1') && method === 'GET': return response(200, (PROJECT.permissions ?? [])[1].permissions);
-                case url.endsWith('/project/0/permissions/2') && method === 'GET': return response(200, (PROJECT.permissions ?? [])[2].permissions);
-
-                case url.endsWith('/project/0/post/0') && method === 'GET': return response(200, post0);
-                case url.endsWith('/project/0/post/1') && method === 'GET': return response(200, post1);
-
-                case url.endsWith('/comments/1') && method === 'GET':
-                    return getComment(0);
-                case url.endsWith('/comments/1/0') && method === 'GET':
-                    return getComment(0);
-                case url.endsWith('/comments/1/1') && method === 'GET':
-                    return getComment(1);
-                case url.endsWith('/comments/1/2') && method === 'GET':
-                    return getComment(2);
-                case url.endsWith('/comments/1/3') && method === 'GET':
-                    return getComment(3);
+                case url.includes('/search/') && method === 'GET':
+                    const res: SearchResult = {
+                        project_ids: [1, 2],
+                        user_ids: [4, 5, 6]
+                    };
+                    return response(200, res);
 
                 default:
                     // pass through any requests not handled above

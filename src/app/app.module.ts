@@ -28,6 +28,10 @@ import { ViewObjectTableComponent } from './components/view-object-table/view-ob
 import { PostPageComponent } from './pages/post-page/post-page.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { LinksListComponent } from './components/links-list/links-list.component';
+import { SearchComponent } from './pages/search/search.component';
+import { ProjectCardComponent } from './components/project-card/project-card.component';
+import { SkillsListComponent } from './components/skills-list/skills-list.component';
+import { UserCardComponent } from './components/user-card/user-card.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +53,11 @@ import { LinksListComponent } from './components/links-list/links-list.component
     ViewObjectTableComponent,
     PostPageComponent,
     UserListComponent,
-    LinksListComponent
+    LinksListComponent,
+    SearchComponent,
+    ProjectCardComponent,
+    SkillsListComponent,
+    UserCardComponent
   ],
   imports: [
     BrowserModule,

@@ -19,6 +19,8 @@ export abstract class ApiObject<Data extends ApiData> implements Collectionable 
 
     protected abstract setData(data: Data): void;
 
+    protected abstract getData(): Data;
+
     public abstract get endpoint(): string;
 
     get deleted() { return this._deleted; }
@@ -45,5 +47,12 @@ export abstract class ApiObject<Data extends ApiData> implements Collectionable 
         if (this.deleted) throw new DeletedDataError();
         await this.api.delete(this.endpoint);
         this._deleted = true;
+    }
+
+    merge(data: Partial<Data>) {
+        if (this.deleted) throw new DeletedDataError();
+        if (data.id && data.id !== this.id) throw new Error('Invalid merge data.');
+        this.setData(Object.assign(this.getData(), data));
+        return this;
     }
 }

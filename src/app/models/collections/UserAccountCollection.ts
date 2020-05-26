@@ -1,8 +1,8 @@
-import { UserAccount, MergeableUserAccountData } from '../classes/UserAccount';
+import { UserAccount } from '../classes/UserAccount';
 import { UserAccountData } from '../api/UserAccountData';
-import { MergeableCollection } from './MergeableCollection';
+import { ApiCollection } from './ApiCollection';
 
-export class UserAccountCollection extends MergeableCollection<UserAccount, MergeableUserAccountData, UserAccountData> {
+export class UserAccountCollection extends ApiCollection<UserAccount, UserAccountData> {
 
   protected async buildObject(key: number) {
     const data = await this.api.get<UserAccountData>(`/user/${key}`);

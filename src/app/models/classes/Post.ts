@@ -22,7 +22,17 @@ export class Post extends PostBaseObject<PostData> {
 
     get endpoint() { return this.project.endpoint + `/post/${this.id}`; }
 
-    get directEndpoint() {return `/post/${this.id}`};
+    get directEndpoint() { return `/post/${this.id}` };
+
+    protected getData(): PostData {
+        return {
+            id: this.id,
+            author_id: this.author.id,
+            content: this.content,
+            likes: [...this._likes],
+            project_id: this.project.id,
+        }
+    }
 
     /** @deprecated use Post.comments.create instead. */
     async createComment(content: string) {
