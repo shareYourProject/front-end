@@ -1,4 +1,4 @@
 export interface LinkData {
-    name: string;
-    link: string;
+    key: string;
+    value: string;
 }

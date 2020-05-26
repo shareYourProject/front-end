@@ -32,7 +32,7 @@ const PROJECT: ProjectData = {
         },
     ],
     file_ids: [],
-    links: [{ name: "Facebook", link: "https://facebook.com" }, { name: "GitHub", link: "https://github.com" }, { name: "Twitter", link: "https://twitter.com" }],
+    links: [{ key: "Facebook", value: "https://facebook.com" }, { key: "GitHub", value: "https://github.com" }, { key: "Twitter", value: "https://twitter.com" }],
     post_ids: [0, 1],
     visibility: true,
 }
@@ -46,9 +46,9 @@ const users: UserAccountData[] = [
         biography: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. In ea deserunt sed quia rerum blanditiis corrupti cumque illum quam libero ullam maiores est voluptates animi, sequi perspiciatis velit? Exercitationem, illum.',
         project_ids: [0],
         links: [
-            { name: "Facebook", link: "facebook.com" },
-            { name: "Twitter", link: "twitter.com" },
-            { name: "Github", link: "gitchub.com" },
+            { key: "Facebook", value: "facebook.com" },
+            { key: "Twitter", value: "twitter.com" },
+            { key: "Github", value: "gitchub.com" },
         ],
         email: 'Alice@email.com',
         skills: ["php", "angular", "ts", "catia v5"]

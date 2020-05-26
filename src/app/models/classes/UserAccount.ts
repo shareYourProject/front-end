@@ -23,7 +23,7 @@ export class UserAccount extends EditalbeApiObject<IUserAccount, UserAccountData
         this._lastname = data.lastname;
         this._skills = data.skills ? [...data.skills] : [];
         this._biography = data.biography;
-        this._links = new Map(data.links ? data.links.map(l => [l.name, l.link]) : []);
+        this._links = new Map(data.links ? data.links.map(l => [l.key, l.value]) : []);
         this._projectIds = data.project_ids ? [...data.project_ids] : [];
     }
 
@@ -50,7 +50,7 @@ export class UserAccount extends EditalbeApiObject<IUserAccount, UserAccountData
             lastname: this._lastname,
             skills: this._skills,
             biography: this._biography,
-            links: Array.from(this._links.entries()).map(l => { return { name: l[0], link: l[1] } }),
+            links: Array.from(this._links.entries()).map(l => { return { key: l[0], value: l[1] } }),
         }
     }
 

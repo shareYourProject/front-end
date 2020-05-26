@@ -36,7 +36,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
         this._memberIds = data.member_ids ? [...data.member_ids] : undefined;
         this._name = data.name;
         this._description = data.description;
-        this._links = new Map(data.links ? data.links.map(l => [l.name, l.link]) : []);
+        this._links = new Map(data.links ? data.links.map(l => [l.key, l.value]) : []);
         this._visibility = data.visibility;
     }
 
@@ -45,7 +45,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
             id: this.id,
             name: this._name,
             description: this._description,
-            links: Array.from(this._links.entries()).map(l => { return { name: l[0], link: l[1] } }),
+            links: Array.from(this._links.entries()).map(l => { return {key: l[0], value: l[1] } }),
             visibility: this._visibility
         };
     }
