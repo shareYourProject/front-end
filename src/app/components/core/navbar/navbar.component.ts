@@ -28,14 +28,12 @@ export class NavbarComponent implements OnInit {
 
   private readonly offlineNav: NavPath[] = [
     { type: 'link', name: 'Home', path: '/', right: false },
-    { type: 'link', name: 'All Projects', path: '/', right: false },
     { type: 'link', name: 'Login', path: '/login', right: true },
     { type: 'link', name: 'Register', path: '/register', right: true },
   ];
 
   private readonly onlineNav: NavPath[] = [
     { type: 'link', name: 'Home', path: '/', right: false },
-    { type: 'link', name: 'All Projects', path: '/', right: false },
     { type: 'link', name: 'Me', path: '/me', right: false },
     { type: 'button', name: 'Logout', onClick: () => this.logout(), buttonType: 'danger', right: true },
   ];
@@ -72,6 +70,7 @@ export class NavbarComponent implements OnInit {
 
   async logout() {
     await this.api.logout();
+    this.router.navigateByUrl('/');
   }
 
   onSearchSubmit() {
