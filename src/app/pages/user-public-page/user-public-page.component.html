@@ -41,7 +41,8 @@
                 <div class="card-body">
                     <h5 class="card-title">Skills</h5>
                     <p class="card-text">
-                        <span *ngFor="let skill of user.skills" class="badge badge-secondary mr-2">{{skill}}</span>
+                        <app-skills-list [user]="user"></app-skills-list>
+                        <!--<span *ngFor="let skill of user.skills" class="badge badge-secondary mr-2">{{skill}}</span>-->
                     </p>
                 </div>
             </div>

@@ -29,6 +29,7 @@ import { PostPageComponent } from './pages/post-page/post-page.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { LinksListComponent } from './components/links-list/links-list.component';
 import { SearchComponent } from './pages/search/search.component';
+import { SkillsListComponent } from './components/skills-list/skills-list.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { SearchComponent } from './pages/search/search.component';
     PostPageComponent,
     UserListComponent,
     LinksListComponent,
-    SearchComponent
+    SearchComponent,
+    SkillsListComponent
   ],
   imports: [
     BrowserModule,
