@@ -10,6 +10,7 @@ import { ApiObject } from './ApiObject';
 import { DeepReadonly } from '../utils/DeepReadonly';
 import { IProject } from '../objectInterfaces/IProject';
 import { EditalbeApiObject } from './EditableApiObject';
+import { NotLoggedError } from '../errors/NotLoggedError';
 
 export class Project extends EditalbeApiObject<IProject, ProjectData> implements DeepReadonly<IProject> {
 
@@ -112,5 +113,31 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
         const userID = resolveUserAccount(user);
         await this.api.put(this.endpoint + `/permissions/${userID}`, permissions);
         return await this._permissions.get(userID);
+    }
+
+    async follow() {
+        if (this.deleted) throw new DeletedDataError();
+        if (!this.api.user) throw new NotLoggedError();
+        try {
+            await this.api.put(this.endpoint + '/follow', {});
+        } catch(e) {
+            console.error('project follow', e);
+            return false;
+        }
+        await this.fetch();
+        return true;
+    }
+
+    async unfollow() {
+        if (this.deleted) throw new DeletedDataError();
+        if (!this.api.user) throw new NotLoggedError();
+        try {
+        await this.api.put(this.endpoint + '/unfollow', {});
+        } catch(e) {
+            console.error('project unfollow', e);
+            return false;
+        }
+        await this.fetch();
+        return true;
     }
 }
