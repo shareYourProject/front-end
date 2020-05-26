@@ -10,16 +10,15 @@
         <div class="col-md-6">
             <h2>Your projects</h2>
             <div *ngIf="(projects$ | async) as projects; else loading">
-                <!--
-                    mettre les lignes suivantes dans une boucle ngFor
-                -->
                 <div *ngFor="let project of projects">
-                    <a href="#">
+                    <a [routerLink]="'/project/' + project.id">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
                                     <img src="#">
                                     <h4 class="card-title">{{project.name}}</h4><br/>
+                                </div>
+                                <div class="row">
                                     <p class="card-text">
                                         {{project.description}}
                                     </p>
@@ -28,9 +27,6 @@
                         </div>
                     </a>
                 </div>
-                <!--
-                    fin
-                -->
             </div>
         </div>
         <div class="col-md-6">
@@ -45,6 +41,8 @@
                             <div class="row">
                                 <img src="#">
                                 <h4 class="card-title">Project #0</h4>
+                            </div>
+                            <div class="row">
                                 <p class="card-text">
                                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus iusto illum odit, nobis pariatur sed repellat architecto, sapiente, quia numquam suscipit praesentium. Quisquam, doloremque quibusdam porro atque perferendis libero repudiandae?
                                 </p>
@@ -58,6 +56,8 @@
             </div>
         </div>
     </div>
+    <br/>
+    <div class="row border-top"></div>
     <br/>
     <div class="row">
         <div class="col">
