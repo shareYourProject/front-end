@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from 'src/app/services/api.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ApiClient } from 'src/app/services/api-client.service';
 
 type NavPath = {
   name: string;
@@ -46,14 +46,14 @@ export class NavbarComponent implements OnInit {
   searchFocused = false;
 
   constructor(
-    private readonly api: ApiService,
+    private readonly api: ApiClient,
     private readonly router: Router,
     formBuilder: FormBuilder
   ) {
     this.searchForm = formBuilder.group({
       query: ''
     });
-    this.api.logChanged.subscribe(logged => {
+    this.api.onLoggedChanged.subscribe(logged => {
       this.setNavs(Promise.resolve(logged));
     })
   }

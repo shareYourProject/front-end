@@ -11,7 +11,7 @@ export abstract class EditalbeApiObject<IData, Data extends ApiData> extends Api
         if (this.deleted) throw new DeletedDataError();
 
         try {
-            await this.api.put(this.endpoint, ApiUtils.toRawData(data));
+            await this.apiClient.put(this.endpoint, ApiUtils.toRawData(data));
             await this.fetch();
         } catch (e) {
             return false;

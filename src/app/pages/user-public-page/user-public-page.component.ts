@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { UserAccount } from 'src/app/models/classes/UserAccount';
-import { ApiService } from 'src/app/services/api.service';
+import { ActivatedRoute } from '@angular/router';
+import { User } from 'src/app/models/classes/User';
 import { Project } from 'src/app/models/classes/Project';
+import { ProjectService } from 'src/app/services/project.service';
 
 @Component({
   selector: 'app-user-public-page',
@@ -11,25 +11,21 @@ import { Project } from 'src/app/models/classes/Project';
 })
 export class UserPublicPageComponent implements OnInit {
 
-  user$: Promise<UserAccount>;
+  user: User;
   projects$: Promise<Project[]>;
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly api: ApiService,
-    router: Router,
-  ) {
-    router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.ngOnInit();
-      }
-    });
-  }
+    private readonly projects: ProjectService
+  ) { }
 
   ngOnInit(): void {
-    const userID = this.route.snapshot.params['id'];
-    this.user$ = this.api.collections.users.get(userID);
-    this.projects$ = this.user$.then(u => u.getProjects());
+    this.route.data.subscribe(
+      (data: { user: User }) => {
+        this.user = data.user;
+        this.projects$ = this.projects.getMany(this.user.projectIds);
+      }
+    )
   }
 
 }

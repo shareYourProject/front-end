@@ -21,6 +21,10 @@ import { UserSettingsComponent } from './pages/user/user-settings/user-settings.
 import { ProjectSettingsComponent } from './pages/project/project-settings/project-settings.component';
 import { PostPageComponent } from './pages/post-page/post-page.component';
 import { SearchComponent } from './pages/search/search.component';
+import { LoggedUserResolverService } from './resolvers/logged-user-resolver.service';
+import { ProjectResolverService } from './resolvers/project-resolver.service';
+import { PostResolverService } from './resolvers/post-resolver.service';
+import { UserResolverService } from './resolvers/user-resolver.service';
 
 
 const routes: Routes = [
@@ -29,21 +33,22 @@ const routes: Routes = [
   { path: 'search/:query', component: SearchComponent },
   { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthGuard] },
+  { path: 'post/:post_id', component: PostPageComponent, resolve: { post: PostResolverService, me: LoggedUserResolverService } },
   {
-    path: 'me', component: UserMainComponent, canActivateChild: [AuthGuard],
+    path: 'me', component: UserMainComponent, canActivateChild: [AuthGuard], resolve: { user: LoggedUserResolverService },
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: UserDashboardComponent },
       { path: 'settings', component: UserSettingsComponent }
     ]
   },
-  { path: 'user/:id', component: UserPublicPageComponent },
-  { path: 'project/:id', component: ProjectPublicComponent },
+  { path: 'user/:user_id', component: UserPublicPageComponent, resolve: { user: UserResolverService } },
+  { path: 'project/:project_id', component: ProjectPublicComponent, resolve: { project: ProjectResolverService } },
   {
-    path: 'project/:id', component: ProjectMainComponent, children: [
+    path: 'project/:project_id', component: ProjectMainComponent, resolve: { project: ProjectResolverService },
+    children: [
       { path: 'dashboard', component: ProjectDashboardComponent },
       { path: 'settings', component: ProjectSettingsComponent },
-      { path: 'post/:postId', component: PostPageComponent }
     ]
   },
   { path: '**', redirectTo: '' } // keep it at last position !

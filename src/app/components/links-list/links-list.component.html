@@ -1,8 +1,3 @@
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">Links</h5>
-        <ul class="list-group list-group-flush">
-            <a [href]="link.value" class="list-group-item list-group-item-action" *ngFor="let link of links | keyvalue">{{link.key}}</a>
-        </ul>
-    </div>
+<div class="list-group list-group-flush">
+    <a [href]="l.value" class="list-group-item list-group-item-action" *ngFor="let l of links | keyvalue">{{l.key}}</a>
 </div>

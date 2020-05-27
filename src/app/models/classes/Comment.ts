@@ -1,18 +1,18 @@
-import { ApiService } from 'src/app/services/api.service';
 import { CommentData } from '../api/PostBaseData';
 import { PostBaseObject } from './PostBase';
-import { UserAccount } from './UserAccount';
+import { User } from './User';
 import { Post } from './Post';
+import { ApiClient } from 'src/app/services/api-client.service';
 
 export class Comment extends PostBaseObject<CommentData> {
 
     constructor(
-        api: ApiService,
+        apiClient: ApiClient,
         data: CommentData,
-        author: UserAccount,
+        author: User,
         public readonly post: Post,
     ) {
-        super(api, data, author);
+        super(apiClient, data, author);
     }
 
     get endpoint() { return this.post.endpoint + `/comments/${this.id}`; }

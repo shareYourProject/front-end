@@ -1,28 +1,21 @@
-import { ApiService } from 'src/app/services/api.service';
 import { PostData } from '../api/PostBaseData';
 import { PostBaseObject } from './PostBase';
-import { UserAccount } from './UserAccount';
+import { User } from './User';
 import { Project } from './Project';
-import { CommentCollection } from '../collections/CommentCollection';
-import { DeletedDataError } from '../errors/DeletedDataError';
+import { ApiClient } from 'src/app/services/api-client.service';
 
 export class Post extends PostBaseObject<PostData> {
 
-    public readonly comments: CommentCollection;
-
     constructor(
-        api: ApiService,
+        apiClient: ApiClient,
         data: PostData,
-        author: UserAccount,
+        author: User,
         public readonly project: Project,
     ) {
-        super(api, data, author);
-        this.comments = new CommentCollection(api, this);
+        super(apiClient, data, author);
     }
 
-    get endpoint() { return this.project.endpoint + `/post/${this.id}`; }
-
-    get directEndpoint() { return `/post/${this.id}` };
+    get endpoint() { return `/post/${this.id}`; }
 
     protected getData(): PostData {
         return {
@@ -32,11 +25,5 @@ export class Post extends PostBaseObject<PostData> {
             likes: [...this._likes],
             project_id: this.project.id,
         }
-    }
-
-    /** @deprecated use Post.comments.create instead. */
-    async createComment(content: string) {
-        if (this.deleted) throw new DeletedDataError();
-        return await this.comments.create(content);
     }
 }

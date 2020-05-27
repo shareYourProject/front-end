@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Project } from 'src/app/models/classes/Project';
 
 @Component({
   selector: 'app-project-settings',
@@ -8,12 +9,16 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProjectSettingsComponent implements OnInit {
 
-  public projectID: number;
+  project: Project;
 
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.projectID = parseInt(this.route.parent?.snapshot?.params?.id);
+    this.route.parent?.data.subscribe(
+      (data: { project: Project }) => {
+        this.project = data.project;
+      }
+    )
   }
 
 }

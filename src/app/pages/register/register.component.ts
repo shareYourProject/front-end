@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from 'src/app/services/api.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ApiClient } from 'src/app/services/api-client.service';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
   busy = false;
 
   constructor(
-    private readonly api: ApiService,
+    private readonly apiClient: ApiClient,
     private readonly formBuilder: FormBuilder,
     private readonly router: Router,
   ) {
@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
   async onSubmit() {
     if (this.form.valid) {
       this.busy = true;
-      if (await this.api.register(
+      if (await this.apiClient.register(
         this.form.value.firstname,
         this.form.value.lastname,
         this.form.value.username,

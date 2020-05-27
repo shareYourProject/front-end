@@ -1,7 +1,7 @@
-import { UserAccountData } from './UserAccountData';
+import { UserData } from './UserData';
 
 export interface UserSessionData {
-    account: UserAccountData,
+    account: UserData,
     access_token: string,
     creation_date: number,
 }

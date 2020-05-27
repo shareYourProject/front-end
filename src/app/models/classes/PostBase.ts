@@ -1,14 +1,12 @@
-import { ApiService } from 'src/app/services/api.service';
 import { PostBaseData } from '../api/PostBaseData';
-import { UserAccount } from './UserAccount';
-import { NotLoggedError } from '../errors/NotLoggedError';
+import { User } from './User';
 import { DeletedDataError } from '../errors/DeletedDataError';
 import { ApiObject } from './ApiObject';
+import { ApiClient } from 'src/app/services/api-client.service';
 
 export interface PostBase {
-    readonly liked: boolean;
+    readonly likerIds: readonly number[];
     readonly content: string;
-    getLikers(): Promise<UserAccount[]>;
     edit(content: string): Promise<this>;
     like(): Promise<this>;
     unlike(): Promise<this>;
@@ -20,11 +18,11 @@ export abstract class PostBaseObject<Data extends PostBaseData> extends ApiObjec
     protected _likes: number[];
 
     constructor(
-        api: ApiService,
+        apiClient: ApiClient,
         data: Data,
-        public readonly author: UserAccount,
+        public readonly author: User,
     ) {
-        super(api, data);
+        super(apiClient, data);
     }
 
     protected setData(data: Data) {
@@ -32,37 +30,25 @@ export abstract class PostBaseObject<Data extends PostBaseData> extends ApiObjec
         this._likes = data.likes;
     }
 
-    protected abstract get directEndpoint(): string;
+    get likerIds() { return this._likes as readonly number[]; }
 
     get content() { return this._content; }
 
-    get liked() {
-        const userId = this.api.user?.id;
-        return userId ? this._likes.includes(userId) : false;
-    }
-
-    async getLikers() {
-        await this.fetch();
-        return await Promise.all(this._likes.map(id => this.api.collections.users.get(id)));
-    }
-
     async edit(content: string) {
         if (this.deleted) throw new DeletedDataError();
-        await this.api.put(this.directEndpoint, { content });
+        await this.apiClient.put(this.endpoint, { content });
         return this.fetch();
     }
 
     async like() {
         if (this.deleted) throw new DeletedDataError();
-        if (!this.api.user) throw new NotLoggedError();
-        await this.api.put(this.directEndpoint + '/like', { userId: this.api.user.id });
+        await this.apiClient.put(this.endpoint + '/like', {});
         return await this.fetch();
     }
 
     async unlike() {
         if (this.deleted) throw new DeletedDataError();
-        if (!this.api.user) throw new NotLoggedError();
-        await this.api.put(this.directEndpoint + '/unlike', { userId: this.api.user.id });
+        await this.apiClient.put(this.endpoint + '/unlike', {});
         return await this.fetch();
     }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { User } from 'src/app/models/classes/User';
 
 @Component({
   selector: 'app-user-settings',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserSettingsComponent implements OnInit {
 
-  constructor() { }
+  user: User;
+
+  constructor(private readonly route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.parent?.data.subscribe(
+      (data: { user: User }) => {
+        this.user = data.user;
+      }
+    );
   }
 
 }
