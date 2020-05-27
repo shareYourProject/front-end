@@ -15,16 +15,14 @@ export class Comment extends PostBaseObject<CommentData> {
         super(apiClient, data, author);
     }
 
-    get endpoint() { return this.post.endpoint + `/comments/${this.id}`; }
-
-    get directEndpoint() { return `/comment/${this.id}` };
+    get endpoint() { return `/comment/${this.id}` }
 
     protected getData(): CommentData {
         return {
             id: this.id,
             author_id: this.author.id,
             content: this.content,
-            likes: [...this._likes],
+            user_ids: [...this._likes],
             post_id: this.post.id
         }
     }

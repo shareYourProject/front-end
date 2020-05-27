@@ -7,7 +7,7 @@ import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import { UserData } from '../models/api/UserData';
 import { ProjectData } from '../models/api/ProjectData';
 import { PostData, CommentData } from '../models/api/PostBaseData';
-import { PagedData } from '../models/api/pagedData';
+import { PagedData } from '../models/api/PagedData';
 import { SearchResult } from '../models/api/SearchResult';
 
 const TOKEN = 'a0a0a0aa0a0a0a0a0a0';
@@ -74,14 +74,14 @@ const post0: PostData = {
     author_id: 0,
     project_id: 0,
     content: "Hello world folks !",
-    likes: [1, 2],
+    user_ids: [1, 2],
 }
 
 const post1: PostData = {
     id: 1,
     author_id: 2,
     project_id: 0,
-    likes: [0, 2],
+    user_ids: [0, 2],
     content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur enim purus, viverra eu libero ut, tempus pellentesque ipsum. Nulla ullamcorper gravida augue, in ultrices odio posuere eget. Fusce vestibulum varius mi, et auctor nulla interdum et. Duis sed ante non urna sollicitudin finibus at ut felis. Suspendisse vel scelerisque orci, non consectetur neque. Donec pharetra ullamcorper ipsum ac dapibus. Sed hendrerit vel sem ut ultricies. Mauris maximus laoreet orci in vestibulum. "
 }
 
@@ -161,14 +161,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                         post_id: 1,
                         author_id: 0,
                         content: `I'm comment #${i * per_page}`,
-                        likes: []
+                        user_ids: []
                     },
                     {
                         id: i * per_page + 1,
                         post_id: 1,
                         author_id: 0,
                         content: `I'm comment #${i * per_page + 1}`,
-                        likes: []
+                        user_ids: []
                     },
                 ]
             }

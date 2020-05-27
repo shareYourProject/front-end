@@ -9,6 +9,8 @@ import { PostService } from 'src/app/services/post.service';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/classes/User';
 import { UserService } from 'src/app/services/user.service';
+import { PagedResponse } from 'src/app/models/PagedResponse';
+import { CommentService } from 'src/app/services/comment.service';
 
 @Component({
   selector: 'app-post-page',
@@ -21,6 +23,8 @@ export class PostPageComponent implements OnInit, OnDestroy {
   post: Post;
   comments: Comment[];
 
+  private _commentsLoader: PagedResponse<Comment>;
+
   newCommentContent: string = "";
   notFound = false;
 
@@ -31,11 +35,8 @@ export class PostPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly users: UserService,
-    private readonly apiClient: ApiClient,
-    private readonly posts: PostService,
+    private readonly commentService: CommentService,
     formBuilder: FormBuilder,
-    private readonly router: Router,
   ) {
     this.commentForm = formBuilder.group({
       content: ['', Validators.required],
@@ -47,6 +48,8 @@ export class PostPageComponent implements OnInit, OnDestroy {
       (data: { post: Post, me: User | null }) => {
         this.me = data.me;
         this.post = data.post;
+        this._commentsLoader = this.commentService.getPostComments(this.post.id);
+        this.comments = [];
       }
     );
   }
@@ -59,8 +62,8 @@ export class PostPageComponent implements OnInit, OnDestroy {
     return this.me && post.likerIds.includes(this.me.id);
   }
 
-  loadMore() {
-    throw new Error('Not implemented.');
+  async loadMore() {
+    this.comments.push(...await this._commentsLoader.next());
   }
 
   onCommentFormSubmit() {

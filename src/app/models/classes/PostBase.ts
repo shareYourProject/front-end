@@ -27,7 +27,7 @@ export abstract class PostBaseObject<Data extends PostBaseData> extends ApiObjec
 
     protected setData(data: Data) {
         this._content = data.content;
-        this._likes = data.likes;
+        this._likes = data.user_ids ? [...data.user_ids] : [];
     }
 
     get likerIds() { return this._likes as readonly number[]; }

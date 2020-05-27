@@ -7,6 +7,8 @@ import { UserService } from './user.service';
 import { ApiClient } from './api-client.service';
 import { Post } from '../models/classes/Post';
 import { DeletedDataError } from '../models/errors/DeletedDataError';
+import { PagedData } from '../models/api/PagedData';
+import { PagedResponse } from '../models/PagedResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +25,12 @@ export class CommentService extends CacheServiceBase<Comment> {
 
   protected async buildObject(key: number) {
     const data = await this.apiClient.get<CommentData>(`/comment/${key}`);
+
+    return this.buildComment(data);
+  }
+
+  private async buildComment(data: CommentData) {
+    console.log(data);
     const author = await this.users.get(data.author_id);
     const post = await this.posts.get(data.post_id);
     return new Comment(this.apiClient, data, author, post);
@@ -37,4 +45,14 @@ export class CommentService extends CacheServiceBase<Comment> {
     return comment;
   }
 
+  getPostComments(postId: number): PagedResponse<Comment> {
+    let nextUrl = `/post/${postId}/comments`;
+    return {
+      next: async () => {
+        const response = await this.apiClient.get<PagedData<CommentData>>(nextUrl);
+        nextUrl = response.next_page_url;
+        return await Promise.all(response.data.map(d => this.buildComment(d)));
+      }
+    };
+  }
 }

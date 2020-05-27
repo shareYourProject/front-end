@@ -2,7 +2,7 @@ import { ApiData } from './ApiData';
 
 export interface PostBaseData extends ApiData {
     content: string;
-    likes: number[];
+    user_ids: number[];
     author_id: number;
 }
 

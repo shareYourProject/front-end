@@ -22,7 +22,7 @@ export class Post extends PostBaseObject<PostData> {
             id: this.id,
             author_id: this.author.id,
             content: this.content,
-            likes: [...this._likes],
+            user_ids: [...this._likes],
             project_id: this.project.id,
         }
     }
