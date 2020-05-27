@@ -1,1 +1,15 @@
-<p>settings of project #{{project.id}}</p>
+<div class="container">
+
+    <div class="alert alert-danger" *ngIf="result === 'error'">
+        <p>Error !</p>
+    </div>
+    <div class="alert alert-success" *ngIf="result === 'success'">
+        <p>Success !</p>
+    </div>
+    <p>Status: {{result}}</p>
+    <p>name: {{project.name}}</p>
+    <form (submit)="submit()">
+        <input type="text" [(ngModel)]="data.name" name="name">
+        <button class="btn btn-success" type="submit">Submit</button>
+    </form>
+</div>
