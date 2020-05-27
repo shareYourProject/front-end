@@ -13,9 +13,10 @@ export abstract class EditalbeApiObject<IData, Data extends ApiData> extends Api
         try {
             await this.apiClient.put(this.endpoint, ApiUtils.toRawData(data));
             await this.fetch();
+            return true;
         } catch (e) {
+            console.error('fail update', e);
             return false;
         }
-        return true;
     }
 }
