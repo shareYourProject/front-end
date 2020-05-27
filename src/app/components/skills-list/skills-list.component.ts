@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UserAccount } from 'src/app/models/classes/UserAccount';
+import { User } from 'src/app/models/classes/User';
 
 @Component({
   selector: 'app-skills-list',
@@ -8,7 +8,7 @@ import { UserAccount } from 'src/app/models/classes/UserAccount';
 })
 export class SkillsListComponent implements OnInit {
 
-  @Input() user: UserAccount;
+  @Input() user: User;
 
   constructor() { }
 

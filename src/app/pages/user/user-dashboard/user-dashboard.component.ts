@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/app/models/classes/User';
 import { ActivatedRoute } from '@angular/router';
-import { UserAccount } from 'src/app/models/classes/UserAccount';
-import { ApiService } from 'src/app/services/api.service';
-import { Project } from 'src/app/models/classes/Project';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -11,21 +9,18 @@ import { Project } from 'src/app/models/classes/Project';
 })
 export class UserDashboardComponent implements OnInit {
 
-  user: UserAccount;
-  projects$: Promise<Project[]>;
+  user: User;
 
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly api: ApiService,
-  ) {
+  constructor(private readonly route: ActivatedRoute) {
 
   }
 
-  async ngOnInit() {
-    if (!this.api.user) throw new Error("Not Logged !");
-    this.user = this.api.user;
-    this.projects$ = this.user.getProjects();
-    console.log(this.user);
+  ngOnInit() {
+    this.route.parent?.data.subscribe(
+      (data: { user: User }) => {
+        this.user = data.user;
+      }
+    );
   }
 
 }

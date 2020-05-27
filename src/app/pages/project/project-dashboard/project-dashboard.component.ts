@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Project } from 'src/app/models/classes/Project';
-import { ApiService } from 'src/app/services/api.service';
-import { UserAccount } from 'src/app/models/classes/UserAccount';
+import { User } from 'src/app/models/classes/User';
 import { Post } from 'src/app/models/classes/Post';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
+import { PostService } from 'src/app/services/post.service';
 
 @Component({
   selector: 'app-project-dashboard',
@@ -16,38 +17,38 @@ export class ProjectDashboardComponent implements OnInit {
   postForm: FormGroup;
   postError = false;
 
-  project$: Promise<Project>;
-  members$: Promise<UserAccount[]>;
+  project: Project;
+  members$: Promise<User[]>;
   posts$: Promise<Post[]>;
 
   private _project?: Project;
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly api: ApiService,
-    private readonly formBuilder: FormBuilder,
     private readonly router: Router,
+    private readonly users: UserService,
+    private readonly posts: PostService,
+    formBuilder: FormBuilder,
   ) {
-    router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.ngOnInit();
-      }
-    });
     this.postForm = formBuilder.group({
       postContent: ['', Validators.required]
     })
   }
 
   ngOnInit(): void {
-    const projectID = parseInt(this.route.parent?.snapshot?.params?.id);
-    this.project$ = this.api.projects.get(projectID);
-    this.project$.then(p => this._project = p);
-    this.members$ = this.project$.then(p => p.getMembers());
+    this.route.data.subscribe(
+      (data: { project: Project }) => {
+        this.project = data.project;
+        this.members$ = this.users.getMany(this.project.memberIds);
+        this.posts$ = this.posts.getMany(this.project.postIds);
+      }
+    );
   }
 
   async onSubmitPost() {
     if (this._project && this.postForm.valid) {
-      const post = await this._project.posts.create(this.postForm.value.postContent).catch(() => { });
+
+      const post = await this.posts.create(this.project, this.postForm.value.postContent).catch(() => { });
       if (post)
         this.router.navigateByUrl(`/project/${this._project.id}/post/${post.id}`);
       else

@@ -1,11 +1,10 @@
-import { UserAccount } from './UserAccount';
+import { User } from './User';
 import { Project } from './Project';
 import { PermissionsData } from '../api/PermissionsData';
-import { Collectionable } from '../collections/CollectionBase';
-import { ApiService } from 'src/app/services/api.service';
+import { ApiClient } from 'src/app/services/api-client.service';
 
 
-export class Permissions implements Collectionable {
+export class Permissions {
 
     private _deleteFile: boolean;
     private _depositFile: boolean;
@@ -16,9 +15,9 @@ export class Permissions implements Collectionable {
     private _accessibleFiles: Object;
 
     constructor(
-        public readonly api: ApiService,
+        public readonly api: ApiClient,
         public readonly project: Project,
-        public readonly user: UserAccount,
+        public readonly user: User,
         data: PermissionsData,
     ) {
         this.setData(data);

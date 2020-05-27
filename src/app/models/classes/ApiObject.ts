@@ -1,16 +1,15 @@
-import { ApiService } from 'src/app/services/api.service';
 import { DeletedDataError } from '../errors/DeletedDataError';
 import { NotFoundApiError } from '../errors/NotFoundApiError';
-import { Collectionable } from '../collections/CollectionBase';
 import { ApiData } from '../api/ApiData';
+import { ApiClient } from 'src/app/services/api-client.service';
 
-export abstract class ApiObject<Data extends ApiData> implements Collectionable {
+export abstract class ApiObject<Data extends ApiData> {
 
     public readonly id: number;
     private _deleted = false;
 
     constructor(
-        protected readonly api: ApiService,
+        protected readonly apiClient: ApiClient,
         data: Data,
     ) {
         this.id = data.id;
@@ -29,7 +28,7 @@ export abstract class ApiObject<Data extends ApiData> implements Collectionable 
         if (this.deleted) throw new DeletedDataError();
 
         try {
-            const data = await this.api.get<Data>(this.endpoint);
+            const data = await this.apiClient.get<Data>(this.endpoint);
             if (!data)
                 throw new Error('Fetching fail.');
             this.setData(data);
@@ -45,7 +44,7 @@ export abstract class ApiObject<Data extends ApiData> implements Collectionable 
 
     async delete() {
         if (this.deleted) throw new DeletedDataError();
-        await this.api.delete(this.endpoint);
+        await this.apiClient.delete(this.endpoint);
         this._deleted = true;
     }
 

@@ -1,9 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ApiService } from 'src/app/services/api.service';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { ApiClient } from 'src/app/services/api-client.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +18,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   busy = false;
 
   constructor(
-    private api: ApiService,
+    private apiClient: ApiClient,
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute
@@ -41,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.form.valid) {
       console.log("Login", this.form.value);
       this.busy = true;
-      this.api.login(this.form.value.username, this.form.value.password)
+      this.apiClient.login(this.form.value.username, this.form.value.password)
         .then(logged => {
           console.log("logged ?", logged);
           if (logged)

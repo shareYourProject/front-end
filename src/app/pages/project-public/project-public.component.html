@@ -1,14 +1,14 @@
-<div *ngIf="(project$ | async) as project; else loading">
-    <div class="container">
-        <!--
-            *ngIf="project.visbility==true; else private"
-        -->
-        <div class="row justify-content-center">
-            <div class="col">
-                <h1>
-                    {{project.name}}
-                </h1>
-            </div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col">
+            <h1>
+                {{project.name}}
+            </h1>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col">
+            <br />
         </div>
         <div class="row justify-content-center">
             <div class="col">
@@ -55,18 +55,16 @@
                             <p>a test</p>
                         </div>
                         <div *ngIf="project.posts!=[]; else no_post">
-                            
+
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <h2 class="card-title">Links</h2>
-                    <div class="list-group list-group-flush">
-                        <a [href]="l.value" class="list-group-item list-group-item-action" *ngFor="let l of project.links | keyvalue">{{l.key}}</a>
-                    </div>
-                </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <h2 class="card-title">Links</h2>
+                <app-links-list [links]="project.links"></app-links-list>
             </div>
         </div>
     </div>

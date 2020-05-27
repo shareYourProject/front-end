@@ -4,7 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
 
-import { UserAccountData } from '../models/api/UserAccountData';
+import { UserData } from '../models/api/UserData';
 import { ProjectData } from '../models/api/ProjectData';
 import { PostData, CommentData } from '../models/api/PostBaseData';
 import { PagedData } from '../models/api/pagedData';
@@ -37,7 +37,7 @@ const PROJECT: ProjectData = {
     visibility: true,
 }
 
-const users: UserAccountData[] = [
+const users: UserData[] = [
     {
         id: 0,
         username: 'AliceDu29',

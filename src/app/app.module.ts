@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, isDevMode } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -16,13 +16,11 @@ import { ProjectMainComponent } from './pages/project/project-main/project-main.
 import { LoginComponent } from './pages/login/login.component';
 
 // simulate a back end
-import { fakeBackendProvider } from './dev/fakeBackEnd';
 import { RegisterComponent } from './pages/register/register.component';
 import { NavbarComponent } from './components/core/navbar/navbar.component';
 import { WatchDogComponent } from './dev/watch-dog/watch-dog.component';
 import { ProjectPublicComponent } from './pages/project-public/project-public.component';
 import { UserSettingsComponent } from './pages/user/user-settings/user-settings.component';
-import { DebugNavComponent } from './components/debug-nav/debug-nav.component';
 import { ProjectSettingsComponent } from './pages/project/project-settings/project-settings.component';
 import { ViewObjectTableComponent } from './components/view-object-table/view-object-table.component';
 import { PostPageComponent } from './pages/post-page/post-page.component';
@@ -48,7 +46,6 @@ import { UserCardComponent } from './components/user-card/user-card.component';
     WatchDogComponent,
     ProjectPublicComponent,
     UserSettingsComponent,
-    DebugNavComponent,
     ProjectSettingsComponent,
     ViewObjectTableComponent,
     PostPageComponent,

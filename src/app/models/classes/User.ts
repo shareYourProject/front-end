@@ -1,11 +1,10 @@
-import { UserAccountData } from '../api/UserAccountData';
-import { LinkData } from '../api/LinkData';
-import { ApiService } from 'src/app/services/api.service';
+import { UserData } from '../api/UserData';
 import { EditalbeApiObject } from './EditableApiObject';
 import { IUserAccount } from '../objectInterfaces/IUserAccount';
 import { DeepReadonly } from '../utils/DeepReadonly';
+import { ApiClient } from 'src/app/services/api-client.service';
 
-export class UserAccount extends EditalbeApiObject<IUserAccount, UserAccountData> implements DeepReadonly<IUserAccount> {
+export class User extends EditalbeApiObject<IUserAccount, UserData> implements DeepReadonly<IUserAccount> {
 
     private _username: string;
     private _email?: string;
@@ -16,7 +15,7 @@ export class UserAccount extends EditalbeApiObject<IUserAccount, UserAccountData
     private _links = new Map<string, string>();
     private _projectIds: number[];
 
-    protected setData(data: UserAccountData) {
+    protected setData(data: UserData) {
         this._username = data.username;
         this._email = data.email;
         this._firstname = data.firstname;
@@ -92,10 +91,8 @@ export class UserAccount extends EditalbeApiObject<IUserAccount, UserAccountData
 
     get links() { return this._links as ReadonlyMap<string, string>; }
 
-    get profilePictureUrl() { return `${ApiService.API_ROOT}/user/${this.id}/profilePicture/`; }
+    get profilePictureUrl() { return `${ApiClient.API_ROOT}/user/${this.id}/profilePicture/`; }
 
-    async getProjects() {
-        await this.fetch();
-        return await Promise.all(this._projectIds.map(id => this.api.projects.get(id)));
-    }
+    get projectIds() { return this._projectIds as readonly number[]; }
+
 }

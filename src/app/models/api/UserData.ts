@@ -1,7 +1,7 @@
 import { ApiData } from './ApiData';
 import { LinkData } from './LinkData';
 
-export interface UserAccountData extends ApiData {
+export interface UserData extends ApiData {
     username: string;
     email?: string;
     firstname?: string;
