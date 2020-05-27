@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light">
+<!-- <nav class="navbar navbar-expand-md navbar-light bg-light">
     <a routerLink="" class="navbar-brand">SHARE YOUR PROJECT</a>
 
     <div class="collapse navbar-collapse  w-100 order-1 order-md-0 dual-collapse2">
@@ -23,4 +23,27 @@
             </li>
         </ul>
     </div>
+</nav> -->
+<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+  <div class="container">
+    <a routerLink="" class="navbar-brand">Share Your Project</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item" *ngFor="let route of leftNavs$ | async">
+                <a *ngIf="route.type === 'link'" class="nav-link" [routerLink]="route.path">{{route.name}}</a>
+                <button *ngIf="route.type === 'button'" (click)="route.onClick()" (class)="'btn btn-' + route.buttonType">{{route.name}}</button>
+            </li>
+            <form [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()" role="search" class="navbar-form navbar-left" >
+                <input id="search-input" [ngClass]="{'w-300': searchFocused}" class="form-control" type="text" placeholder="Search" formControlName="query" (focus)="searchFocused=true" (blur)="searchFocused=false">
+            </form>
+          </ul>
+
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item" *ngFor="let route of rightNavs$ | async">
+                <a *ngIf="route.type === 'link'" class="nav-link" [routerLink]="route.path">{{route.name}}</a>
+                <button *ngIf="route.type === 'button'" (click)="route.onClick()" [class]="'btn btn-' + route.buttonType">{{route.name}}</button>
+            </li>
+          </ul>
+      </div>
+  </div>
 </nav>
