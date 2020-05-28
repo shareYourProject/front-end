@@ -9,6 +9,7 @@ import { LinkData } from '../api/LinkData';
 
 export class Project extends EditalbeApiObject<IProject, ProjectData> implements DeepReadonly<IProject> {
 
+    private _owner_id: number;
     private _memberIds: number[];
     private _name?: string;
     private _description?: string;
@@ -18,13 +19,14 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
 
     constructor(
         apiClient: ApiClient,
-        data: ProjectData,
+        data: ProjectData
     ) {
         super(apiClient, data);
     }
 
     protected setData(data: ProjectData) {
-        this._memberIds = data.member_ids ? [...data.member_ids] : [];
+        this._owner_id = data.owner_id;
+        this._memberIds = data.member_ids ? [...data.member_ids, data.owner_id] : [data.owner_id];
         this._name = data.name;
         this._description = data.description;
         this._links = data.links ? [...data.links] : [];
@@ -35,6 +37,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
     protected getData() {
         return {
             id: this.id,
+            owner_id: this._owner_id,
             name: this._name,
             description: this._description,
             links: [...this._links],

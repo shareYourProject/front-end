@@ -4,6 +4,7 @@ import { LinkData } from './LinkData';
 
 export interface ProjectData extends ApiData {
     member_ids?: number[];
+    owner_id: number;
     name?: string;
     description?: string;
     links?: LinkData[];
