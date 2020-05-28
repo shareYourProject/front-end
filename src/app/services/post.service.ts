@@ -41,7 +41,7 @@ export class PostService extends CacheServiceBase<Post> {
     return (await Promise.all(
       res.post_ids
         .map(
-          id => this.get(id).catch(() => { })
+          id => this.get(id).catch(e => console.error('get post', e))
         )
 
     ))
