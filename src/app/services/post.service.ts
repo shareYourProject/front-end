@@ -6,6 +6,7 @@ import { ApiClient } from './api-client.service';
 import { UserService } from './user.service';
 import { ProjectService } from './project.service';
 import { Project } from '../models/classes/Project';
+import { User } from '../models/classes/User';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +34,17 @@ export class PostService extends CacheServiceBase<Post> {
     const post = new Post(this.apiClient, data, author, project);
     this.cache.set(post.id, post);
     return post;
+  }
+
+  async getLikedPosts(userId: number): Promise<Post[]> {
+    const res = await this.apiClient.get<{ post_ids: number[] }>(`/user/${userId}/likedPosts`);
+    return (await Promise.all(
+      res.post_ids
+        .map(
+          id => this.get(id).catch(e => console.error('get post', e))
+        )
+
+    ))
+      .filter(function (o): o is Post { return !!o; })
   }
 }

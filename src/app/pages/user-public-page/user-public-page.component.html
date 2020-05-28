@@ -1,74 +1,90 @@
-<div class="container-fluid pt-3" id="public-page-container">
-    <div class="row justify-content-center">
-        <div class="col-3">
-            <div class="card">
-                <img [src]="user.profilePictureUrl" class="card-img-top" alt="profile-picture">
-                <div class="card-body">
-                    <h5 class="card-title">{{ user.firstname }} {{ user.lastname }}</h5>
-                    <p class="card-subtitle font-italic text-secondary">#{{ user.username }}</p>
-                </div>
-            </div>
-            <div class="card mt-2">
-                <div class="card-body">
-                    <h5 class="card-title">Biography</h5>
-                    <p class="card-text">{{ user.biography }}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="h2">Projects</div>
-            <div *ngIf="(projects$ | async) as projects; else projectLoading">
-                <app-project-card class="mb-2 d-block" *ngFor="let project of projects" [project]="project"></app-project-card>
-                <!--
-                <div class="card mb-2" *ngFor="let project of projects">
-                    <div class="row no-gutters">
-                        <div class="col-md-2 d-flex justify-content-center align-items-center">
-                            <img src="https://avatars0.githubusercontent.com/u/62944241?s=400&u=359d3273d61f46a45c264cde695baed9cb0ef593&v=4" class="project-profil" alt="...">
-                        </div>
-                        <div class="col-md-10">
-                            <div class="card-body">
-                                <h5 class="card-title">{{project.name}}</h5>
-                                <p class="card-text">{{project.description}}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                -->
-            </div>
-            <ng-template #projectLoading>
-                Loading ...
-            </ng-template>
-        </div>
-        <div class="col-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Skills</h5>
-                    <p class="card-text">
-                        <app-skills-list [user]="user"></app-skills-list>
-                        <!--<span *ngFor="let skill of user.skills" class="badge badge-secondary mr-2">{{skill}}</span>-->
-                    </p>
-                </div>
-            </div>
-            <div class="card mt-2">
-                <div class="card-body">
-                    <h5 class="card-title">Links</h5>
-                    <app-links-list [links]="user.links"></app-links-list>
-                </div>
-            </div>
-            <!--
-            <div class="card mt-2">
-                <div class="card-body">
-                    <h5 class="card-title">Links</h5>
-                    <ul class="list-group list-group-flush">
-                        <a [href]="link.value" class="list-group-item list-group-item-action" *ngFor="let link of user.links  | keyvalue">{{link.key}}</a>
-                    </ul>
-                </div>
-            </div>
-        -->
-        </div>
-    </div>
-</div>
+<div class="container">
+  <div class="row justify-content-center mt-0">
+      <div class="col-md-10">
+          <div class="row">
+              <div class="banner">
+                  <div class="banner-top">
+                      <img src="https://api.shareyourproject.fr/storage/user/default_banner.png" class="mw-100" alt="banner">
+                      <img src="https://api.shareyourproject.fr/storage/user/default_profile.png" class="profile-picture rounded-circle" alt="profile_picture">
+                  </div>
+                  <div class="card rounded-0 border-bottom-0">
+                      <div class="card-body">
+                          <div class="row">
+                              <div class="col-3">
 
-<ng-template #loading>
-    <p>Loading ...</p>
-</ng-template>
+                              </div>
+                              <div class="col-6">
+                                  <h2>
+                                      <strong>{{ user.firstname }} {{ user.lastname }}</strong>
+                                      <a href="#"><small><em>#{{ user.username}}</em></small></a>
+                                  </h2>
+                              </div>
+                              <div class="col-3 d-flex justify-content-end">
+                                  <button type="button" class="btn btn-outline-primary">
+                                      <i data-feather="bell"></i> Suivre
+                                  </button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row bg-white">
+              <div class="col-12 p-0 m-0">
+                  <ul class="nav nav-pills nav-justified">
+                      <li class="nav-item rounded-0">
+                        <a class="nav-link link-item" [ngClass]="{active: tab === 'tab 1'}" (click)="tab = 'tab 1'">Biographie</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link link-item" [ngClass]="{active: tab === 'tab with explicit name 2'}" (click)="tab = 'tab with explicit name 2'">Projets</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link link-item" [ngClass]="{active: tab === 'tab 3'}" (click)="tab = 'tab 3'">J'aime</a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+
+
+              <div *ngIf="tab === 'tab 1'" class="row">
+                  <div class="col-12 pl-0 mt-3">
+                      <div class="card">
+                          <div class="card-body">
+                              <h2 class="display-4">Skills</h2>
+                              <app-skills-list [user]="user"></app-skills-list>
+                          </div>
+                      </div>
+                      <div class="card mt-3">
+                          <div class="card-body">
+                              <h2 class="display-4">Biographie</h2>
+                              <p>{{ user.biography }}</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Followed projects -->
+              <div *ngIf="tab === 'tab with explicit name 2'" class="row">
+                  <div class="col-12 pl-0 mt-3">
+
+                    <div *ngIf="(projects$ | async) as projects">
+                      <app-project-card *ngFor="let project of projects" class="d-block mb-3" [project]="project"></app-project-card>
+                    </div>
+
+                  </div>
+              </div>
+
+              <!-- Likeds posts -->
+              <div *ngIf="tab === 'tab 3'" class="row">
+                  <div class="col-12 pl-0 mt-3">
+
+                    <div *ngIf="(likedPosts$ | async) as posts">
+                      <app-post-card *ngFor="let post of posts" class="d-block mb-3" [post]="post"></app-post-card>
+                    </div>
+
+                  </div>
+              </div>
+
+      </div>
+  </div>
+</div>
