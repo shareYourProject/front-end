@@ -2,7 +2,7 @@ import { ProjectData } from '../api/ProjectData';
 import { UserAccountResolvable, resolveUserAccount } from '../resolvables/UserAccountResolvable';
 import { DeletedDataError } from '../errors/DeletedDataError';
 import { DeepReadonly } from '../utils/DeepReadonly';
-import { IProject } from '../objectInterfaces/IProject';
+import { IProject } from '../object interfaces/IProject';
 import { EditalbeApiObject } from './EditableApiObject';
 import { ApiClient } from 'src/app/services/api-client.service';
 

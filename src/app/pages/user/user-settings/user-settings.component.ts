@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/models/classes/User';
-import { IUserAccount } from 'src/app/models/objectInterfaces/IUserAccount';
+import { IUser } from 'src/app/models/object interfaces/IUser';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -12,7 +12,7 @@ import { FormGroup } from '@angular/forms';
 export class UserSettingsComponent implements OnInit {
 
   user: User;
-  data: IUserAccount;
+  data: IUser;
 
   firstName: string;
 

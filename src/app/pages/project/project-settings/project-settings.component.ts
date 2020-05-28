@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Project } from 'src/app/models/classes/Project';
-import { IProject } from 'src/app/models/objectInterfaces/IProject';
+import { IProject } from 'src/app/models/object interfaces/IProject';
 
 @Component({
   selector: 'app-project-settings',

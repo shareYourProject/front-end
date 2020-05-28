@@ -1,10 +1,10 @@
 import { UserData } from '../api/UserData';
 import { EditalbeApiObject } from './EditableApiObject';
-import { IUserAccount } from '../objectInterfaces/IUserAccount';
+import { IUser } from '../object interfaces/IUser';
 import { DeepReadonly } from '../utils/DeepReadonly';
 import { ApiClient } from 'src/app/services/api-client.service';
 
-export class User extends EditalbeApiObject<IUserAccount, UserData> implements DeepReadonly<IUserAccount> {
+export class User extends EditalbeApiObject<IUser, UserData> implements DeepReadonly<IUser> {
 
     private _username: string;
     private _email?: string;
@@ -53,7 +53,7 @@ export class User extends EditalbeApiObject<IUserAccount, UserData> implements D
         }
     }
 
-    getEditableData(): IUserAccount {
+    getEditableData(): IUser {
         return {
             username: this.username,
             email: this.email,
@@ -65,7 +65,7 @@ export class User extends EditalbeApiObject<IUserAccount, UserData> implements D
         }
     }
 
-    protected setEditableData(data: IUserAccount): void {
+    protected setEditableData(data: IUser): void {
         this._username = data.username;
         this._email = data.email;
         this._firstname = data.firstname;
