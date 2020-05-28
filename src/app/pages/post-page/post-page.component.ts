@@ -62,12 +62,28 @@ export class PostPageComponent implements OnInit, OnDestroy {
     return this.me && post.likerIds.includes(this.me.id);
   }
 
-  async loadMore() {
-    this.comments.push(...await this._commentsLoader.next());
+  pushComments(...comments: Comment[]) {
+    this.comments.push(...comments);
+    this.comments.sort((a, b) => a.id - b.id);
   }
 
-  onCommentFormSubmit() {
-    throw new Error('Not implemented.');
+  async loadMore() {
+    this.pushComments(...await this._commentsLoader.next());
+  }
+
+  async onCommentFormSubmit() {
+    if (this.commentForm.valid) {
+      const content = this.commentForm.value.content;
+      this.commentForm.disable();
+      const newComment = await this.commentService.create(this.post, content).catch(e => console.error('create comment', e));
+      if (newComment) {
+        this.pushComments(newComment);
+        this.postCommentError = false;
+      } else {
+        this.postCommentError = true;
+      }
+      this.commentForm.enable();
+    }
   }
 
   async onLikeClick(post: PostBase) {

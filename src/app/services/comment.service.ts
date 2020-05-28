@@ -39,7 +39,7 @@ export class CommentService extends CacheServiceBase<Comment> {
 
   async create(post: Post, content: string) {
     if (post.deleted) throw new DeletedDataError();
-    const data = await this.apiClient.post<CommentData>('/comment', { content, post_id: post.id });
+    const data = await this.apiClient.post<CommentData>(`/post/${post.id}/comment`, { content });
     const author = await this.users.get(data.author_id);
     const comment = new Comment(this.apiClient, data, author, post);
     this.cache.set(comment.id, comment);
