@@ -5,13 +5,14 @@ import { DeepReadonly } from '../utils/DeepReadonly';
 import { IProject } from '../object interfaces/IProject';
 import { EditalbeApiObject } from './EditableApiObject';
 import { ApiClient } from 'src/app/services/api-client.service';
+import { LinkData } from '../api/LinkData';
 
 export class Project extends EditalbeApiObject<IProject, ProjectData> implements DeepReadonly<IProject> {
 
     private _memberIds: number[];
     private _name?: string;
     private _description?: string;
-    private _links = new Map<string, string>();
+    private _links: LinkData[];
     private _visibility?: boolean;
     private _post_ids: number[];
 
@@ -26,7 +27,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
         this._memberIds = data.member_ids ? [...data.member_ids] : [];
         this._name = data.name;
         this._description = data.description;
-        this._links = new Map(data.links ? data.links.map(l => [l.key, l.value]) : []);
+        this._links = data.links ? [...data.links] : [];
         this._visibility = data.visibility;
         this._post_ids = data.post_ids ? [...data.post_ids] : [];
     }
@@ -36,7 +37,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
             id: this.id,
             name: this._name,
             description: this._description,
-            links: Array.from(this._links.entries()).map(l => { return { key: l[0], value: l[1] } }),
+            links: [...this._links],
             visibility: this._visibility
         };
     }
@@ -47,7 +48,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
 
     get description() { return this._description; }
 
-    get links() { return this._links as ReadonlyMap<string, string>; }
+    get links() { return this._links as readonly LinkData[];}
 
     get visibility() { return this._visibility; }
 
@@ -59,7 +60,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
         return {
             name: this._name,
             description: this._description,
-            links: new Map(this._links),
+            links: [...this._links],
             visibility: this._visibility,
         }
     }
@@ -67,7 +68,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
     protected setEditableData(data: IProject): void {
         this._name = data.name;
         this._description = data.description;
-        this._links = new Map(data.links);
+        this._links = [...data.links];
         this._visibility = data.visibility;
     }
 

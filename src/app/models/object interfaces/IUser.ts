@@ -1,3 +1,4 @@
+import { LinkData } from '../api/LinkData';
 
 export interface IUser {
     username: string;
@@ -6,5 +7,5 @@ export interface IUser {
     lastname?: string;
     skills: string[];
     biography?: string;
-    links: Map<string, string>;
+    links: LinkData[];
 }

@@ -13,7 +13,6 @@ export class ProjectPublicComponent implements OnInit {
 
   project: Project;
   members$: Promise<User[]>;
-  links: Map<string, string>;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -24,7 +23,6 @@ export class ProjectPublicComponent implements OnInit {
     this.route.data.subscribe(
       (data: { project: Project }) => {
         this.project = data.project;
-        this.links = data.project.links as Map<string, string>; // https://github.com/angular/angular/issues/37308
         this.members$ = this.users.getMany(this.project.memberIds);
       }
     );

@@ -3,6 +3,7 @@ import { EditalbeApiObject } from './EditableApiObject';
 import { IUser } from '../object interfaces/IUser';
 import { DeepReadonly } from '../utils/DeepReadonly';
 import { ApiClient } from 'src/app/services/api-client.service';
+import { LinkData } from '../api/LinkData';
 
 export class User extends EditalbeApiObject<IUser, UserData> implements DeepReadonly<IUser> {
 
@@ -12,7 +13,7 @@ export class User extends EditalbeApiObject<IUser, UserData> implements DeepRead
     private _lastname?: string;
     private _skills: string[];
     private _biography?: string;
-    private _links = new Map<string, string>();
+    private _links: LinkData[];
     private _projectIds: number[];
 
     protected setData(data: UserData) {
@@ -22,7 +23,7 @@ export class User extends EditalbeApiObject<IUser, UserData> implements DeepRead
         this._lastname = data.lastname;
         this._skills = data.skills ? [...data.skills] : [];
         this._biography = data.biography;
-        this._links = new Map(data.links ? data.links.map(l => [l.key, l.value]) : []);
+        this._links = data.links ? [...data.links] : []; //new Map(data.links ? data.links.map(l => [l.key, l.value]) : []);
         this._projectIds = data.project_ids ? [...data.project_ids] : [];
     }
 
@@ -49,7 +50,7 @@ export class User extends EditalbeApiObject<IUser, UserData> implements DeepRead
             lastname: this._lastname,
             skills: this._skills,
             biography: this._biography,
-            links: Array.from(this._links.entries()).map(l => { return { key: l[0], value: l[1] } }),
+            links: [...this._links]
         }
     }
 
@@ -61,7 +62,7 @@ export class User extends EditalbeApiObject<IUser, UserData> implements DeepRead
             lastname: this.lastname,
             skills: [...this.skills],
             biography: this.biography,
-            links: new Map(this.links)
+            links: [...this._links]
         }
     }
 
@@ -72,7 +73,7 @@ export class User extends EditalbeApiObject<IUser, UserData> implements DeepRead
         this._lastname = data.lastname;
         this._skills = [...data.skills];
         this._biography = data.biography;
-        this._links = new Map(data.links);
+        this._links = [...data.links];
     }
 
     get endpoint() { return `/user/${this.id}`; }
@@ -89,7 +90,7 @@ export class User extends EditalbeApiObject<IUser, UserData> implements DeepRead
 
     get biography() { return this._biography; }
 
-    get links() { return this._links as ReadonlyMap<string, string>; }
+    get links() { return this._links as readonly LinkData[]; }
 
     get profilePictureUrl() { return `${ApiClient.API_ROOT}/user/${this.id}/profilePicture/`; }
 

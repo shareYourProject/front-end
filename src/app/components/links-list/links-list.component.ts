@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { LinkData } from 'src/app/models/api/LinkData';
 
 @Component({
   selector: 'app-links-list',
@@ -6,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./links-list.component.scss']
 })
 export class LinksListComponent implements OnInit {
-  @Input() links: Map<string, string>;
+  @Input() links: LinkData[];
 
   constructor() { }
 
