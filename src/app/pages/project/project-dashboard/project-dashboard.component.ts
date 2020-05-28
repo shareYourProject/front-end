@@ -36,7 +36,7 @@ export class ProjectDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.data.subscribe(
+    this.route.parent?.data.subscribe(
       (data: { project: Project }) => {
         this.project = data.project;
         this.members$ = this.users.getMany(this.project.memberIds);
