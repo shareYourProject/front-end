@@ -78,6 +78,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
       const newComment = await this.commentService.create(this.post, content).catch(e => console.error('create comment', e));
       if (newComment) {
         this.pushComments(newComment);
+        this.commentForm.reset();
         this.postCommentError = false;
       } else {
         this.postCommentError = true;
