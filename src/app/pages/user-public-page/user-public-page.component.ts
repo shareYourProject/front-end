@@ -13,6 +13,7 @@ export class UserPublicPageComponent implements OnInit {
 
   user: User;
   projects$: Promise<Project[]>;
+  tab: Tabs = "tab 1";
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -28,4 +29,10 @@ export class UserPublicPageComponent implements OnInit {
     )
   }
 
+  setTab(tab: Tabs) {
+    this.tab = tab;
+  }
+
 }
+
+type Tabs = "tab 1" | "tab with explicit name 2" | "tab 3" | "tab 4";
