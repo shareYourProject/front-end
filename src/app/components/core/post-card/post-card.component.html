@@ -1,0 +1,26 @@
+<div class="card mb-3">
+  <div class="card-body p-2">
+      <div class="media">
+          <img src="https://api.shareyourproject.fr/storage/project/default_logo.png" class="align-self-start mr-3 img-thumbnail" alt="logo">
+          <div class="media-body">
+          <h5 class="my-0"><span class="font-weight-bold">{{ post.author.username}}</span> pour <span class="font-weight-lighter">{{ post.project.name}}</span></h5>
+          <small class="text-muted"></small>
+          <p class="mt-2">{{ post.content }}</p>
+          </div>
+      </div>
+  </div>
+  <div class="card-footer p-1">
+    <div class="row container">
+        <div class="col-6">
+          <button type="button" class="btn btn-outline-primary btn-sm btn-block">
+              <i class="feather-16" data-feather="thumbs-up">Like</i>
+          </button>
+        </div>
+        <div class="col-6">
+          <button type="button" class="btn btn-outline-secondary btn-sm btn-block">
+              <i class="feather-16" data-feather="message-circle">Comment</i>
+          </button>
+        </div>
+    </div>
+  </div>
+</div>

@@ -30,6 +30,7 @@ import { SearchComponent } from './pages/search/search.component';
 import { ProjectCardComponent } from './components/project-card/project-card.component';
 import { SkillsListComponent } from './components/skills-list/skills-list.component';
 import { UserCardComponent } from './components/user-card/user-card.component';
+import { PostCardComponent } from './components/core/post-card/post-card.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { UserCardComponent } from './components/user-card/user-card.component';
     SearchComponent,
     ProjectCardComponent,
     SkillsListComponent,
-    UserCardComponent
+    UserCardComponent,
+    PostCardComponent
   ],
   imports: [
     FormsModule,
