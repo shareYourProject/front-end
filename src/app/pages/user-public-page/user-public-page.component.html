@@ -79,7 +79,6 @@
                   <div class="col-12 pl-0 mt-3">
 
                     <div *ngIf="(likedPosts$ | async) as posts">
-                      <div *ngFor="let post of posts">Hello</div>
                       <app-post-card *ngFor="let post of posts" class="d-block mb-3" [post]="post"></app-post-card>
                     </div>
 
