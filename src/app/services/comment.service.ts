@@ -9,6 +9,7 @@ import { Post } from '../models/classes/Post';
 import { DeletedDataError } from '../models/errors/DeletedDataError';
 import { PagedData } from '../models/api/PagedData';
 import { PagedResponse } from '../models/PagedResponse';
+import { MakePagedResponse } from '../utils/MakePagedResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -45,14 +46,11 @@ export class CommentService extends CacheServiceBase<Comment> {
     return comment;
   }
 
-  getPostComments(postId: number): PagedResponse<Comment> {
-    let nextUrl = `/post/${postId}/comments`;
-    return {
-      next: async () => {
-        const response = await this.apiClient.get<PagedData<CommentData>>(nextUrl);
-        nextUrl = response.next_page_url;
-        return await Promise.all(response.data.map(d => this.buildComment(d)));
-      }
-    };
+  getPostComments(postId: number) {
+    return MakePagedResponse<CommentData, Comment>(
+      `/post/${postId}/comments`,
+      this.apiClient,
+      d => this.buildComment(d)
+    );
   }
 }
