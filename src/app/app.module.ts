@@ -31,6 +31,7 @@ import { ProjectCardComponent } from './components/project-card/project-card.com
 import { SkillsListComponent } from './components/skills-list/skills-list.component';
 import { UserCardComponent } from './components/user-card/user-card.component';
 import { PostCardComponent } from './components/core/post-card/post-card.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { PostCardComponent } from './components/core/post-card/post-card.compone
     AppRoutingModule,
     HttpClientModule,
     CommonModule,
+    FontAwesomeModule,
   ],
   providers: [
     //fakeBackendProvider, // REMOVE THIS BEFORE DEPLOY !!!!!!!!!!!!!!!!!!!!!!!!!!!!
