@@ -1,30 +1,4 @@
-<!-- <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <a routerLink="" class="navbar-brand">SHARE YOUR PROJECT</a>
-
-    <div class="collapse navbar-collapse  w-100 order-1 order-md-0 dual-collapse2">
-        <ul class="navbar-nav">
-            <li class="nav-item" *ngFor="let route of leftNavs$ | async">
-                <a *ngIf="route.type === 'link'" class="nav-link" [routerLink]="route.path">{{route.name}}</a>
-                <button *ngIf="route.type === 'button'" (click)="route.onClick()" (class)="'btn btn-' + route.buttonType">{{route.name}}</button>
-            </li>
-        </ul>
-
-        <form [formGroup]="searchForm" (ngSubmit)="onSearchSubmit()" role="search" class="navbar-form navbar-left" [ngClass]="{'w-75': searchFocused}">
-            <input class="form-control" type="text" placeholder="Search" formControlName="query" (focus)="searchFocused=true" (blur)="searchFocused=false">
-        </form>
-
-    </div>
-
-    <div class="collapse navbar-collapse order-3 dual-collapse2">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item" *ngFor="let route of rightNavs$ | async">
-                <a *ngIf="route.type === 'link'" class="nav-link" [routerLink]="route.path">{{route.name}}</a>
-                <button *ngIf="route.type === 'button'" (click)="route.onClick()" [class]="'btn btn-' + route.buttonType">{{route.name}}</button>
-            </li>
-        </ul>
-    </div>
-</nav> -->
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm fixed-top">
   <div class="container">
     <a routerLink="" class="navbar-brand">Share Your Project</a>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -41,7 +15,7 @@
           <ul class="navbar-nav ml-auto">
             <li class="nav-item" *ngFor="let route of rightNavs$ | async">
                 <a *ngIf="route.type === 'link'" class="nav-link" [routerLink]="route.path">{{route.name}}</a>
-                <button *ngIf="route.type === 'button'" (click)="route.onClick()" [class]="'btn btn-' + route.buttonType">{{route.name}}</button>
+                <button *ngIf="route.type === 'button'" (click)="route.onClick()" [class]="'btn btn-outline-' + route.buttonType">{{route.name}}</button>
             </li>
           </ul>
       </div>
