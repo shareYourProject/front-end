@@ -6,6 +6,7 @@ import { IProject } from '../object interfaces/IProject';
 import { EditalbeApiObject } from './EditableApiObject';
 import { ApiClient } from 'src/app/services/api-client.service';
 import { LinkData } from '../api/LinkData';
+import { Permissions } from '../api/Permissions';
 
 export class Project extends EditalbeApiObject<IProject, ProjectData> implements DeepReadonly<IProject> {
 
@@ -16,6 +17,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
     private _links: LinkData[];
     private _visibility?: boolean;
     private _post_ids: number[];
+    private _permissions: Permissions[];
 
     constructor(
         apiClient: ApiClient,
@@ -32,6 +34,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
         this._links = data.links ? [...data.links] : [];
         this._visibility = data.visibility;
         this._post_ids = data.post_ids ? [...data.post_ids] : [];
+        this._permissions = data.permissions ? [...data.permissions] : [];
     }
 
     protected getData() {
@@ -51,7 +54,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
 
     get description() { return this._description; }
 
-    get links() { return this._links as readonly LinkData[];}
+    get links() { return this._links; }
 
     get visibility() { return this._visibility; }
 
@@ -59,12 +62,15 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
 
     get memberIds() { return this._memberIds as readonly number[]; }
 
+    get permissions() { return this._permissions; }
+
     getEditableData(): IProject {
         return {
             name: this._name,
             description: this._description,
             links: [...this._links],
             visibility: this._visibility,
+            permissions: [...this._permissions],
         }
     }
 
@@ -85,6 +91,13 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
         if (this.deleted) throw new DeletedDataError();
         await this.apiClient.delete(this.endpoint + `/members/${resolveUserAccount(member)}`);
         return await this.fetch();
+    }
+
+    async setPermissions(permissions: Readonly<Permissions>) {
+        if (this.deleted) throw new DeletedDataError();
+        const result = await this.apiClient.put(this.endpoint + `/permissions/${permissions.user_id}`, permissions).then(() => true, e => { console.error('set permissions', e); return false; });
+        await this.fetch();
+        return result;
     }
 
     /*
