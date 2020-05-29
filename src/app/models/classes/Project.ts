@@ -81,16 +81,25 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
         this._visibility = data.visibility;
     }
 
-    async addMember(member: UserAccountResolvable) {
+    async addMember(memberId: number) {
         if (this.deleted) throw new DeletedDataError();
-        await this.apiClient.post(this.endpoint + '/members', { userId: resolveUserAccount(member) });
-        return await this.fetch();
+        const result = await this.apiClient.post(this.endpoint + '/members', { userId: memberId })
+            .then(
+                () => true,
+                e => { console.error('add member', e); return false; }
+            );
+        await this.fetch();
+        return result;
     }
 
-    async removeMember(member: UserAccountResolvable) {
+    async removeMember(memberId: number) {
         if (this.deleted) throw new DeletedDataError();
-        await this.apiClient.delete(this.endpoint + `/members/${resolveUserAccount(member)}`);
-        return await this.fetch();
+        const result = await this.apiClient.delete(this.endpoint + `/members/${memberId}`).then(
+            () => true,
+            e => { console.error('remove member', e); return false; }
+        );
+        await this.fetch();
+        return result;
     }
 
     async setPermissions(permissions: Readonly<Permissions>) {
