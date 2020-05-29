@@ -11,7 +11,7 @@ import { ApiClient } from 'src/app/services/api-client.service';
 export class RegisterComponent implements OnInit {
 
   form: FormGroup;
-  busy = false;
+  error = false;
 
   constructor(
     private readonly apiClient: ApiClient,
@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit {
 
   async onSubmit() {
     if (this.form.valid) {
-      this.busy = true;
+      this.form.disable();
       if (await this.apiClient.register(
         this.form.value.firstname,
         this.form.value.lastname,
@@ -40,9 +40,9 @@ export class RegisterComponent implements OnInit {
         this.form.value.password,
         this.form.value.email
       ))
-        this.router.navigateByUrl('/'); // return to home page.
-      else
-        this.busy = true;
+        if (await this.router.navigateByUrl('/')) return;
+      this.error = true;
+      this.form.enable();
     }
   }
 

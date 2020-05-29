@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private _redirectTo: string;
 
   form: FormGroup;
-  busy = false;
+  error = false;
 
   constructor(
     private apiClient: ApiClient,
@@ -36,18 +36,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void { }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.form.valid) {
-      console.log("Login", this.form.value);
-      this.busy = true;
-      this.apiClient.login(this.form.value.username, this.form.value.password)
-        .then(logged => {
-          console.log("logged ?", logged);
-          if (logged)
-            this.router.navigateByUrl(this._redirectTo)
-          else
-            this.busy = false;
-        });
+      this.form.disable();
+      if (await this.apiClient.login(this.form.value.username, this.form.value.password))
+        if (await this.router.navigateByUrl(this._redirectTo)) return;
+      this.error = true;
+      this.form.enable();
     }
   }
 }

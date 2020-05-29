@@ -5,7 +5,7 @@
             <label for="username">Username</label>
             <input id="username" class="form-control" formControlName="username" />
             <div *ngIf="form.controls.username.errors?.required && form.controls.username.touched">
-              <small class="form-text text-danger">This field is required !</small>
+                <small class="form-text text-danger">This field is required !</small>
             </div>
         </div>
 
@@ -13,10 +13,10 @@
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" formControlName="password" />
             <div *ngIf="form.controls.password.errors?.required && form.controls.password.touched">
-              <small class="form-text text-danger">This field is required !</small>
+                <small class="form-text text-danger">This field is required !</small>
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid && !busy">Login</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Login</button>
     </form>
 </div>
