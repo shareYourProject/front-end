@@ -1,15 +1,50 @@
-<div class="container">
+<div class="container mt-3 ml-5">
 
     <div class="alert alert-danger" *ngIf="result === 'error'">
-        <p>Error !</p>
+        <span>Error !</span>
+        <button type="button" class="close" (click)="result = 'none'">
+          <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="alert alert-success" *ngIf="result === 'success'">
-        <p>Success !</p>
+        <span>Success !</span>
+        <button type="button" class="close" (click)="result = 'none'">
+          <span aria-hidden="true">&times;</span>
+        </button>
     </div>
-    <p>Status: {{result}}</p>
-    <p>name: {{project.name}}</p>
-    <form (submit)="submit()">
-        <input type="text" [(ngModel)]="data.name" name="name">
-        <button class="btn btn-success" type="submit">Submit</button>
+    <h1 class="display-3 mb-3">Settings</h1>
+    <form class="needs-validation" (submit)="submit()" novalidate>
+      <h3 class="display-5 mt-5">General</h3>
+      <hr>
+      <div class="form-row">
+        <div class="col-md-12 mb-3">
+          <label for="validationCustom01">Project name</label>
+          <input type="text" class="form-control" id="validationCustom01" [(ngModel)]="data.name" name="name" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1">Project description</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" [(ngModel)]="data.description" name="description" rows="3"></textarea>
+      </div>
+
+      <div class="d-flex justify-content-between mt-5">
+        <h3 class="display-5">Links</h3>
+        <button type="button" class="btn btn-outline-primary" (click)="addLink()"><fa-icon [icon]="faPlus"></fa-icon> Add</button>
+      </div>
+      <hr>
+      <div class="form-row mb-3" *ngFor="let link of data.links; let i = index;">
+        <div class="col-md-3">
+          <label [for]="'key_' + i" class="text-muted"><small>Name</small></label>
+          <input type="text" class="form-control" [(ngModel)]="data.links[i].key" [id]="'key_' + i" [name]="'key_' + i" required>
+        </div>
+        <div class="col-md-7">
+          <label [for]="'value_' + i" class="text-muted"><small>URL</small></label>
+          <input type="text" class="form-control" [(ngModel)]="data.links[i].value" [id]="'value_' + i" [name]="'value_' + i" required>
+        </div>
+        <div class="d-flex col-md-2 align-items-end justify-content-end">
+          <button class="btn btn-outline-danger" type="button" (click)="removeLink(i)"><fa-icon [icon]="faTrashAlt"></fa-icon> Remove</button>
+        </div>
+      </div>
+      <button class="btn btn-block btn-outline-primary" type="submit"><fa-icon [icon]="faSave"></fa-icon> Save</button>
     </form>
 </div>
