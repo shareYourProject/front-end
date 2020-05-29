@@ -57,7 +57,7 @@ export class ApiClient {
 
   public delete(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient
-      .delete(ApiClient.API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
+      .delete(ApiClient.API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response', responseType: 'text' })
       .pipe(
         map(
           response => {
