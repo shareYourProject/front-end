@@ -43,7 +43,7 @@ const routes: Routes = [
     ]
   },
   { path: 'user/:user_id', component: UserPublicPageComponent, resolve: { user: UserResolverService } },
-  { path: 'project/:project_id', component: ProjectPublicComponent, resolve: { project: ProjectResolverService } },
+  { path: 'project/:project_id', component: ProjectPublicComponent, resolve: { project: ProjectResolverService, me: LoggedUserResolverService } },
   {
     path: 'project/:project_id', component: ProjectMainComponent, resolve: { project: ProjectResolverService },
     children: [

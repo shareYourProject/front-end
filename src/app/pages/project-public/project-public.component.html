@@ -1,80 +1,98 @@
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col">
-            <h1>
-                {{project.name}}
-            </h1>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col">
-            <br />
-        </div>
-    </div>
-    <div class="row justify-content-between">
-        <div class="col-md-3">
-            <div class="card">
-                <h2 class="card-text">Members</h2>
-                <div class="my-2" *ngIf="(members$ | async) as members; else membersLoading">
-                    <app-user-list [users]="members"></app-user-list>
-                </div>
-                <ng-template #membersLoading>
-                    Loading ...
-                </ng-template>
-            </div>
-        </div>
-        <div class="col-md-6">
+    <div class="row justify-content-center mt-0">
+        <div class="col-md-10">
             <div class="row">
-                <div class="col">
-                    <h2>Description</h2>
-                    <p>
-                        {{project.description}}
-                    </p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <br />
-                </div>
-            </div>
-            <div class="row border-top">
-                <div class="col">
-                    <br />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <h2>Posts</h2>
-                    <!--
-                        <div class="card" *ngFor="let post of project.posts">
-                            <h4 class="card-title">{{post.author.username}}</h4>
-                            <p class="card-text">{{post.content}}</p>
-                            <p>a test</p>
+                <div class="banner">
+                    <div class="banner-top">
+                        <img src="https://api.shareyourproject.fr/storage/user/default_banner.png" class="mw-100" alt="banner">
+                        <img src="https://api.shareyourproject.fr/storage/project/default_logo.png" class="profile-picture rounded" alt="profile_picture">
+                    </div>
+                    <div class="card rounded-0 border-bottom-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-3">
+
+                                </div>
+                                <div class="col-5">
+                                    <h2>
+                                        <strong>{{project.name}}</strong>
+                                    </h2>
+                                </div>
+                                <div class="col-4 d-flex justify-content-end">
+                                    <button type="button" *ngIf="imMember" class="btn btn-outline-success mr-2" routerLink="dashboard">
+                                        <fa-icon [icon]="faTachometerAlt"></fa-icon> Dashboard
+                                    </button>
+                                    <button type="button" *ngIf="me" class="btn btn-outline-primary">
+                                        <fa-icon [icon]="faBell"></fa-icon> Follow
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <div *ngIf="project.posts!=[]; else no_post">
-                            
-                        </div>
-                        -->
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card">
-                <h2 class="card-title">Links</h2>
-                <app-links-list [links]="project.links"></app-links-list>
+
+            <div class="row bg-white">
+                <div class="col-12 p-0 m-0">
+                    <ul class="nav nav-pills nav-justified">
+                        <li class="nav-item rounded-0">
+                            <a class="nav-link link-item" [ngClass]="{active: tab === 'publications'}" (click)="tab = 'publications'">Publications</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link link-item" [ngClass]="{active: tab === 'members'}" (click)="tab = 'members'">Members</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link link-item" [ngClass]="{active: tab === 'about'}" (click)="tab = 'about'">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div *ngIf="tab === 'publications'" class="row">
+              <div class="col-12 pl-0 mt-3" *ngIf='(posts$ | async) as posts; else postsLoading'>
+                <app-post-card [post]="post" *ngFor="let post of posts"></app-post-card>
+              </div>
+            </div>
+
+            <div *ngIf="tab === 'members'">
+                <div *ngIf='(members$ | async) as members; else membersLoading'>
+                    <app-user-list [users]='members'></app-user-list>
+                </div>
+            </div>
+
+            <div *ngIf="tab === 'about'">
+                <div class="row" >
+                    <div class="col-12 pl-0 mt-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 class="display-4">Description</h2>
+                                <p>
+                                    {{ project.description }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 pl-0 mt-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 class="display-4">Links</h2>
+                                <app-links-list [links]="project.links"></app-links-list>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<ng-template #loading>
-    Loading ...
+<ng-template #postsLoading>
+    <p>Posts are loading</p>
 </ng-template>
 
-<ng-template #private>
-    Sorry, but this project is private.
-</ng-template>
-
-<ng-template #no_post>
-    This project have no post for now.
+<ng-template #membersLoading>
+    <p>Members are loading</p>
 </ng-template>
