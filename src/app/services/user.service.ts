@@ -23,7 +23,7 @@ export class UserService extends CacheServiceBase<User> {
   }
 
   private async _fetchLoggedUser() {
-    const data = await this.apiClient.get<UserData>(`/user`);
+    const data = await this.apiClient.get<UserData>(`/user`).catch(e => console.error('feth logged user', e));
     if (!data) return null;
     let user = this.cache.get(data.id);
     if (user) return user.merge(data);
