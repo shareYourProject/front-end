@@ -32,6 +32,7 @@ import { SkillsListComponent } from './components/skills-list/skills-list.compon
 import { UserCardComponent } from './components/user-card/user-card.component';
 import { PostCardComponent } from './components/core/post-card/post-card.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ProjectMembersComponent } from './pages/project/project-members/project-members.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ProjectCardComponent,
     SkillsListComponent,
     UserCardComponent,
-    PostCardComponent
+    PostCardComponent,
+    ProjectMembersComponent
   ],
   imports: [
     FormsModule,

@@ -1,12 +1,11 @@
 import { ProjectData } from '../api/ProjectData';
-import { UserAccountResolvable, resolveUserAccount } from '../resolvables/UserAccountResolvable';
 import { DeletedDataError } from '../errors/DeletedDataError';
 import { DeepReadonly } from '../utils/DeepReadonly';
 import { IProject } from '../object interfaces/IProject';
 import { EditalbeApiObject } from './EditableApiObject';
 import { ApiClient } from 'src/app/services/api-client.service';
 import { LinkData } from '../api/LinkData';
-import { Permissions } from '../api/Permissions';
+import { Permissions, getPermissionsNone } from '../api/Permissions';
 
 export class Project extends EditalbeApiObject<IProject, ProjectData> implements DeepReadonly<IProject> {
 
@@ -17,7 +16,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
     private _links: LinkData[];
     private _visibility?: boolean;
     private _post_ids: number[];
-    private _permissions: Permissions[];
+    private _permissions: Map<number, DeepReadonly<Permissions>>;
 
     constructor(
         apiClient: ApiClient,
@@ -34,7 +33,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
         this._links = data.links ? [...data.links] : [];
         this._visibility = data.visibility;
         this._post_ids = data.post_ids ? [...data.post_ids] : [];
-        this._permissions = data.permissions ? [...data.permissions] : [];
+        this._permissions = new Map(data.permissions ? data.permissions.map(p => [p.member_id, p]) : []);
     }
 
     protected getData() {
@@ -70,7 +69,6 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
             description: this._description,
             links: [...this._links],
             visibility: this._visibility,
-            permissions: [...this._permissions],
         }
     }
 
@@ -79,6 +77,10 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
         this._description = data.description;
         this._links = [...data.links];
         this._visibility = data.visibility;
+    }
+
+    getPermissions(memberId: number) {
+        return this.permissions.get(memberId) ?? getPermissionsNone(memberId, this.id);
     }
 
     async addMember(memberId: number) {
@@ -102,9 +104,9 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
         return result;
     }
 
-    async setPermissions(permissions: Readonly<Permissions>) {
+    async setPermissions(permissions: DeepReadonly<Permissions>) {
         if (this.deleted) throw new DeletedDataError();
-        const result = await this.apiClient.put(this.endpoint + `/permissions/${permissions.user_id}`, permissions).then(() => true, e => { console.error('set permissions', e); return false; });
+        const result = await this.apiClient.put(this.endpoint + `/members/${permissions.member_id}`, permissions).then(() => true, e => { console.error('set permissions', e); return false; });
         await this.fetch();
         return result;
     }

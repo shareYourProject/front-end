@@ -13,9 +13,10 @@ export class ProjectMainComponent implements OnInit {
   project: Project;
   url: string;
 
-  readonly navs: { name: string, url: string , icon: IconDefinition}[] = [
+  readonly navs: { name: string, url: string, icon: IconDefinition }[] = [
     { name: 'Dashboard', url: 'dashboard', icon: faHome },
-    { name: 'Settings', url: 'settings', icon: faSlidersH }
+    { name: 'Settings', url: 'settings', icon: faSlidersH },
+    { name: 'Members', url: 'members', icon: faSlidersH }
   ]
 
   constructor(private readonly route: ActivatedRoute) { }

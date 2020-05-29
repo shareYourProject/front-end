@@ -25,6 +25,7 @@ import { LoggedUserResolverService } from './resolvers/logged-user-resolver.serv
 import { ProjectResolverService } from './resolvers/project-resolver.service';
 import { PostResolverService } from './resolvers/post-resolver.service';
 import { UserResolverService } from './resolvers/user-resolver.service';
+import { ProjectMembersComponent } from './pages/project/project-members/project-members.component';
 
 
 const routes: Routes = [
@@ -45,10 +46,11 @@ const routes: Routes = [
   { path: 'user/:user_id', component: UserPublicPageComponent, resolve: { user: UserResolverService } },
   { path: 'project/:project_id', component: ProjectPublicComponent, resolve: { project: ProjectResolverService, me: LoggedUserResolverService } },
   {
-    path: 'project/:project_id', component: ProjectMainComponent, resolve: { project: ProjectResolverService },
+    path: 'project/:project_id', component: ProjectMainComponent, resolve: { project: ProjectResolverService, me: LoggedUserResolverService },
     children: [
       { path: 'dashboard', component: ProjectDashboardComponent },
       { path: 'settings', component: ProjectSettingsComponent },
+      { path: 'members', component: ProjectMembersComponent },
     ]
   },
   { path: '**', redirectTo: '' } // keep it at last position !
