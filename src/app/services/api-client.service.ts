@@ -27,7 +27,7 @@ export class ApiClient {
 
   get onLoggedChanged() { return this._loggedChanged.asObservable(); }
 
-  public post<T = Object>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+  public post<T>(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient
       .post<T>(ApiClient.API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response' })
       .pipe(
@@ -35,13 +35,26 @@ export class ApiClient {
           response => {
             if (response.ok)
               return response.body as T;
-            throw this.generateError(endpoint, "post", response.status);
+            throw this.generateError(endpoint, 'post', response.status);
           }
         )
       ).toPromise();
   }
 
-  public get<T = Object>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+  public post_void(endpoint: string, body: any, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+    return this.httpClient
+      .post(ApiClient.API_ROOT + endpoint, body, { headers: this.getHeaderWithToken(headers), observe: 'response', responseType: 'text' })
+      .pipe(
+        map(
+          response => {
+            if (!response.ok)
+              throw this.generateError(endpoint, 'post', response.status);
+          }
+        )
+      ).toPromise();
+  }
+
+  public get<T>(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
     return this.httpClient
       .get<T>(ApiClient.API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response' })
       .pipe(
@@ -49,7 +62,20 @@ export class ApiClient {
           response => {
             if (response.ok)
               return response.body as T;
-            throw this.generateError(endpoint, "get", response.status);
+            throw this.generateError(endpoint, 'get', response.status);
+          }
+        )
+      ).toPromise();
+  }
+
+  public get_void(endpoint: string, headers?: HttpHeaders | { [header: string]: string | string[] }) {
+    return this.httpClient
+      .get(ApiClient.API_ROOT + endpoint, { headers: this.getHeaderWithToken(headers), observe: 'response', responseType: 'text' })
+      .pipe(
+        map(
+          response => {
+            if (!response.ok)
+              throw this.generateError(endpoint, 'get', response.status);
           }
         )
       ).toPromise();
@@ -62,7 +88,7 @@ export class ApiClient {
         map(
           response => {
             if (!response.ok)
-              throw this.generateError(endpoint, "delete", response.status);
+              throw this.generateError(endpoint, 'delete', response.status);
           }
         )
       ).toPromise();
@@ -75,7 +101,7 @@ export class ApiClient {
         map(
           response => {
             if (!response.ok)
-              throw this.generateError(endpoint, "put", response.status);
+              throw this.generateError(endpoint, 'put', response.status);
           }
         )
       ).toPromise();

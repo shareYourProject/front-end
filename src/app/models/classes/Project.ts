@@ -85,7 +85,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
 
     async addMember(memberId: number) {
         if (this.deleted) throw new DeletedDataError();
-        const result = await this.apiClient.post(this.endpoint + `/members/${memberId}`, {})
+        const result = await this.apiClient.post_void(this.endpoint + `/members/${memberId}`, {})
             .then(
                 () => true,
                 e => { console.error('add member', e); return false; }
