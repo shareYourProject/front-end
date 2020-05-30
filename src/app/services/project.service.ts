@@ -25,4 +25,16 @@ export class ProjectService extends CacheServiceBase<Project> {
     return project;
   }
 
+  async getFollowedProject(userId: number): Promise<Project[]> {
+    const res = await this.apiClient.get<{ project_ids: number[] }>(`/user/${userId}/followedProjects`);
+    return (await Promise.all(
+      res.project_ids
+        .map(
+          id => this.get(id).catch(e => console.error('get post', e))
+        )
+
+    ))
+      .filter(function (o): o is Project { return !!o; })
+  }
+
 }
