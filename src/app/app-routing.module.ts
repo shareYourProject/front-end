@@ -25,6 +25,7 @@ import { LoggedUserResolverService } from './resolvers/logged-user-resolver.serv
 import { ProjectResolverService } from './resolvers/project-resolver.service';
 import { PostResolverService } from './resolvers/post-resolver.service';
 import { UserResolverService } from './resolvers/user-resolver.service';
+import { ProjectCreateFormComponent } from './pages/project-create-form/project-create-form.component';
 import { ProjectMembersComponent } from './pages/project/project-members/project-members.component';
 
 
@@ -44,6 +45,7 @@ const routes: Routes = [
     ]
   },
   { path: 'user/:user_id', component: UserPublicPageComponent, resolve: { user: UserResolverService } },
+  { path: 'project/new', component: ProjectCreateFormComponent, canActivate: [AuthGuard], resolve: { me: LoggedUserResolverService } },
   { path: 'project/:project_id', component: ProjectPublicComponent, resolve: { project: ProjectResolverService, me: LoggedUserResolverService } },
   {
     path: 'project/:project_id', component: ProjectMainComponent, resolve: { project: ProjectResolverService, me: LoggedUserResolverService },

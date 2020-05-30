@@ -1,0 +1,33 @@
+<div class="container mt-3">
+  <div class="col-9 mx-auto">
+    <h1 class="display-4 mb-3">Creation of your project</h1>
+
+    <p class="lead mb-4">You are about to create your own project ! Being a project leader is a heavy responsibility, but we are here to help you. Start by telling us a little more about your project :</p>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-row mt-3">
+        <div class="col-md-12 mb-3">
+          <label for="validationServer01">Name of your project</label>
+          <input type="text" placeholder="Smile Leaflet" formControlName="name" class="form-control" [class]="{'is-invalid': form.controls.name.errors?.required && form.controls.name.touched}" id="validationServer01" value="Mark" required>
+          <div class="invalid-feedback" *ngIf="form.controls.name.errors?.required && form.controls.name.touched">
+            Required
+          </div>
+        </div>
+      </div>
+      <div class="form-row mt-3">
+        <div class="col-md-12 mb-3">
+          <label for="validationServer02">Describe your project</label>
+          <textarea class="form-control" rows="9" id="validationServer02" formControlName="description" required [class]="{'is-invalid': form.controls.description.errors?.required && form.controls.description.touched || form.controls.description.errors?.minlength}" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sollicitudin risus quis fermentum hendrerit. Vivamus risus ex, consectetur eu tellus vel, interdum imperdiet nunc. Mauris dictum risus lobortis ligula varius, sed euismod nunc bibendum. Nulla facilisi. Donec eu ex et erat porta finibus quis sit amet nisi. Sed dignissim elementum purus, ac tempus diam pharetra vel. Nullam in libero condimentum, tristique nulla quis, interdum felis. Etiam eu nulla quam. In lacus lectus, luctus vitae condimentum fermentum, fringilla id odio. Pellentesque tincidunt tortor a erat dignissim, vitae tincidunt erat pulvinar. Nullam arcu elit, egestas fringilla mi a, efficitur faucibus felis. Nullam nec facilisis diam, eu vehicula metus. Donec fermentum consectetur viverra."></textarea>
+          <div class="invalid-feedback" *ngIf="form.controls.description.errors?.required && form.controls.description.touched">
+            Required
+          </div>
+          <div class="invalid-feedback" *ngIf="form.controls.description.errors?.minlength">
+            Description too short. Need at least 20 char !
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-end">
+        <button class="btn btn-outline-primary" type="submit" [disabled]="!form.valid">Create <fa-icon [icon]="faArrowRight"></fa-icon></button>
+      </div>
+    </form>
+  </div>
+</div>

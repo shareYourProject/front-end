@@ -32,6 +32,7 @@ import { SkillsListComponent } from './components/skills-list/skills-list.compon
 import { UserCardComponent } from './components/user-card/user-card.component';
 import { PostCardComponent } from './components/core/post-card/post-card.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ProjectCreateFormComponent } from './pages/project-create-form/project-create-form.component';
 import { ProjectMembersComponent } from './pages/project/project-members/project-members.component';
 
 @NgModule({
@@ -59,7 +60,8 @@ import { ProjectMembersComponent } from './pages/project/project-members/project
     SkillsListComponent,
     UserCardComponent,
     PostCardComponent,
-    ProjectMembersComponent
+    ProjectCreateFormComponent,
+    ProjectMembersComponent,
   ],
   imports: [
     FormsModule,

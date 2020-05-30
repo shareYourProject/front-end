@@ -17,4 +17,12 @@ export class ProjectService extends CacheServiceBase<Project> {
     return new Project(this.apiClient, data);
   }
 
+  async create(name: string, description: string) {
+    const data = await this.apiClient.post<ProjectData>('/project', { name, description }).catch(e => console.error('create project', e));
+    if (!data) return null;
+    const project = new Project(this.apiClient, data);
+    this.cache.set(project.id, project);
+    return project;
+  }
+
 }
