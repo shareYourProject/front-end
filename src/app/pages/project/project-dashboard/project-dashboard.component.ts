@@ -6,6 +6,7 @@ import { Post } from 'src/app/models/classes/Post';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { PostService } from 'src/app/services/post.service';
+import { faPaperPlane} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-project-dashboard',
@@ -46,14 +47,18 @@ export class ProjectDashboardComponent implements OnInit {
   }
 
   async onSubmitPost() {
-    if (this._project && this.postForm.valid) {
-
+    console.log(this.project);
+    if (this.project && this.postForm.valid) {
+      console.log(this.postForm);
       const post = await this.posts.create(this.project, this.postForm.value.postContent).catch(() => { });
       if (post)
-        this.router.navigateByUrl(`/project/${this._project.id}/post/${post.id}`);
+        this.router.navigateByUrl(`/post/${post.id}`);
       else
         this.postError = true;
     }
   }
+
+  // Icons
+  faPaperPlane = faPaperPlane;
 
 }
