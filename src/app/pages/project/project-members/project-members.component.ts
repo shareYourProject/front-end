@@ -9,6 +9,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SearchService } from 'src/app/services/search.service';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { faEdit, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
 
 type MemberData = { user: User, permissions: DeepReadonly<Permissions>, disabled?: boolean, edit?: boolean, error?: boolean }
 
@@ -125,4 +126,9 @@ export class ProjectMembersComponent implements OnInit {
       this.searchFrom.enable();
     }
   }
+
+  // Icons
+  faEdit = faEdit;
+  faTrashAlt = faTrashAlt;
+  faSave = faSave;
 }

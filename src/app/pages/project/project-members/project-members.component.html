@@ -1,73 +1,69 @@
-<div class="container">
-    <div class="col">
-        <div class="row mt-2">
-            <div class="card w-100">
-                <div class="card-header">
-                    <h2>Add member</h2>
-                    <form [formGroup]="searchFrom" (ngSubmit)="onSearchMember()">
-                        <input class="form-control" type="text" formControlName="query">
-                    </form>
-                </div>
+<div class="container mt-3 ml-5">
+    <h1 class="display-3 mb-3">Members</h1>
+      <h3 class="display-5 mt-5">New member</h3>
+      <hr>
+      <form [formGroup]="searchFrom" (ngSubmit)="onSearchMember()">
+          <input class="form-control" type="text" formControlName="query">
+      </form>
+      <div class="card my-2" *ngFor="let user of searchUsers">
+          <div class="card-body">
+              <div class="row">
+                  <img [src]="user.profilePictureUrl" width="64" height="64">
+                  <h4 class="mr-auto ml-3 my-auto">{{user.username}}</h4>
+                  <span class="ml-auto mr-0 my-auto">
+                      <button class="btn btn-outline-success mr-2" (click)="addMember(user, btn_add)"
+                          #btn_add>Add</button>
+                  </span>
+              </div>
+          </div>
+      <ng-template #searching>Searching ...</ng-template>
+      </div>
+
+      <h3 class="display-5 mt-5">Members</h3>
+      <hr>
+      <div *ngIf="(members$ | async) as members">
+          <div class="mb-3" *ngFor="let member of members">
+
+              <div class="d-flex justify-content-between">
+                  <div class="d-flex">
+                    <img [src]="member.user.profilePictureUrl" width="64" height="64">
+                    <h4 class="ml-3 my-auto">{{member.user.firstname}} {{member.user.lastname}}</h4>
+                    <a class="my-auto ml-2" [href]="'/user/'+member.user.id">#{{member.user.username}}</a>
+                  </div>
+                  <span class="mr-0 my-auto">
+                      <button *ngIf="member.edit; else editButton" class="btn btn-outline-secondary mr-2"
+                          (click)="cancelEdit(member)" [disabled]="member.disabled">Cancel</button>
+                      <ng-template #editButton>
+                          <button class="btn btn-outline-success mr-2" (click)="member.edit = true"
+                              [disabled]="member.disabled"><fa-icon [icon]="faEdit"></fa-icon> Edit</button>
+                      </ng-template>
+
+                      <button class="btn btn-outline-danger mr-2" (click)="removeMember(member)"
+                          [disabled]="member.disabled"><fa-icon [icon]="faTrashAlt"></fa-icon> Remove</button>
+                  </span>
+              </div>
+
+              <div class="card mt-3" *ngIf="member.edit">
                 <div class="card-body">
-                    <div class="card mb-2" *ngFor="let user of searchUsers">
-                        <div class="card-header">
-                            <div class="row">
-                                <img [src]="user.profilePictureUrl" width="64" height="64">
-                                <h4 class="mr-auto ml-3 my-auto">{{user.username}}</h4>
-                                <span class="ml-auto mr-0 my-auto">
-                                    <button class="btn btn-success mr-2" (click)="addMember(user, btn_add)"
-                                        #btn_add>Add</button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <ng-template #searching>Searching ...</ng-template>
-                </div>
-            </div>
-        </div>
+                    <form (submit)="submitPermissions(member)">
+                        <fieldset [disabled]="member.disabled">
 
-        <div class="row mt-2">
-            <div class="col">
-                <div class="row">
-                    <h2>Member</h2>
-                </div>
-                <div class="row">
-                    <div class="w-100" *ngIf="(members$ | async) as members">
-                        <div class="card bg-light mb-3 w-100" *ngFor="let member of members">
-                            <div class="card-header">
-                                <div class="row">
-                                    <img [src]="member.user.profilePictureUrl" width="64" height="64">
-                                    <h4 class="mr-auto ml-3 my-auto">{{member.user.username}}</h4>
-                                    <span class="ml-auto mr-0 my-auto">
-                                        <button *ngIf="member.edit; else editButton" class="btn btn-secondary mr-2"
-                                            (click)="cancelEdit(member)" [disabled]="member.disabled">Cancel</button>
-                                        <ng-template #editButton>
-                                            <button class="btn btn-success mr-2" (click)="member.edit = true"
-                                                [disabled]="member.disabled">Edit</button>
-                                        </ng-template>
-
-                                        <button class="btn btn-danger mr-2" (click)="removeMember(member)"
-                                            [disabled]="member.disabled">Remove</button>
-                                    </span>
+                            <div *ngFor="let kv of permissionNames | keyvalue" class="d-flex justify-content-between">
+                                <label class="switch" [for]="kv.key">
+                                  <input type="checkbox" [(ngModel)]="member.permissions[kv.key]" [name]="kv.key" [id]="kv.key">
+                                  <div class="slider round"></div>
+                                </label>
+                                <div class="w-25">
+                                  <span class="form-check-label"><strong>{{kv.value}}</strong></span>
                                 </div>
                             </div>
-                            <div class="card-body" *ngIf="member.edit">
-                                <form (submit)="submitPermissions(member)">
-                                    <fieldset [disabled]="member.disabled">
 
-                                        <div class="form-check" *ngFor="let kv of permissionNames | keyvalue">
-                                            <input class="form-check-input" type="checkbox" [(ngModel)]="member.permissions[kv.key]" [name]="kv.key" [id]="kv.key">
-                                            <label class="form-check-label" [for]="kv.key">{{kv.value}}</label>
-                                        </div>
-
-                                        <button class="btn btn-success mt-3" type="submit">Save</button>
-                                    </fieldset>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                            <button class="btn btn-outline-primary btn-block mt-3" type="submit"><fa-icon [icon]="faSave"></fa-icon> Save</button>
+                        </fieldset>
+                    </form>
                 </div>
-            </div>
-        </div>
-    </div>
+              </div>
+          </div>
+      </div>
+
 </div>
