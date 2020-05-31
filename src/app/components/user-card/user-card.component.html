@@ -6,7 +6,7 @@
         <div class="col-md-10">
             <div class="card-body">
                 <div class="card-title">
-                    <h5 class="d-inline mr-3"><a [routerLink]="'/user/' + user.id">{{user.username}}</a></h5>
+                    <h5 class="d-inline mr-3">{{user.firstname}} {{user.lastname}}<a class="ml-1" [routerLink]="'/user/' + user.id">#{{user.username}}</a></h5>
                     <app-skills-list [user]="user"></app-skills-list>
                 </div>
                 <p class="card-text">{{user.biography}}</p>
