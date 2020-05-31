@@ -20,6 +20,11 @@ type MemberData = { user: User, permissions: DeepReadonly<Permissions>, disabled
 })
 export class ProjectMembersComponent implements OnInit {
 
+  // Icons
+  faEdit = faEdit;
+  faTrashAlt = faTrashAlt;
+  faSave = faSave;
+
   readonly permissionNames: { [key in Exclude<keyof Permissions, 'member_id' | 'project_id'>]: string } = {
     deposit_file: 'Deposit file',
     manage_members: 'Manage members',
@@ -62,14 +67,16 @@ export class ProjectMembersComponent implements OnInit {
   updateMemberList() {
     this.members$ = this.users.getMany(this.project.memberIds)
       .then(
-        members => members.map(
-          m => {
-            return {
-              user: m,
-              permissions: this.project.getPermissions(m.id)
+        members => members
+          .filter(u => this.project.ownerId !== u.id)
+          .map(
+            m => {
+              return {
+                user: m,
+                permissions: this.project.getPermissions(m.id)
+              }
             }
-          }
-        )
+          )
       );
   }
 
@@ -127,8 +134,4 @@ export class ProjectMembersComponent implements OnInit {
     }
   }
 
-  // Icons
-  faEdit = faEdit;
-  faTrashAlt = faTrashAlt;
-  faSave = faSave;
 }

@@ -49,6 +49,8 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
 
     get endpoint() { return `/project/${this.id}`; }
 
+    get ownerId() { return this._owner_id; }
+
     get name() { return this._name; }
 
     get description() { return this._description; }
