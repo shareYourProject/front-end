@@ -10,4 +10,5 @@ export interface UserData extends ApiData {
     biography?: string;
     links?: LinkData[];
     project_ids?: number[];
+    followed_project_ids?: number[];
 }

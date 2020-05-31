@@ -6,6 +6,7 @@ import { UserService } from 'src/app/services/user.service';
 import { Post } from 'src/app/models/classes/Post';
 import { PostService } from 'src/app/services/post.service';
 import { faTachometerAlt, faBell } from '@fortawesome/free-solid-svg-icons';
+import { ThrowStmt } from '@angular/compiler';
 
 type Tabs = 'publications' | 'members' | 'about';
 
@@ -15,6 +16,10 @@ type Tabs = 'publications' | 'members' | 'about';
   styleUrls: ['./project-public.component.scss']
 })
 export class ProjectPublicComponent implements OnInit {
+
+  // Icons
+  readonly faTachometerAlt = faTachometerAlt;
+  readonly faBell = faBell;
 
   project: Project;
   me: User | null;
@@ -44,8 +49,20 @@ export class ProjectPublicComponent implements OnInit {
     console.log(this.project);
   }
 
-  // Icons
+  isFollowed(): boolean {
+    return !!this.me && this.me.followedProjectIds.includes(this.project.id);
+  }
 
-  faTachometerAlt = faTachometerAlt;
-  faBell = faBell;
+  async onFollowClick(btn: HTMLButtonElement) {
+    btn.disabled = true;
+    try {
+      if (this.isFollowed()) {
+        await this.project.unfollow();
+      } else {
+        await this.project.follow();
+      }
+      await this.me?.fetch();
+    } catch (e) { console.error('fail follow button click', e); }
+    btn.disabled = false;
+  }
 }

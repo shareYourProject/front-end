@@ -22,7 +22,7 @@
                                     <button type="button" *ngIf="imMember" class="btn btn-outline-success mr-2" routerLink="dashboard">
                                         <fa-icon [icon]="faTachometerAlt"></fa-icon> Dashboard
                                     </button>
-                                    <button type="button" *ngIf="me" class="btn btn-outline-primary">
+                                    <button #follow_btn type="button" *ngIf="me" (click)="onFollowClick(follow_btn)" class="btn" [ngClass]="{'btn-outline-primary': !isFollowed(), 'btn-primary': isFollowed()}">
                                         <fa-icon [icon]="faBell"></fa-icon> Follow
                                     </button>
                                 </div>
@@ -49,9 +49,9 @@
             </div>
 
             <div *ngIf="tab === 'publications'" class="row">
-              <div class="col-12 pl-0 mt-3" *ngIf='(posts$ | async) as posts; else postsLoading'>
-                <app-post-card [post]="post" *ngFor="let post of posts"></app-post-card>
-              </div>
+                <div class="col-12 pl-0 mt-3" *ngIf='(posts$ | async) as posts; else postsLoading'>
+                    <app-post-card [post]="post" *ngFor="let post of posts"></app-post-card>
+                </div>
             </div>
 
             <div *ngIf="tab === 'members'">
@@ -61,7 +61,7 @@
             </div>
 
             <div *ngIf="tab === 'about'">
-                <div class="row" >
+                <div class="row">
                     <div class="col-12 pl-0 mt-3">
                         <div class="card">
                             <div class="card-body">

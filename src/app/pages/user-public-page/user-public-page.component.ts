@@ -5,6 +5,9 @@ import { Project } from 'src/app/models/classes/Project';
 import { ProjectService } from 'src/app/services/project.service';
 import { Post } from 'src/app/models/classes/Post';
 import { PostService } from 'src/app/services/post.service';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
+
+type Tabs = "tab 1" | "tab with explicit name 2" | "tab 3" | "tab 4";
 
 @Component({
   selector: 'app-user-public-page',
@@ -13,7 +16,11 @@ import { PostService } from 'src/app/services/post.service';
 })
 export class UserPublicPageComponent implements OnInit {
 
+  // Icons
+  readonly faBell = faBell;
+
   user: User;
+  me: User | null;
   projects$: Promise<Project[]>;
   likedPosts$: Promise<Post[]>;
   tab: Tabs = "tab 1";
@@ -26,8 +33,9 @@ export class UserPublicPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe(
-      (data: { user: User }) => {
+      (data: { user: User, me: User | null }) => {
         this.user = data.user;
+        this.me = data.me;
         this.projects$ = this.projects.getMany(this.user.projectIds);
         this.likedPosts$ = this.posts.getLikedPosts(this.user.id);
       }
@@ -38,6 +46,21 @@ export class UserPublicPageComponent implements OnInit {
     this.tab = tab;
   }
 
+  /*
+  isFollowed() {
+    return false; // TODO
+  }
+
+  async onFollowClick(v: any) {
+    console.log(v);
+    if (this.isFollowed()) {
+    
+    } else {
+
+    }
+  }
+*/
+
 }
 
-type Tabs = "tab 1" | "tab with explicit name 2" | "tab 3" | "tab 4";
+

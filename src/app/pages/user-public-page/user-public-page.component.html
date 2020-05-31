@@ -1,90 +1,93 @@
 <div class="container">
-  <div class="row justify-content-center mt-0">
-      <div class="col-md-10">
-          <div class="row">
-              <div class="banner">
-                  <div class="banner-top">
-                      <img src="https://api.shareyourproject.fr/storage/user/default_banner.png" class="mw-100" alt="banner">
-                      <img src="https://api.shareyourproject.fr/storage/user/default_profile.png" class="profile-picture rounded-circle" alt="profile_picture">
-                  </div>
-                  <div class="card rounded-0 border-bottom-0">
-                      <div class="card-body">
-                          <div class="row">
-                              <div class="col-3">
+    <div class="row justify-content-center mt-0">
+        <div class="col-md-10">
+            <div class="row">
+                <div class="banner">
+                    <div class="banner-top">
+                        <img src="https://api.shareyourproject.fr/storage/user/default_banner.png" class="mw-100" alt="banner">
+                        <img src="https://api.shareyourproject.fr/storage/user/default_profile.png" class="profile-picture rounded-circle" alt="profile_picture">
+                    </div>
+                    <div class="card rounded-0 border-bottom-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-3">
 
-                              </div>
-                              <div class="col-6">
-                                  <h2>
-                                      <strong>{{ user.firstname }} {{ user.lastname }}</strong>
-                                      <a href="#"><small><em>#{{ user.username}}</em></small></a>
-                                  </h2>
-                              </div>
-                              <div class="col-3 d-flex justify-content-end">
-                                  <button type="button" class="btn btn-outline-primary">
-                                      <i data-feather="bell"></i> Suivre
-                                  </button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="row bg-white">
-              <div class="col-12 p-0 m-0">
-                  <ul class="nav nav-pills nav-justified">
-                      <li class="nav-item rounded-0">
-                        <a class="nav-link link-item" [ngClass]="{active: tab === 'tab 1'}" (click)="tab = 'tab 1'">Biographie</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link link-item" [ngClass]="{active: tab === 'tab with explicit name 2'}" (click)="tab = 'tab with explicit name 2'">Projets</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link link-item" [ngClass]="{active: tab === 'tab 3'}" (click)="tab = 'tab 3'">J'aime</a>
-                      </li>
-                  </ul>
-              </div>
-          </div>
+                                </div>
+                                <div class="col-6">
+                                    <h2>
+                                        <strong>{{ user.firstname }} {{ user.lastname }}</strong>
+                                        <a href="#"><small><em>#{{ user.username}}</em></small></a>
+                                    </h2>
+                                </div>
+                                <!--
+                                <div class="col-3 d-flex justify-content-end">
+                                    <button type="button" *ngIf="me" (click)="onFollowClick()" class="btn" [ngClass]="{'btn-outline-primary': !isFollowed(), 'btn-primary': isFollowed()}">
+                                    <fa-icon [icon]="faBell"></fa-icon> Follow
+                                </button>
+                                </div>
+                                -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row bg-white">
+                <div class="col-12 p-0 m-0">
+                    <ul class="nav nav-pills nav-justified">
+                        <li class="nav-item rounded-0">
+                            <a class="nav-link link-item" [ngClass]="{active: tab === 'tab 1'}" (click)="tab = 'tab 1'">Biographie</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link link-item" [ngClass]="{active: tab === 'tab with explicit name 2'}" (click)="tab = 'tab with explicit name 2'">Projets</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link link-item" [ngClass]="{active: tab === 'tab 3'}" (click)="tab = 'tab 3'">J'aime</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
 
-              <div *ngIf="tab === 'tab 1'" class="row">
-                  <div class="col-12 pl-0 mt-3">
-                      <div class="card">
-                          <div class="card-body">
-                              <h2 class="display-4">Skills</h2>
-                              <app-skills-list [user]="user"></app-skills-list>
-                          </div>
-                      </div>
-                      <div class="card mt-3">
-                          <div class="card-body">
-                              <h2 class="display-4">Biographie</h2>
-                              <p>{{ user.biography }}</p>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+            <div *ngIf="tab === 'tab 1'" class="row">
+                <div class="col-12 pl-0 mt-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="display-4">Skills</h2>
+                            <app-skills-list [user]="user"></app-skills-list>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h2 class="display-4">Biographie</h2>
+                            <p>{{ user.biography }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-              <!-- Followed projects -->
-              <div *ngIf="tab === 'tab with explicit name 2'" class="row">
-                  <div class="col-12 pl-0 mt-3">
+            <!-- Followed projects -->
+            <div *ngIf="tab === 'tab with explicit name 2'" class="row">
+                <div class="col-12 pl-0 mt-3">
 
                     <div *ngIf="(projects$ | async) as projects">
-                      <app-project-card *ngFor="let project of projects" class="d-block mb-3" [project]="project"></app-project-card>
+                        <app-project-card *ngFor="let project of projects" class="d-block mb-3" [project]="project">
+                        </app-project-card>
                     </div>
 
-                  </div>
-              </div>
+                </div>
+            </div>
 
-              <!-- Likeds posts -->
-              <div *ngIf="tab === 'tab 3'" class="row">
-                  <div class="col-12 pl-0 mt-3">
+            <!-- Likeds posts -->
+            <div *ngIf="tab === 'tab 3'" class="row">
+                <div class="col-12 pl-0 mt-3">
 
                     <div *ngIf="(likedPosts$ | async) as posts">
-                      <app-post-card *ngFor="let post of posts" class="d-block mb-3" [post]="post"></app-post-card>
+                        <app-post-card *ngFor="let post of posts" class="d-block mb-3" [post]="post"></app-post-card>
                     </div>
 
-                  </div>
-              </div>
+                </div>
+            </div>
 
-      </div>
-  </div>
+        </div>
+    </div>
 </div>

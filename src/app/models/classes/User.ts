@@ -15,6 +15,7 @@ export class User extends EditalbeApiObject<IUser, UserData> implements DeepRead
     private _biography?: string;
     private _links: LinkData[];
     private _projectIds: number[];
+    private _followedProjectIds: number[];
 
     protected setData(data: UserData) {
         this._username = data.username;
@@ -25,6 +26,7 @@ export class User extends EditalbeApiObject<IUser, UserData> implements DeepRead
         this._biography = data.biography;
         this._links = data.links ? [...data.links] : []; //new Map(data.links ? data.links.map(l => [l.key, l.value]) : []);
         this._projectIds = data.project_ids ? [...data.project_ids] : [];
+        this._followedProjectIds = data.followed_project_ids ? [...data.followed_project_ids] : [];
     }
 
     /*
@@ -96,4 +98,5 @@ export class User extends EditalbeApiObject<IUser, UserData> implements DeepRead
 
     get projectIds() { return this._projectIds as readonly number[]; }
 
+    get followedProjectIds() { return this._followedProjectIds as readonly number[]; }
 }
