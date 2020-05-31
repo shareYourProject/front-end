@@ -82,7 +82,7 @@
                 <div class="col-12 pl-0 mt-3">
 
                     <div *ngIf="(likedPosts$ | async) as posts">
-                        <app-post-card *ngFor="let post of posts" class="d-block mb-3" [post]="post"></app-post-card>
+                        <app-post-card *ngFor="let post of posts" class="d-block mb-3" [post]="post" [me]="me"></app-post-card>
                     </div>
 
                 </div>

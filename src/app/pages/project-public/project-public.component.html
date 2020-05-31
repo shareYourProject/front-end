@@ -50,7 +50,7 @@
 
             <div *ngIf="tab === 'publications'" class="row">
                 <div class="col-12 pl-0 mt-3" *ngIf='(posts$ | async) as posts; else postsLoading'>
-                    <app-post-card [post]="post" *ngFor="let post of posts"></app-post-card>
+                    <app-post-card [post]="post" [me]="me" *ngFor="let post of posts"></app-post-card>
                 </div>
             </div>
 
