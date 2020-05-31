@@ -29,7 +29,7 @@ export class PostService extends CacheServiceBase<Post> {
   }
 
   async create(project: Project, content: string) {
-    const data = await this.apiClient.post<PostData>(`/project/${project.id}/post/`, { content });
+    const data = await this.apiClient.post<PostData>(`/project/${project.id}/post`, { content });
     const author = await this.users.get(data.author_id);
     const post = new Post(this.apiClient, data, author, project);
     this.cache.set(post.id, post);
