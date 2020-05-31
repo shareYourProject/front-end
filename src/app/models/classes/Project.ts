@@ -5,7 +5,7 @@ import { IProject } from '../object interfaces/IProject';
 import { EditalbeApiObject } from './EditableApiObject';
 import { ApiClient } from 'src/app/services/api-client.service';
 import { LinkData } from '../api/LinkData';
-import { Permissions, getPermissionsNone } from '../api/Permissions';
+import { Permissions, getPermissionsNone, getPermissionsFull } from '../api/Permissions';
 
 export class Project extends EditalbeApiObject<IProject, ProjectData> implements DeepReadonly<IProject> {
 
@@ -80,6 +80,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
     }
 
     getPermissions(memberId: number) {
+        if (memberId === this._owner_id) return getPermissionsFull(memberId, this.id);
         return this.permissions.get(memberId) ?? getPermissionsNone(memberId, this.id);
     }
 

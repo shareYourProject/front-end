@@ -21,3 +21,16 @@ export function getPermissionsNone(user_id: number, project_id: number): Permiss
         manage_members: false
     };
 }
+
+export function getPermissionsFull(user_id: number, project_id: number): Permissions {
+    return {
+        member_id: user_id,
+        project_id,
+        delete_file: true,
+        deposit_file: true,
+        create_post: true,
+        manage_permissions: true,
+        manage_project: true,
+        manage_members: true
+    };
+}

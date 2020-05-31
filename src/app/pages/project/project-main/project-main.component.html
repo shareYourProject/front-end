@@ -1,25 +1,26 @@
 <div class="container-fluid">
     <div class="row">
         <div class="vertical-nav bg-white mt-5" id="sidebar">
-          <div class="py-4 px-3 mb-4 bg-light">
-            <div class="media d-flex align-items-center"><img src="https://api.shareyourproject.fr/storage/project/default_logo.png" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm">
-              <div class="media-body">
-                <h4 class="m-0"><fa-icon [icon]="faTachometerAlt"></fa-icon> My Dashboard</h4>
-                <p class="text-muted mb-0">{{ project.name }}</p>
-              </div>
+            <div class="py-4 px-3 mb-4 bg-light">
+                <div class="media d-flex align-items-center"><img src="https://api.shareyourproject.fr/storage/project/default_logo.png" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+                    <div class="media-body">
+                        <h4 class="m-0">
+                            <fa-icon [icon]="faTachometerAlt"></fa-icon> My Dashboard</h4>
+                        <p class="text-muted mb-0">{{ project.name }}</p>
+                    </div>
+                </div>
             </div>
-          </div>
 
-          <p class="text-gray font-weight-bold text-uppercase px-3 pb-4 mb-0">My Dashboard</p>
+            <p class="text-gray font-weight-bold text-uppercase px-3 pb-4 mb-0">My Dashboard</p>
 
-          <ul class="nav flex-column bg-white mb-0">
-            <li *ngFor="let nav of navs" class="nav-item">
-              <a [routerLink]="url + nav.url" class="nav-link text-dark">
-                    <fa-icon [icon]="nav.icon"></fa-icon>
+            <ul class="nav flex-column bg-white mb-0">
+                <li *ngFor="let nav of navs" class="nav-item">
+                    <a *ngIf="!nav.condition || nav.condition()" [routerLink]="url + nav.url" class="nav-link text-dark">
+                        <fa-icon [icon]="nav.icon"></fa-icon>
                         {{nav.name}}
                     </a>
-            </li>
-          </ul>
+                </li>
+            </ul>
 
         </div>
 
