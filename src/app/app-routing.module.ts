@@ -32,7 +32,7 @@ import { FeedComponent } from './pages/feed/feed.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'feed', component: FeedComponent, data: { me: LoggedUserResolverService } },
+  { path: 'feed', component: FeedComponent, resolve: { me: LoggedUserResolverService } },
   { path: 'search', redirectTo: 'search/', pathMatch: 'full' },
   { path: 'search/:query', component: SearchComponent },
   { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard] },
