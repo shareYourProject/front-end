@@ -27,6 +27,7 @@ import { PostResolverService } from './resolvers/post-resolver.service';
 import { UserResolverService } from './resolvers/user-resolver.service';
 import { ProjectCreateFormComponent } from './pages/project-create-form/project-create-form.component';
 import { ProjectMembersComponent } from './pages/project/project-members/project-members.component';
+import { PermissionsGuard } from './guards/permissions.guard';
 import { FeedComponent } from './pages/feed/feed.component';
 
 
@@ -53,15 +54,15 @@ const routes: Routes = [
     path: 'project/:project_id', component: ProjectMainComponent, resolve: { project: ProjectResolverService, me: LoggedUserResolverService },
     children: [
       { path: 'dashboard', component: ProjectDashboardComponent },
-      { path: 'settings', component: ProjectSettingsComponent },
-      { path: 'members', component: ProjectMembersComponent },
+      { path: 'settings', component: ProjectSettingsComponent, canActivate: [PermissionsGuard], data: { permissions: { manage_project: true } } },
+      { path: 'members', component: ProjectMembersComponent, canActivate: [PermissionsGuard], data: { permissions: { manage_members: true } } },
     ]
   },
   { path: '**', redirectTo: '' } // keep it at last position !
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { paramsInheritanceStrategy: 'always' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {
