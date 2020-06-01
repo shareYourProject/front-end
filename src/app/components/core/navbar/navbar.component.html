@@ -15,7 +15,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item" *ngFor="let route of rightNavs$ | async">
                     <a *ngIf="route.type === 'link'" class="nav-link" [routerLink]="route.path" [queryParams]="getParams(route.params)">{{route.name}}</a>
-                    <button *ngIf="route.type === 'button'" (click)="route.onClick()" [class]="'btn btn-outline-' + route.buttonType">{{route.name}}</button>
+                    <button *ngIf="route.type === 'button'" (click)="route.onClick()" [class]="'btn btn-outline-' + route.buttonType">{{route.name}} <fa-icon *ngIf="route.name === 'Logout'" [icon]="faSignOutAlt"></fa-icon></button>
                 </li>
             </ul>
         </div>

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiClient } from 'src/app/services/api-client.service';
 import { Observable } from 'rxjs';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 type NavPath = {
   name: string;
@@ -30,13 +31,14 @@ export class NavbarComponent implements OnInit {
 
   private readonly offlineNav: NavPath[] = [
     { type: 'link', name: 'Home', path: '/', right: false },
+    { type: 'link', name: 'Feed', path: '/feed', right: false },
     { type: 'link', name: 'Login', path: '/login', params: {redirectTo: () => this.router.url}, right: true },
     { type: 'link', name: 'Register', path: '/register', right: true },
   ];
 
   private readonly onlineNav: NavPath[] = [
     { type: 'link', name: 'Home', path: '/', right: false },
-    { type: 'link', name: 'Me', path: '/me', right: false },
+    { type: 'link', name: 'My feed', path: '/feed', right: false },
     { type: 'button', name: 'Logout', onClick: () => this.logout(), buttonType: 'danger', right: true },
   ];
 
@@ -90,5 +92,8 @@ export class NavbarComponent implements OnInit {
         p[k] = p[k]();
     return p;
   }
+
+  // Icons
+  faSignOutAlt = faSignOutAlt;
 
 }
