@@ -1,0 +1,24 @@
+.banner-top{
+    max-height: 250px;
+    position: relative;
+  }
+  
+  $profile_picture_height: 150px;
+  
+  .profile-picture{
+    background-color: white;
+    position: absolute;
+    height: $profile_picture_height;
+    width: auto;
+    left: 50px;
+    bottom: -$profile_picture_height/3;
+    z-index: 5;
+  }
+  
+  .link-item:hover{
+    cursor: pointer;
+  }
+
+  #description{
+      font-size: medium;
+  }

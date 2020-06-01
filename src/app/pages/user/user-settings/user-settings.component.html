@@ -1,15 +1,120 @@
-<div class="container">
-
+<!-- <div class="container">
     <div class="alert alert-danger" *ngIf="result === 'error'">
         <p>Error !</p>
     </div>
     <div class="alert alert-success" *ngIf="result === 'success'">
         <p>Success !</p>
     </div>
-    <p>Status: {{result}}</p>
-    <p>firstname: {{user.firstname}}</p>
-    <form (submit)="submit()">
-        <input type="text" [(ngModel)]="data.firstname" name="firstName">
-        <button class="btn btn-success" type="submit">Submit</button>
-    </form>
+  -->
+<div class="container">
+    <div class="row justify-content-center mt-0">
+        <div class="col-md-10">
+            <div class="row">
+                <div class="banner">
+                    <div class="banner-top">
+                        <img src="https://api.shareyourproject.fr/storage/user/default_banner.png" class="mw-100" alt="banner">
+                        <img src="https://api.shareyourproject.fr/storage/user/default_profile.png" class="profile-picture rounded-circle" alt="profile_picture">
+                    </div>
+                    <div class="card rounded-0 border-bottom-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-2">
+
+                                </div>
+                                <div class="col-6 ml-4">
+                                    <h2>
+                                        <strong>{{ user.firstname }} {{ user.lastname }}</strong>
+                                        <a class="ml-2" [href]="'/user/'+user.id"><small><em>#{{ user.username}}</em></small></a>
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="card col-12 px-3 mt-3 mb-3">
+                    <div class="card-body">
+
+                        <h1 class="display-5 mb-3">Settings</h1>
+                        <div class="alert alert-danger" *ngIf="result === 'error'">
+                            <span>An error has occured while updating your settings !</span>
+                        </div>
+                        <div class="alert alert-success" *ngIf="result === 'success'">
+                            <span>Your settings have been updated !</span>
+                        </div>
+                        <form class="needs-validation" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+                            <h3 class="display-5 mt-3">General</h3>
+                            <hr>
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="validationCustom01">Your firstname</label>
+                                    <input type="text" class="form-control" id="validationCustom01" formControlName="firstname" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="validationCustom01">Your lastname</label>
+                                    <input type="text" class="form-control" id="validationCustom01" formControlName="lastname" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="validationCustom01">Your username</label>
+                                    <input type="text" class="form-control" id="validationCustom01" formControlName="username" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="validationCustom01">Your email</label>
+                                    <input type="email" class="form-control" id="validationCustom01" formControlName="email" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">Your biography</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" formControlName="biography" rows="5"></textarea>
+                            </div>
+
+                            <div class="d-flex justify-content-between mt-5">
+                                <h3 class="display-5">Links</h3>
+                                <button type="button" class="btn btn-outline-primary" (click)="addLink()"><fa-icon [icon]="faPlus"></fa-icon> Add</button>
+                            </div>
+                            <hr>
+
+                            <div class="mb-3" formArrayName="links" *ngFor="let link of linksControl.controls; let i = index;">
+                                <div [formGroupName]="i" class="form-row">
+                                    <div class="col-md-3">
+                                        <label [for]="'key_' + i" class="text-muted"><small>Name</small></label>
+                                        <input type="text" class="form-control" [id]="'key_' + i" formControlName="key" required>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <label [for]="'value_' + i" class="text-muted"><small>URL</small></label>
+                                        <input type="text" class="form-control" [id]="'value_' + i" formControlName="value" required>
+                                    </div>
+                                    <div class="d-flex col-md-2 align-items-end justify-content-end">
+                                        <button class="btn btn-outline-danger" type="button" (click)="removeLink(i)"><fa-icon [icon]="faTrashAlt"></fa-icon> Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mt-5">
+                                <h3 class="display-5">Skills</h3>
+                                <button type="button" class="btn btn-outline-primary" (click)="addSkill()"><fa-icon [icon]="faPlus"></fa-icon> Add</button>
+                            </div>
+                            <hr>
+                            <div class="form-row mb-3" formArrayName="skills" *ngFor="let skill of skillsControl.controls; let i = index;">
+                                <div class="col-md-10">
+                                    <label [for]="'skill_' + i" class="text-muted"><small>Name</small></label>
+                                    <input type="text" class="form-control" [id]="'skill_' + i" [formControlName]="i" required>
+                                </div>
+                                <div class="d-flex col-md-2 align-items-end justify-content-end">
+                                    <button class="btn btn-outline-danger" type="button" (click)="removeSkill(i)"><fa-icon [icon]="faTrashAlt"></fa-icon> Remove</button>
+                                </div>
+                            </div>
+                            <button class="btn btn-block btn-outline-primary" type="submit" [disabled]="!form.valid"><fa-icon [icon]="faSave"></fa-icon> Save</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
