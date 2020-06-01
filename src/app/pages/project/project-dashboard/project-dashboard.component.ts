@@ -6,7 +6,7 @@ import { Post } from 'src/app/models/classes/Post';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { PostService } from 'src/app/services/post.service';
-import { faPaperPlane} from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-project-dashboard',
@@ -15,18 +15,18 @@ import { faPaperPlane} from '@fortawesome/free-solid-svg-icons';
 })
 export class ProjectDashboardComponent implements OnInit {
 
+  // Icons
+  faPaperPlane = faPaperPlane;
+
   postForm: FormGroup;
-  postError = false;
+  postResult: 'none' | 'success' | 'error' = 'none';
 
   project: Project;
   members$: Promise<User[]>;
   posts$: Promise<Post[]>;
 
-  private _project?: Project;
-
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly router: Router,
     private readonly users: UserService,
     private readonly posts: PostService,
     formBuilder: FormBuilder,
@@ -47,18 +47,20 @@ export class ProjectDashboardComponent implements OnInit {
   }
 
   async onSubmitPost() {
-    console.log(this.project);
-    if (this.project && this.postForm.valid) {
-      console.log(this.postForm);
+    if (this.postForm.valid) {
+      this.postForm.disable();
       const post = await this.posts.create(this.project, this.postForm.value.postContent).catch(() => { });
-      if (post)
-        this.router.navigateByUrl(`/post/${post.id}`);
-      else
-        this.postError = true;
+      if (post) {
+        this.postForm.reset();
+        this.postResult = 'success';
+        await this.project.fetch();
+        this.posts$ = this.posts.getMany(this.project.postIds);
+      } else {
+        this.postResult = 'error';
+      }
+      this.postForm.enable();
     }
   }
 
-  // Icons
-  faPaperPlane = faPaperPlane;
 
 }

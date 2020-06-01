@@ -1,44 +1,47 @@
 <div class="container mt-3 ml-5 w-100" style="max-width: 75vw;">
-  <h1 class="display-3">Dashboard</h1>
-  <h2 class="mb-3">{{project.name}}</h2>
+    <h1 class="display-3">Dashboard</h1>
+    <h2 class="mb-3">{{project.name}}</h2>
 
-  <div class="row">
-    <div class="col-12">
-      <h3 class="display-5 mt-2">New post</h3>
-      <hr>
-      <form [formGroup]="postForm" (submit)="onSubmitPost()">
-        <div class="form-group">
-            <label for="postContent">Create a new post</label>
-            <div *ngIf="postError" class="alert alert-danger">
-                <p>An error occurs</p>
-            </div>
-            <textarea class="form-control" id="postContent" formControlName="postContent" rows=" 3 "></textarea>
+    <div class="row">
+        <div class="col-12">
+            <h3 class="display-5 mt-2">New post</h3>
+            <hr>
+            <form [formGroup]="postForm" (submit)="onSubmitPost()">
+                <div class="form-group">
+                    <label for="postContent">Create a new post</label>
+                    <div *ngIf="postResult === 'error'" class="alert alert-danger">
+                        <p>An error occurs</p>
+                    </div>
+                    <div *ngIf="postResult === 'success'" class="alert alert-success">
+                        <p>Successfulled posted</p>
+                    </div>
+                    <textarea class="form-control" id="postContent" formControlName="postContent" rows=" 3 "></textarea>
+                </div>
+
+                <button class="btn btn-outline-primary btn-block">Publish <fa-icon [icon]="faPaperPlane"></fa-icon></button>
+            </form>
         </div>
+    </div>
 
-        <button class="btn btn-outline-primary btn-block">Publish <fa-icon [icon]="faPaperPlane"></fa-icon></button>
-      </form>
+    <div class="row">
+        <div class="col-7 mx-2">
+            <h3 class="display-5 mt-5">Members</h3>
+            <hr>
+            <div *ngIf="(members$ | async) as members; else membersLoading">
+                <app-user-list [users]="members"></app-user-list>
+            </div>
+            <ng-template #membersLoading>
+                Loading members...
+            </ng-template>
+        </div>
+        <div class="col-4 mx-2">
+            <h3 class="display-5 mt-5">Posts</h3>
+            <hr>
+            <div class="col-12 px-0 mt-3" *ngIf='(posts$ | async) as posts'>
+                <app-post-card [post]="post" [me]="null" *ngFor="let post of posts"></app-post-card>
+            </div>
+        </div>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="col-7 mx-2">
-      <h3 class="display-5 mt-5">Members</h3>
-      <hr>
-      <div *ngIf="(members$ | async) as members; else membersLoading">
-        <app-user-list [users]="members"></app-user-list>
-      </div>
-      <ng-template #membersLoading>
-        Loading members...
-      </ng-template>
-    </div>
-    <div class="col-4 mx-2">
-      <h3 class="display-5 mt-5">Posts</h3>
-      <hr>
-      <div class="col-12 px-0 mt-3" *ngIf='(posts$ | async) as posts'>
-        <app-post-card [post]="post" [me]="null" *ngFor="let post of posts"></app-post-card>
-    </div>
-    </div>
-  </div>
 </div>
 
 <ng-template #loading>
