@@ -2,7 +2,7 @@
     <div class="row">
         <div class="vertical-nav bg-white mt-5" id="sidebar">
             <div class="py-4 px-3 mb-4 bg-light">
-                <div class="media d-flex align-items-center"><img src="https://api.shareyourproject.fr/storage/project/default_logo.png" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+                <div class="media d-flex align-items-center"><img [src]="'https://picsum.photos/id/' + project.id + '/150/150'" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm">
                     <div class="media-body">
                         <h4 class="m-0">
                             <fa-icon [icon]="faTachometerAlt"></fa-icon> My Dashboard</h4>
