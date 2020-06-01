@@ -1,5 +1,6 @@
-<div class="container mt-3">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+<div class="container pt-5">
+  <h3 class="display-5">Sign into your account</h3>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="needs-validation mt-5" novalidate>
 
         <div class="form-group">
             <label for="username">Username</label>
@@ -17,6 +18,6 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Login</button>
+        <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Login</button>
     </form>
 </div>

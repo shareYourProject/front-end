@@ -1,5 +1,6 @@
-<div class="container mt-3">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+<div class="container pt-5">
+  <h3 class="display-5">Create your account</h3>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-5">
         <div class="form-row">
             <div class="form-group col">
                 <label for="firstname">Firstname</label>
@@ -44,6 +45,6 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Register</button>
+        <button type="submit" class="btn btn-outline-primary btn-block" [disabled]="!form.valid">Register</button>
     </form>
 </div>
