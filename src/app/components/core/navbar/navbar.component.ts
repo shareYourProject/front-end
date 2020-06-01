@@ -39,6 +39,7 @@ export class NavbarComponent implements OnInit {
   private readonly onlineNav: NavPath[] = [
     { type: 'link', name: 'Home', path: '/', right: false },
     { type: 'link', name: 'My feed', path: '/feed', right: false },
+    { type: 'link', name: 'My settings', path: '/me/settings', right: false },
     { type: 'button', name: 'Logout', onClick: () => this.logout(), buttonType: 'danger', right: true },
   ];
 
