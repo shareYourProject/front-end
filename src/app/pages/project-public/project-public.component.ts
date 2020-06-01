@@ -5,7 +5,7 @@ import { User } from 'src/app/models/classes/User';
 import { UserService } from 'src/app/services/user.service';
 import { Post } from 'src/app/models/classes/Post';
 import { PostService } from 'src/app/services/post.service';
-import { faTachometerAlt, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faTachometerAlt, faBell, faBellSlash } from '@fortawesome/free-solid-svg-icons';
 import { ThrowStmt } from '@angular/compiler';
 
 type Tabs = 'publications' | 'members' | 'about';
@@ -20,6 +20,7 @@ export class ProjectPublicComponent implements OnInit {
   // Icons
   readonly faTachometerAlt = faTachometerAlt;
   readonly faBell = faBell;
+  readonly faBellSlash = faBellSlash;
 
   project: Project;
   me: User | null;

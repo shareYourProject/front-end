@@ -23,7 +23,10 @@
                                         <fa-icon [icon]="faTachometerAlt"></fa-icon> Dashboard
                                     </button>
                                     <button #follow_btn type="button" *ngIf="me" (click)="onFollowClick(follow_btn)" class="btn" [ngClass]="{'btn-outline-primary': !isFollowed(), 'btn-primary': isFollowed()}">
-                                        <fa-icon [icon]="faBell"></fa-icon> Follow
+                                        <fa-icon [icon]="faBell" *ngIf="!isFollowed()"></fa-icon>
+                                        <fa-icon [icon]="faBellSlash" *ngIf="isFollowed()"></fa-icon>
+                                        <span *ngIf="!isFollowed()" class="ml-1">Follow</span>
+                                        <span *ngIf="isFollowed()" class="ml-1">Unfollow</span>
                                     </button>
                                 </div>
                             </div>
