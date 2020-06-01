@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { faEdit, faTrashAlt, faSave } from '@fortawesome/free-solid-svg-icons';
 
-type MemberData = { user: User, permissions: DeepReadonly<Permissions>, disabled?: boolean, edit?: boolean, error?: boolean }
+type MemberData = { user: User, permissionsForm: FormGroup, disabled?: boolean, edit?: boolean, error?: boolean }
 
 @Component({
   selector: 'app-project-members',
@@ -47,7 +47,7 @@ export class ProjectMembersComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly users: UserService,
     private readonly search: SearchService,
-    formBuilder: FormBuilder,
+    private readonly formBuilder: FormBuilder,
   ) {
     this.searchFrom = formBuilder.group({
       query: ['', Validators.required]
@@ -73,7 +73,7 @@ export class ProjectMembersComponent implements OnInit {
             m => {
               return {
                 user: m,
-                permissions: this.project.getPermissions(m.id)
+                permissionsForm: this.formBuilder.group(this.project.getPermissions(m.id)) 
               }
             }
           )
@@ -81,14 +81,14 @@ export class ProjectMembersComponent implements OnInit {
   }
 
   cancelEdit(member: MemberData) {
-    member.permissions = this.project.getPermissions(member.user.id);
+    member.permissionsForm.patchValue(this.project.getPermissions(member.user.id));
     member.edit = false;
   }
 
   async submitPermissions(member: MemberData) {
     console.log('set permissions', member);
     member.disabled = true;
-    if (await this.project.setPermissions(member.permissions)) {
+    if (await this.project.setPermissions(member.permissionsForm.value)) {
       member.edit = false;
     } else {
       member.error = true;

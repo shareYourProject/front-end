@@ -1,36 +1,36 @@
 <div class="container mt-3 ml-5">
     <h1 class="display-3 mb-3">Members</h1>
-      <h3 class="display-5 mt-5">New member</h3>
-      <hr>
-      <form [formGroup]="searchFrom" (ngSubmit)="onSearchMember()">
-          <input class="form-control" type="text" formControlName="query">
-      </form>
-      <div class="card my-2" *ngFor="let user of searchUsers">
-          <div class="card-body">
-              <div class="row">
-                  <img [src]="user.profilePictureUrl" width="64" height="64">
-                  <h4 class="mr-auto ml-3 my-auto">{{user.username}}</h4>
-                  <span class="ml-auto mr-0 my-auto">
+    <h3 class="display-5 mt-5">New member</h3>
+    <hr>
+    <form [formGroup]="searchFrom" (ngSubmit)="onSearchMember()">
+        <input class="form-control" type="text" formControlName="query">
+    </form>
+    <div class="card my-2" *ngFor="let user of searchUsers">
+        <div class="card-body">
+            <div class="row">
+                <img [src]="user.profilePictureUrl" width="64" height="64">
+                <h4 class="mr-auto ml-3 my-auto">{{user.username}}</h4>
+                <span class="ml-auto mr-0 my-auto">
                       <button class="btn btn-outline-success mr-2" (click)="addMember(user, btn_add)"
                           #btn_add>Add</button>
                   </span>
-              </div>
-          </div>
-      <ng-template #searching>Searching ...</ng-template>
-      </div>
+            </div>
+        </div>
+        <ng-template #searching>Searching ...</ng-template>
+    </div>
 
-      <h3 class="display-5 mt-5">Members</h3>
-      <hr>
-      <div *ngIf="(members$ | async) as members">
-          <div class="mb-3" *ngFor="let member of members">
+    <h3 class="display-5 mt-5">Members</h3>
+    <hr>
+    <div *ngIf="(members$ | async) as members">
+        <div class="mb-3" *ngFor="let member of members; let mi = index;">
 
-              <div class="d-flex justify-content-between">
-                  <div class="d-flex">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex">
                     <img [src]="member.user.profilePictureUrl" width="64" height="64">
                     <h4 class="ml-3 my-auto">{{member.user.firstname}} {{member.user.lastname}}</h4>
                     <a class="my-auto ml-2" [href]="'/user/'+member.user.id">#{{member.user.username}}</a>
-                  </div>
-                  <span class="mr-0 my-auto">
+                </div>
+                <span class="mr-0 my-auto">
                       <button *ngIf="member.edit; else editButton" class="btn btn-outline-secondary mr-2"
                           (click)="cancelEdit(member)" [disabled]="member.disabled">Cancel</button>
                       <ng-template #editButton>
@@ -41,20 +41,19 @@
                       <button class="btn btn-outline-danger mr-2" (click)="removeMember(member)"
                           [disabled]="member.disabled"><fa-icon [icon]="faTrashAlt"></fa-icon> Remove</button>
                   </span>
-              </div>
+            </div>
 
-              <div class="card mt-3" *ngIf="member.edit">
+            <div class="card mt-3" *ngIf="member.edit">
                 <div class="card-body">
-                    <form (submit)="submitPermissions(member)">
+                    <form [formGroup]="member.permissionsForm" (ngSubmit)="submitPermissions(member)">
                         <fieldset [disabled]="member.disabled">
-
                             <div *ngFor="let kv of permissionNames | keyvalue" class="d-flex justify-content-between">
-                                <label class="switch" [for]="kv.key">
-                                  <input type="checkbox" [(ngModel)]="member.permissions[kv.key]" [name]="kv.key" [id]="kv.key">
+                                <label class="switch" [for]="kv.key + mi">
+                                  <input type="checkbox" [id]="kv.key + mi" [formControlName]="kv.key">
                                   <div class="slider round"></div>
                                 </label>
                                 <div class="w-25">
-                                  <span class="form-check-label"><strong>{{kv.value}}</strong></span>
+                                    <span class="form-check-label"><strong>{{kv.value}}</strong></span>
                                 </div>
                             </div>
 
@@ -62,8 +61,8 @@
                         </fieldset>
                     </form>
                 </div>
-              </div>
-          </div>
-      </div>
+            </div>
+        </div>
+    </div>
 
 </div>

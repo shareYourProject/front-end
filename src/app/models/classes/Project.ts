@@ -83,7 +83,7 @@ export class Project extends EditalbeApiObject<IProject, ProjectData> implements
 
     getPermissions(memberId: number) {
         if (memberId === this._owner_id) return getPermissionsFull(memberId, this.id);
-        return this.permissions.get(memberId) ?? getPermissionsNone(memberId, this.id);
+        return Object.assign({}, this.permissions.get(memberId)) ?? getPermissionsNone(memberId, this.id);
     }
 
     async addMember(memberId: number) {
