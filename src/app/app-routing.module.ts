@@ -27,10 +27,12 @@ import { PostResolverService } from './resolvers/post-resolver.service';
 import { UserResolverService } from './resolvers/user-resolver.service';
 import { ProjectCreateFormComponent } from './pages/project-create-form/project-create-form.component';
 import { ProjectMembersComponent } from './pages/project/project-members/project-members.component';
+import { FeedComponent } from './pages/feed/feed.component';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'feed', component: FeedComponent, data: { me: LoggedUserResolverService } },
   { path: 'search', redirectTo: 'search/', pathMatch: 'full' },
   { path: 'search/:query', component: SearchComponent },
   { path: 'login', component: LoginComponent, canActivate: [NotAuthGuard] },

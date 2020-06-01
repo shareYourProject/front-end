@@ -45,7 +45,7 @@ export class SearchService {
   getFeed(): Observable<Post> {
     return new Observable<Post>(
       subscriber => {
-        this.apiClient.get<FeedResponse>('/feed/')
+        this.apiClient.get<FeedResponse>('/feed')
           .then(
             async res => {
               for (const id of res.post_ids) {

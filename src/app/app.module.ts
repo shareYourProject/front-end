@@ -34,6 +34,7 @@ import { PostCardComponent } from './components/core/post-card/post-card.compone
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ProjectCreateFormComponent } from './pages/project-create-form/project-create-form.component';
 import { ProjectMembersComponent } from './pages/project/project-members/project-members.component';
+import { FeedComponent } from './pages/feed/feed.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { ProjectMembersComponent } from './pages/project/project-members/project
     PostCardComponent,
     ProjectCreateFormComponent,
     ProjectMembersComponent,
+    FeedComponent,
   ],
   imports: [
     FormsModule,

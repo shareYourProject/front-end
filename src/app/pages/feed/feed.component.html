@@ -1,0 +1,5 @@
+<div class="container pt-4">
+  <h1 class="display-4 mb-3">My feed</h1>
+  <p class="lead">Let's see what has happened since your last visit!</p>
+    <app-post-card *ngFor="let post of posts" [post]="post" [me]="me"></app-post-card>
+</div>
