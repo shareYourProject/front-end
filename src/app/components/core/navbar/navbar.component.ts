@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiClient } from 'src/app/services/api-client.service';
+import { Observable } from 'rxjs';
 
 type NavPath = {
   name: string;
@@ -11,6 +12,7 @@ type NavPath = {
     {
       type: "link";
       path: string;
+      params?: { [x: string]: any }
     } |
     {
       type: "button";
@@ -28,7 +30,7 @@ export class NavbarComponent implements OnInit {
 
   private readonly offlineNav: NavPath[] = [
     { type: 'link', name: 'Home', path: '/', right: false },
-    { type: 'link', name: 'Login', path: '/login', right: true },
+    { type: 'link', name: 'Login', path: '/login', params: {redirectTo: () => this.router.url}, right: true },
     { type: 'link', name: 'Register', path: '/register', right: true },
   ];
 
@@ -70,7 +72,7 @@ export class NavbarComponent implements OnInit {
 
   async logout() {
     await this.api.logout();
-    this.router.navigateByUrl('/');
+    location.reload();
   }
 
   onSearchSubmit() {
@@ -79,6 +81,14 @@ export class NavbarComponent implements OnInit {
       this.searchForm.reset();
       this.router.navigateByUrl(`/search/${query}`);
     }
+  }
+
+  getParams(params: { [x: string]: any }) {
+    const p = Object.assign({}, params);
+    for (const k in p)
+      if (typeof p[k] === 'function')
+        p[k] = p[k]();
+    return p;
   }
 
 }
