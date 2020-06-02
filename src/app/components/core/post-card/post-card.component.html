@@ -3,7 +3,7 @@
         <div class="media">
             <img [src]="'https://picsum.photos/id/' + post.project.id + '/150/150'" class="align-self-start mr-3 img-thumbnail" alt="logo">
             <div class="media-body">
-                <h5 class="my-0"><span class="font-weight-bold">{{ post.author.username}}</span> pour <span class="font-weight-lighter">{{ post.project.name}}</span></h5>
+                <h5 class="my-0"><span class="font-weight-bold">{{ post.author.firstname}} {{ post.author.lastname}}</span> pour <span class="font-weight-lighter"><a [href]="'/project/' + post.project.id">{{ post.project.name}}</a></span></h5>
                 <small class="text-muted"></small>
                 <p class="mt-2">{{ post.content }}</p>
             </div>
