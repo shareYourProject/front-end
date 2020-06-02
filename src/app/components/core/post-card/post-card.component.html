@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="card-footer p-1">
-        <div class="row container">
+        <div class="row">
             <div class="col" *ngIf="me">
                 <button #like_btn type="button" class="btn btn-sm btn-block" (click)="likeButtonClick(like_btn)" [ngClass]="{'btn-outline-primary': !isLiked(), 'btn-primary': isLiked()}">
           <i class="feather-16" data-feather="thumbs-up">Like</i>
