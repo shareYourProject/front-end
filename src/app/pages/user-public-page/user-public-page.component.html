@@ -31,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row bg-white">
+            <div class="row bg-white border-left border-right border-bottom rounded-bottom shadow-sm">
                 <div class="col-12 p-0 m-0">
                     <ul class="nav nav-pills nav-justified">
                         <li class="nav-item rounded-0">
@@ -49,14 +49,14 @@
 
 
             <div *ngIf="tab === 'tab 1'" class="row">
-                <div class="col-12 pl-0 mt-3">
-                    <div class="card">
+                <div class="col-12 px-0 mt-3">
+                    <div class="card shadow-sm">
                         <div class="card-body">
                             <h2 class="display-4">Skills</h2>
                             <app-skills-list [user]="user"></app-skills-list>
                         </div>
                     </div>
-                    <div class="card mt-3">
+                    <div class="card mt-3 shadow-sm">
                         <div class="card-body">
                             <h2 class="display-4">Biographie</h2>
                             <p>{{ user.biography }}</p>

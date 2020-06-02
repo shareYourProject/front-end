@@ -35,9 +35,9 @@
                 </div>
             </div>
 
-            <div class="row bg-white">
+            <div class="row bg-white shadow-sm">
                 <div class="col-12 p-0 m-0">
-                    <ul class="nav nav-pills nav-justified">
+                    <ul class="nav nav-pills nav-justified rounded-bottom border-left border-right border-bottom">
                         <li class="nav-item rounded-0">
                             <a class="nav-link link-item" [ngClass]="{active: tab === 'publications'}" (click)="tab = 'publications'">Publications</a>
                         </li>
@@ -52,12 +52,12 @@
             </div>
 
             <div *ngIf="tab === 'publications'" class="row">
-                <div class="col-12 pl-0 mt-3" *ngIf='(posts$ | async) as posts; else postsLoading'>
+                <div class="col-12 px-0 mt-3" *ngIf='(posts$ | async) as posts; else postsLoading'>
                     <app-post-card [post]="post" [me]="me" *ngFor="let post of posts"></app-post-card>
                 </div>
             </div>
 
-            <div *ngIf="tab === 'members'">
+            <div *ngIf="tab === 'members'" class="mt-3">
                 <div *ngIf='(members$ | async) as members; else membersLoading'>
                     <app-user-list [users]='members'></app-user-list>
                 </div>
@@ -65,8 +65,8 @@
 
             <div *ngIf="tab === 'about'">
                 <div class="row">
-                    <div class="col-12 pl-0 mt-3">
-                        <div class="card">
+                    <div class="col-12 px-0 mt-3">
+                        <div class="card shadow-sm">
                             <div class="card-body">
                                 <h2 class="display-4">Description</h2>
                                 <p>
@@ -78,8 +78,8 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-12 pl-0 mt-3">
-                        <div class="card">
+                    <div class="col-12 px-0 mt-3">
+                        <div class="card shadow-sm">
                             <div class="card-body">
                                 <h2 class="display-4">Links</h2>
                                 <app-links-list [links]="project.links"></app-links-list>
