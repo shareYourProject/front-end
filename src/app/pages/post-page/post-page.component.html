@@ -1,64 +1,69 @@
-<div class="container justify-content-md-center">
-    <div class="row border rounded">
-        <div class="col p-2">
-            <div class="row">
-                <div class="col-auto no-gutters">
-                    <img [src]="post.author.profilePictureUrl" width="50" height="50">
-                </div>
-                <div class="col">{{post.author.username}}</div>
-            </div>
-            <div class="row mx-3 my-2">
-                <p>{{post.content}}</p>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <button (click)="onLikeClick(post)" class="btn" [ngClass]="{'btn-outline-success': !isLiked(post), 'btn-success': isLiked(post)}">
-                        👍
-                    </button>
-                </div>
+<div class="container pt-4 justify-content-md-center">
+  <div class="card">
+    <div class="card-body p-2">
+        <div class="media">
+            <img [src]="'https://picsum.photos/id/' + post.project.id + '/150/150'" class="align-self-start mr-3 img-thumbnail" alt="logo">
+            <div class="media-body">
+                <h5 class="my-0"><span class="font-weight-bold">{{ post.author.username}}</span> pour <span class="font-weight-lighter">{{ post.project.name}}</span></h5>
+                <small class="text-muted"></small>
+                <p class="mt-2">{{ post.content }}</p>
             </div>
         </div>
     </div>
-
-    <div class="row mt-2 px-5 list-group">
-        <div *ngFor="let comment of comments" class="list-group-item">
-            <div class="col">
-                <div class="row">
-                    <div class="col-auto no-gutters">
-                        <img [src]="comment.author.profilePictureUrl" width="50" height="50">
-                    </div>
-                    <div class="col">{{comment.author.username}}</div>
-                </div>
-                <div class="row mx-3 my-2">
-                    <p>{{comment.content}}</p>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <button (click)="onLikeClick(comment)" class="btn" [ngClass]="{'btn-outline-success': !isLiked(comment), 'btn-success': isLiked(comment)}">
-                            👍
-                        </button>
-                    </div>
-                </div>
+    <div class="card-footer p-1">
+        <div class="row container">
+            <div class="col" *ngIf="me">
+                <button #like_btn type="button" class="btn btn-sm btn-block" (click)="onLikeClick(post)" [ngClass]="{'btn-outline-primary': !isLiked(post), 'btn-primary': isLiked(post)}">
+                  <fa-icon [icon]="faThumbsUp"></fa-icon>
+                </button>
             </div>
         </div>
     </div>
-
-    <div class="row mt-2">
-        <button class="btn btn-success btn-block" (click)="loadMore()">Load more ...</button>
-    </div>
-
-    <div class="row mt-2 justify-content-md-center">
-        <form [formGroup]="commentForm" (ngSubmit)="onCommentFormSubmit()">
-            <div class="form-group">
-                <div *ngIf=" postCommentError " class="alert alert-danger ">
-                    <p>An error occurs.</p>
-                </div>
-                <textarea id="content" class="form-control input-lg" formControlName="content"></textarea>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let comment of comments">
+      <div class="media">
+        <img [src]="comment.author.profilePictureUrl" class="align-self-start mr-3 img-thumbnail comment-picture" width="50" height="auto" alt="logo">
+        <div class="media-body">
+            <h5 class="my-0"><span class="font-weight-bold">{{ comment.author.username}}</span></h5>
+            <p class="mt-2">{{ comment.content }}</p>
+            <button #like_btn type="button" class="btn btn-sm" (click)="onLikeClick(comment)" [ngClass]="{'btn-outline-primary': !isLiked(comment), 'btn-primary': isLiked(comment)}">
+              <fa-icon [icon]="faThumbsUp"></fa-icon>
+            </button>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <form [formGroup]="commentForm" (ngSubmit)="onCommentFormSubmit()" *ngIf="me != null">
+    <div class="form-group">
+      <div *ngIf=" postCommentError " class="alert alert-danger ">
+        <p>An error occurs.</p>
+      </div>
+      <div class="card mt-2">
+        <div class="card-body py-2">
+          <div class="media">
+            <img [src]="me.profilePictureUrl" class="align-self-start mr-3 img-thumbnail comment-picture" width="50" height="auto" alt="logo">
+            <div class="media-body">
+                <h5 class="my-0"><span class="font-weight-bold">{{ me.username}}</span></h5>
+                <p class="mt-2"><textarea id="content" class="form-control input-lg" formControlName="content"></textarea></p>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <button class="btn btn-success " type="submit " [disabled]="!commentForm.valid ">Comment</button>
-        </form>
     </div>
+    <div class="row">
+      <div class="col-6">
+        <button class="btn btn-outline-success btn-block" (click)="loadMore()">
+          <fa-icon [icon]="faSpinner"></fa-icon> Load more</button>
+      </div>
+      <div class="col-6">
+        <button class="btn btn-outline-primary btn-block" type="submit" [disabled]="!commentForm.valid ">
+          <fa-icon [icon]="faPaperPlane"></fa-icon> Comment</button>
+      </div>
+    </div>
+  </form>
+
 
 </div>
 

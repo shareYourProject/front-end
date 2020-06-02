@@ -11,6 +11,7 @@ import { User } from 'src/app/models/classes/User';
 import { UserService } from 'src/app/services/user.service';
 import { PagedResponse } from 'src/app/models/PagedResponse';
 import { CommentService } from 'src/app/services/comment.service';
+import { faThumbsUp, faPaperPlane, faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-post-page',
@@ -30,6 +31,11 @@ export class PostPageComponent implements OnInit, OnDestroy {
 
   commentForm: FormGroup;
   postCommentError = false;
+
+  // Icons
+  readonly faThumbsUp = faThumbsUp;
+  readonly faPaperPlane = faPaperPlane;
+  readonly faSpinner = faSpinner;
 
   private _paramSubscription: Subscription;
 
@@ -101,7 +107,7 @@ export class PostPageComponent implements OnInit, OnDestroy {
       if (this._post)
         await this._post.comments.loadMore();
     }
-  
+
     async onCommentFormSubmit() {
       if (this._post && this.commentForm.valid) {
         const content = this.commentForm.value.content;
