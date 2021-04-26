@@ -1,0 +1,24 @@
+.category-title {
+    @apply font-semibold mb-2 text-xl;
+}
+
+a:not(.a-none) {
+
+    &:hover{
+        @apply text-viridiant-600 underline;
+    }
+
+    &.active{
+        @apply text-viridiant-600;
+    }
+}
+
+.box {
+    @apply shadow bg-cultured-100;
+}
+
+@screen md {
+    .box {
+        @apply rounded-md;
+    }
+}

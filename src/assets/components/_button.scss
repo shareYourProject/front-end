@@ -1,0 +1,85 @@
+button:focus, input:focus {
+    @apply outline-none;
+}
+
+.btn {
+    @apply whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md transition ease-in-out duration-150;
+}
+
+.btn-classic {
+    @apply whitespace-nowrap text-base leading-6 font-medium text-gray-500;
+
+    &:focus {
+        @apply text-gray-900;
+    }
+
+    &:hover {
+        @apply text-gray-900;
+    }
+}
+
+.btn-viridiant {
+    @apply text-cultured-100 bg-viridiant-600 border border-transparent;
+
+    &:hover {
+        @apply bg-viridiant-500;
+    }
+}
+
+
+.btn-viridiant-outline {
+    @apply text-viridiant-600 border border-viridiant-600 bg-cultured-100;
+
+    &:hover {
+        @apply bg-viridiant-600 text-cultured-100;
+    }
+}
+
+
+.btn-orange-peel {
+    @apply text-cultured-100 bg-orange-peel-600 border border-transparent;
+
+    &:hover {
+        @apply bg-orange-peel-500;
+    }
+}
+
+
+.btn-orange-peel-outline {
+    @apply text-orange-peel-600 border border-orange-peel-600 bg-cultured-100;
+
+    &:hover {
+        @apply bg-orange-peel-600 text-cultured-100;
+    }
+}
+
+
+.btn-onyx {
+    @apply text-cultured-100 bg-onyx-600 border border-transparent;
+
+    &:hover {
+        @apply bg-onyx-500;
+    }
+}
+
+
+.btn-onyx-outline {
+    @apply text-onyx-600 border border-onyx-600 bg-cultured-100;
+
+    &:hover {
+        @apply bg-onyx-600 text-cultured-100;
+    }
+}
+
+
+.btn-smiley {
+    @apply px-1 mx-1 w-8 my-auto;
+}
+
+.btn-send {
+    @apply bg-onyx-600 rounded-full h-7 w-7 flex flex-none justify-center items-center;
+}
+
+.btn-follow {
+    @apply whitespace-nowrap inline-flex items-center justify-center pl-4 pr-2 py-2 border border-transparent text-base leading-6 font-medium rounded-md transition-all ease-in-out duration-150;
+}
