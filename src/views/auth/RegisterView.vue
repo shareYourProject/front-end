@@ -1,6 +1,6 @@
 <template>
     <div class="flex w-full h-screen">
-        <img class="hidden md:block w-auto h-full bg-blur-3" :src="'vendor/courier/img/jeff-sheldon-8z2Q6XWLYa4.jpg'" alt="" />
+        <img class="hidden md:block w-auto h-full bg-blur-3" src="@/assets/img/default/jeff-sheldon-8z2Q6XWLYa4.jpg" alt="" />
         <div class="absolute right-0 px-12 pt-16 md:h-full py-12 bg-white w-full md:w-1/2 lg:w-5/12 justify-center">
             <h1 class="text-onyx-600 font-sans font-bold text-center text-4xl mb-6">Register</h1>
             <hr class="mb-12 mx-3">
@@ -47,11 +47,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { API } from '@/api'
-import { mapActions, mapGetters } from 'vuex'
+import {defineComponent} from 'vue'
+import {API} from '@/api'
+import {mapActions, mapGetters} from 'vuex'
 import CustomInput from '@/components/inputs/CustomInput.vue'
-import { AxiosStatic } from 'axios'
+import {AxiosStatic} from 'axios'
 
 export default defineComponent({
     components: {
@@ -96,7 +96,7 @@ export default defineComponent({
                 password_confirmation: ""
             };
         },
-        async onSubmit(event: Event): Promise<void> {
+        async onSubmit(): Promise<void> {
             await ((window as any).axios as AxiosStatic).get('/sanctum/csrf-cookie');
 
             API.register(this.form).then(response => {
@@ -115,16 +115,13 @@ export default defineComponent({
                         break;
 
                     case 422:
-                        // Invalid form
-                        let errorsObject = response.data.errors;
 
-                        for (var key in errorsObject) {
-                            if (errorsObject.hasOwnProperty(key)) {
-                                errorsObject[key] = errorsObject[key][0];
-                            }
-                        }
+                        // for (const key in response.data.errors) {
+                        //     if (Object.prototype.hasOwnProperty.call(response.data.errors, key)) {
+                        //         this.errors[key] = response.data.errors[key][0];
+                        //     }
+                        // }
 
-                        this.errors = errorsObject;
                         break;
 
                     default:

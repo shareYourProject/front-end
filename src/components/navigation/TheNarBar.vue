@@ -3,7 +3,7 @@
     <!-- Laptop Navbar -->
     <nav class="w-full shadow bg-cultured-100 nav-bar z-50 fixed h-16 top-0">
         <div class="flex justify-around w-full ">
-        <router-link :to="{name: 'feed'}"><img class="m-2 " :src="'vendor/courier/logos/svg/fit/Logo_viridiant_fit.svg'" width="90" height="90"></router-link>
+        <router-link :to="{name: 'feed'}"><img class="m-2 " src="@/assets/img/logo/svg/fit/Logo_viridiant_fit.svg" width="90" height="90"></router-link>
         <ul class="my-auto hidden lg:flex space-x-4 nav-link">
             <li class="nav-bar-li"><router-link :to="{name: 'feed'}" class="inline-flex a-none">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
@@ -47,8 +47,8 @@
     </nav>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex'
+import {defineComponent} from 'vue'
+import {mapGetters} from 'vuex'
 import SearchBar from '../navigation/SearchBar.vue'
 
 export default defineComponent({

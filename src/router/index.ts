@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/auth/LoginView.vue'
 import RegisterView from '@/views/auth/RegisterView.vue'
@@ -7,6 +7,10 @@ import ProjectView from '@/views/project/ProjectView.vue'
 import MembersView from '@/views/project/MembersView.vue'
 import CreateView from '@/views/project/CreateView.vue'
 import PostsView from '@/views/project/PostsView.vue'
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import NProgress from "nprogress"
 
 import store from '@/store'
 
@@ -97,5 +101,28 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (store.getters.isAuthenticated) {
+            next()
+            return
+        }
+        next('/login')
+    } else {
+        next();
+    }
+});
+
+router.beforeResolve((to, from, next) => {
+    if (to.path) {
+        NProgress.start()
+    }
+    next()
+});
+
+router.afterEach(() => {
+    setTimeout(() => NProgress.done(), 500);
+});
 
 export default router

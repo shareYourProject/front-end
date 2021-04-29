@@ -1,7 +1,19 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import './assets/tailwind.scss'
+import './assets/style/tailwind.scss'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import NProgress from 'nprogress'
 
-createApp(App).use(store).use(router).mount('#app')
+NProgress.configure({ showSpinner: false })
+
+const app = createApp(App);
+
+store.dispatch('me').then(() => {
+    app.use(router);
+    app.use(store);
+
+    app.mount('#app');
+});

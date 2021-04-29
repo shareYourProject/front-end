@@ -1,7 +1,8 @@
-import { Post, Project, User, Badge, PaginateResponse } from './models';
-import axios, { AxiosPromise, AxiosRequestConfig, AxiosResponse } from 'axios'
+import {Badge, PaginateResponse, Post, Project, User} from './models';
+import axios, {AxiosPromise, AxiosRequestConfig, AxiosResponse} from 'axios'
 
 const API_URL: string = process.env.VUE_APP_API_PATH as string;
+const API_AUTH_URL: string = process.env.VUE_APP_AUTH_PATH as string;
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers.common['Accept'] = 'application/json';
@@ -16,14 +17,11 @@ axios.defaults.withCredentials = true;
  */
 const fetchResource = <T = any>(method: string, path: string, data = {}, headers = {}) : Promise<AxiosResponse<T>> => {
 
-    let url = `${ API_URL }${ path }`;
-    if(path === '/logout' || path === '/login' || path === '/register') url = path;
-
     // Variable which will be used for storing response
 
     return (axios({
         method: method,
-        url: url,
+        url: path,
         data: data,
         headers: headers
     } as AxiosRequestConfig) as AxiosPromise<T>).then(response => {
@@ -48,28 +46,35 @@ const API = {
      * @param query
      */
     search(query: string): Promise<AxiosResponse<User[]>>{
-        const url = `/search/${query}`;
+        const url = `${API_URL}/search/${query}`;
         return fetchResource<Array<User>>('get', url);
     },
     /**
      * Logout the user
      */
     logout(): Promise<AxiosResponse<any>> {
-        const url = '/logout';
+        const url = `${API_AUTH_URL}/logout`;
         return fetchResource('post', url);
+    },
+    /**
+     * Get CSRF token
+     */
+    csrf(): Promise<AxiosResponse<any>> {
+        const url = `${API_AUTH_URL}/sanctum/csrf-cookie`;
+        return fetchResource('get', url);
     },
     /**
      * Login the user
      */
     login(credentials: Record<string, unknown>): Promise<AxiosResponse<any>> {
-        const url = '/login';
+        const url = `${API_AUTH_URL}/login`;
         return fetchResource('post', url, credentials);
     },
     /**
      * Register a new user
      */
     register(credentials: Record<string, unknown>): Promise<AxiosResponse<any>> {
-        const url = '/register';
+        const url = `${API_AUTH_URL}/register`;
         return fetchResource('post', url, credentials);
     },
     /**
@@ -79,10 +84,10 @@ const API = {
         /**
          * Base post requests url
          */
-        url: '/posts',
+        url: `${API_URL}/posts`,
         /**
          * Like a post
-         * @param id
+         * @param post
          */
         like(post: Post): Promise<AxiosResponse<Post>> {
             const url = `${this.url}/${post.id}/like`;
@@ -90,7 +95,7 @@ const API = {
         },
         /**
          * Unike a post
-         * @param id
+         * @param post
          */
         unlike(post: Post): Promise<AxiosResponse<Post>> {
             const url = `${this.url}/${post.id}/unlike`;
@@ -106,7 +111,7 @@ const API = {
          * @param page Page to load
          */
         get(page = 1): Promise<AxiosResponse<PaginateResponse<Post>>> {
-            const url = `/feed?page=${ page }`;
+            const url = `${API_URL}/feed?page=${ page }`;
             return fetchResource<PaginateResponse<Post>>('get', url);
         },
     },
@@ -117,7 +122,7 @@ const API = {
         /**
          *  Base project requests url
          */
-        url: '/projects',
+        url: `${API_URL}/projects`,
         /**
          * Search projects
          */
@@ -141,13 +146,20 @@ const API = {
         /**
          * Base user requests url
          */
-        url: '/users',
+        url: `${API_URL}/users`,
         /**
          * Search users
          */
         search(query: string): Promise<AxiosResponse<User[]>> {
             const url = `${this.url}/search?query=${query}`;
             return fetchResource<Array<User>>('get', url);
+        },
+        /**
+         * Get the current authenticated user
+         */
+        user(): Promise<AxiosResponse<User>> {
+            const url = `${API_URL}/user`;
+            return fetchResource<User>('get', url);
         },
         /**
          * Get a user
@@ -168,7 +180,7 @@ const API = {
         /**
          * Base badge requests url
          */
-        url: '/badges',
+        url: `${API_URL}/badges`,
         search(query: string): Promise<AxiosResponse<Badge[]>> {
             const url = `${this.url}/search?query=${query}`;
             return fetchResource<Array<Badge>>('get', url);

@@ -44,14 +44,14 @@
             </div>
 
             <div v-if="post_data.images_url.length > 0">
-                <div v-if="post_data.images_url.length == 1" class="h-1/2">
+                <div v-if="post_data.images_url.length === 1" class="h-1/2">
                     <img :src="post_data.images_url[0]" class="w-full object-cover h-120 cursor-pointer" alt="">
                 </div>
-                <div v-if="post_data.images_url.length == 2" class="flex">
+                <div v-if="post_data.images_url.length === 2" class="flex">
                     <img :src="post_data.images_url[0]" class="w-1/2 object-cover h-120 pr-0.5 cursor-pointer" alt="">
                     <img :src="post_data.images_url[1]" class="w-1/2 object-cover h-120 pl-0.5 cursor-pointer" alt="">
                 </div>
-                <div v-if="post_data.images_url.length == 3" class="flex">
+                <div v-if="post_data.images_url.length === 3" class="flex">
                     <img :src="post_data.images_url[0]" class="w-1/2 object-cover h-120 pr-0.5 cursor-pointer" alt="">
                     <div class="flex flex-col w-1/2 h-120">
                         <img :src="post_data.images_url[1]" class="object-cover h-half pb-0.5 pl-0.5 cursor-pointer" alt="">
@@ -105,13 +105,13 @@
 
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import {defineComponent, PropType} from 'vue'
 import vClickOutside from '../../click-outside'
 import moment from 'moment';
-import { mapGetters } from 'vuex'
-import { API } from '../../api';
-import lottie, { AnimationItem } from 'lottie-web';
-import { Post } from '../../models'
+import {mapGetters} from 'vuex'
+import {API} from '@/api';
+import lottie, {AnimationItem} from 'lottie-web';
+import {Post} from '@/models'
 import TagLabel from '../utils/TagLabel.vue'
 
 export default defineComponent({
@@ -141,7 +141,7 @@ export default defineComponent({
             renderer: 'svg',
             loop: false,
             autoplay: false,
-            path: '/vendor/courier/lottie/heart.json'
+            path: '/lottie/heart.json'
         });
 
         if (this.post_data.liked) {
@@ -158,9 +158,6 @@ export default defineComponent({
         })
     },
     methods: {
-        onClickOutSideOptions()  {
-
-        },
         like: function(like: boolean) {
             if (!this.isAuthenticated) return;
             if (like) {

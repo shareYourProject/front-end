@@ -3,8 +3,8 @@
 
         <!-- Logo -->
         <div class="flex items-center mt-6 h-8">
-            <router-link :to="{name: 'feed'}"><img :class="{'w-16 h-auto':display}" class="w-10 h-auto mx-3 transform ease-in-out duration-250" :src="'vendor/courier/logos/svg/simple/Logo_viridiant_simple.svg'"></router-link>
-            <router-link :to="{name: 'feed'}"><img :class="{'w-32 h-auto ml-2':display2}" class="w-0 h-auto transform ease-in-out duration-200" :src="'vendor/courier/logos/svg/text/Logo_viridiant_text.svg'"></router-link>
+            <router-link :to="{name: 'feed'}"><img :class="{'w-16 h-auto':display}" class="w-10 h-auto mx-3 transform ease-in-out duration-250" src="@/assets/logo.png"></router-link>
+            <router-link :to="{name: 'feed'}"><img :class="{'w-32 h-auto ml-2':display2}" class="w-0 h-auto transform ease-in-out duration-200" src="@/assets/img/logo/svg/text/Logo_viridiant_text.svg"></router-link>
         </div>
 
         <!-- Search bar -->
@@ -53,8 +53,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex'
+import {defineComponent} from 'vue'
+import {mapGetters} from 'vuex'
 import SearchBar from '../navigation/SearchBar.vue'
 
 export default defineComponent({

@@ -16,11 +16,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { API, fetchResource } from '@/api'
+import {defineComponent} from 'vue'
+import {API} from '@/api'
 import PostCard from '@/components/cards/PostCard.vue'
-import { Project, Post, PaginateResponse } from '@/models'
-import lottie, { AnimationItem } from 'lottie-web';
+import {Post, Project} from '@/models'
+import lottie, {AnimationItem} from 'lottie-web';
 
 export default defineComponent({
     components: {
@@ -61,7 +61,7 @@ export default defineComponent({
             renderer: 'svg',
             loop: true,
             autoplay: false,
-            path: '/vendor/courier/lottie/loading.json'
+            path: '/lottie/loading.json'
         });
         this.scroll();
     },

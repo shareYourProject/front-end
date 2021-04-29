@@ -1,7 +1,6 @@
-import { AxiosStatic } from 'axios'
-import { API } from '../../api'
-import { User } from '../../models'
-import { AuthState } from './types'
+import {API} from '../../api'
+import {User} from '../../models'
+import {AuthState} from './types'
 
 // initial state
 const state : AuthState = {
@@ -22,19 +21,26 @@ const getters = {
 
 // actions
 const actions = {
-    me ({ commit }: any) {
-        return ((window as any).axios as AxiosStatic).get<User>('/api/user').then((response) => {
-          commit('SET_USER', response.data);
-        }).catch(() => {
-          commit('SET_USER', null);
-        })
-      }
+    // eslint-disable-next-line
+    me ({ commit }: any): Promise<void> {
+      return API.User.user().then((response) => {
+        switch (response.status) {
+          case 200:
+            commit('SET_USER', response.data);
+            break;
+        
+          default:
+            commit('SET_USER', null);
+            break;
+        }
+      })
+    }
 }
 
 // mutations
 const mutations = {
 
-    SET_USER (state: State, user: User) {
+    SET_USER (state: State, user: User): void {
         state.authUser = user;
     }
 }

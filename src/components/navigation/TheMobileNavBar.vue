@@ -4,7 +4,7 @@
         <div class="z-10 relative shadow bg-cultured-100 w-full h-full flex justify-around items-center">
             <!-- Logo -->
             <router-link :to="{name: 'feed'}" class="h-auto">
-                <img :src="'vendor/courier/logos/svg/simple/Logo_viridiant_simple.svg'" class="w-12">
+                <img src="@/assets/img/logo/svg/simple/Logo_viridiant_simple.svg" class="w-12">
             </router-link>
 
             <!-- Search Bar -->
@@ -53,8 +53,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex'
+import {defineComponent} from 'vue'
+import {mapGetters} from 'vuex'
 import SearchBar from './SearchBar.vue'
 import vClickOutside from '../../click-outside'
 
