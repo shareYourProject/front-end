@@ -1,5 +1,7 @@
 <template>
-    <div :class="{'w-64':display}" class="z-40 shadow fixed w-16 h-full transform ease-in-out duration-250 flex flex-col justify-between bg-gradient-to-t from-cultured-600 via-cultured-100 to-cultured-100 top-0">
+    <div
+        v-click-outside="onClickOutside"
+        :class="{'w-64':display}" class="z-40 shadow fixed w-16 h-full transform ease-in-out duration-250 flex flex-col justify-between bg-gradient-to-t from-cultured-600 via-cultured-100 to-cultured-100 top-0">
 
         <!-- Logo -->
         <div class="flex items-center mt-6 h-8">
@@ -55,11 +57,15 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
 import {mapGetters} from 'vuex'
-import SearchBar from '../navigation/SearchBar.vue'
+import SearchBar from '@/components/navigation/SearchBar.vue'
+import vClickOutside from '@/click-outside'
 
 export default defineComponent({
     components: {
         SearchBar
+    },
+    directives: {
+      clickOutside: vClickOutside
     },
     data() {
         return {
@@ -74,6 +80,12 @@ export default defineComponent({
         ])
     },
     methods: {
+        onClickOutside() {
+          this.display2 = false;
+          setTimeout(() => {
+            this.display = false;
+          },this.timeout);
+        },
         toggle: function() {
             if (this.display) {
                 this.display2 = false;

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from "vue";
+import {defineComponent} from "vue";
 
 export default defineComponent({
   name: "ResizeAuto",
@@ -14,12 +14,14 @@ export default defineComponent({
       this.$el.setAttribute("style", "height", `${this.$el.scrollHeight}px`);
     });
   },
+  // eslint-disable-next-line vue/require-render-return
   render() {
     if (this.$slots.default) {
       return this.$slots.default({
         resize: this.resize,
       });
     }
+    return;
   },
 })
 </script>
