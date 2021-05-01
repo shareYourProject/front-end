@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="w-full">
 
         <PostCard
             v-for="post in posts"
