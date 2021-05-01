@@ -1,8 +1,8 @@
 <template>
 
-<div class="block lg:flex justify-center mt-2 md:mt-0 lg:mt-4 min-h-screen" v-if="project">
+<div class="block lg:flex justify-center mt-2 md:mt-0 lg:mt-4 min-h-screen xl:px-12 2xl:px-16 w-full" v-if="project">
 
-    <div class="block w-auto md:mx-4 lg:w-1/4 xl:w-1/6">
+    <div class="block w-auto lg:pr-8 lg:w-1/4">
         <div class="box w-full h-auto mb-2 md:mb-4 flex lg:flex-col flex-none py-2 p-5 md:mt-4 justify-center lg:mt-48 md:space-x-8 lg:space-x-0">
             <router-link :to="{name:'project', params:{id: project.id}}" class="py-2 px-6">Posts</router-link>
             <router-link :to="{name:'project.members', params:{id: project.id}}" class="py-2 px-6">Members</router-link>
@@ -10,9 +10,9 @@
         </div>
     </div>
 
-    <div class="w-auto lg:w-2/3 md:mx-4">
+    <div class="w-auto md:w-full lg:w-3/5 xl:w-2/3 2xl:w-1/2">
 
-        <div class="box w-full h-auto mb-6">
+        <div class="box w-auto h-auto mb-6">
             <div class="flex relative justify-center">
                 <img class=" md:rounded-t-md object-cover w-full h-48 shadow" :src="project.banner_picture" alt="test">
                 <img class=" border-4 border-cultured-100 shadow-md object-cover w-40 h-40 rounded-full mx-auto sm:left-8 lg:left-16 -bottom-12 absolute" :src="project.profile_picture" alt="test">
@@ -39,7 +39,7 @@
         <router-view></router-view>
 
     </div>
-    <div class="hidden xl:block lg:w-1/6 xl:w-1/8"></div>
+    <div class="hidden xl:block xl:w-1/12 2xl:w-1/4"></div>
 
 </div>
 
@@ -61,10 +61,9 @@ export default defineComponent({
     },
     beforeRouteEnter(to, from, next) {
         API.Project.get(Number(to.params['id'])).then(response => {
-          let project = response.data
+            let project = response.data
             switch (response.status) {
                 case 200:
-
                     API.User.get(project.owner_id).then((response) => {
                         if (response.status === 200) {
                             next(vm => (vm as any).setData(project, response.data))

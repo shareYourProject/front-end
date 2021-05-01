@@ -8,6 +8,9 @@ import MembersView from '@/views/project/MembersView.vue'
 import CreateView from '@/views/project/CreateView.vue'
 import PostsView from '@/views/project/PostsView.vue'
 import PostView from "@/views/Post/PostView.vue";
+import SettingsView from '@/views/user/settings/SettingsView.vue'
+import AccountSettingsView from '@/views/user/settings/AccountSettingsView.vue'
+import ProfileSettingsView from '@/views/user/settings/ProfileSettingsView.vue'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -59,13 +62,32 @@ const routes: Array<RouteRecordRaw> = [
   // User
 
   {
-      path: '/user/:id',
-      name: 'profile',
-      component: ProfileView,
-      meta: {
-          requiresAuth: false
-      }
-  },
+    path: '/user/:id',
+    name: 'profile',
+    component: ProfileView,
+    meta: {
+        requiresAuth: false
+    }
+},
+{
+    path: '/user/settings',
+    component: SettingsView,
+    meta: {
+        requiresAuth: true
+    },
+    children: [
+        {
+            path: '',
+            name: 'user.settings',
+            component: ProfileSettingsView
+        },
+        {
+            path: 'account',
+            name: 'user.settings.account',
+            component: AccountSettingsView
+        }
+    ]
+},
 
     // Post
     {
