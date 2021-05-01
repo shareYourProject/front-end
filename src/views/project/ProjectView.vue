@@ -45,10 +45,10 @@
 
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex'
-import { API } from '@/api'
-import { Project, User, Post } from '@/models'
+import {defineComponent} from 'vue'
+import {mapGetters} from 'vuex'
+import {API} from '@/api'
+import {Post, Project, User} from '@/models'
 import moment from 'moment';
 
 export default defineComponent({

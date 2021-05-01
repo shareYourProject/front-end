@@ -86,6 +86,13 @@ const API = {
          */
         url: `${API_URL}/posts`,
         /**
+         * Get a post
+         */
+        get(id: number): Promise<AxiosResponse<Post>> {
+            const url = `${this.url}/${id}`;
+            return fetchResource<Post>('get', url);
+        },
+        /**
          * Like a post
          * @param post
          */
@@ -101,6 +108,25 @@ const API = {
             const url = `${this.url}/${post.id}/unlike`;
             return fetchResource<Post>('put', url);
         },
+        create(files: Array<File>, reshare?: Post, content?: string, project?: Project): Promise<AxiosResponse<Post>> {
+            const url = `${this.url}/create`;
+
+            const formData = new FormData();
+
+            if (files.length > 0) {
+                files.forEach((file, index) => {
+                    formData.append(`image[${index}]`, file);
+                });
+            }
+
+            if (reshare) formData.append('reshare', String(reshare.id));
+            if (project) formData.append('project', String(project.id));
+            if (content) formData.append('content', content);
+
+            return fetchResource<Post>('post', url, formData, {
+                'Content-Type': 'multipart/form-data'
+            });
+        }
     },
     /**
      * Fedd API wrapper

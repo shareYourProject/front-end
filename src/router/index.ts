@@ -7,6 +7,7 @@ import ProjectView from '@/views/project/ProjectView.vue'
 import MembersView from '@/views/project/MembersView.vue'
 import CreateView from '@/views/project/CreateView.vue'
 import PostsView from '@/views/project/PostsView.vue'
+import PostView from "@/views/Post/PostView.vue";
 import SettingsView from '@/views/user/settings/SettingsView.vue'
 import AccountSettingsView from '@/views/user/settings/AccountSettingsView.vue'
 import ProfileSettingsView from '@/views/user/settings/ProfileSettingsView.vue'
@@ -87,6 +88,16 @@ const routes: Array<RouteRecordRaw> = [
         }
     ]
 },
+
+    // Post
+    {
+        path: '/post/:id',
+        name: 'post',
+        component: PostView,
+        meta: {
+            requiresAuth: false
+        }
+    },
 
   // Project
 
