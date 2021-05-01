@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import {defineComponent} from 'vue'
 
 export default defineComponent({
     props: {
@@ -31,11 +31,8 @@ export default defineComponent({
             styleObject: {borderRadius: "none",  height: this.img_height}
         }
     },
-    mounted() {
-        this.border_radius
-    },
     computed: {
-        border_radius() {
+        /**border_radius(): string {
             switch (this.img_radius) {
             case "none":
                 this.styleObject.borderRadius = "0"
@@ -54,8 +51,9 @@ export default defineComponent({
                 break
             default:
                 console.log("An error oppear with your image radius")
+                return "";
             }
-        }
+        }**/
     },
 })
 </script>
