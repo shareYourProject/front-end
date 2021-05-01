@@ -269,6 +269,7 @@ module.exports = {
             },
             screens: {
                 'xs': '425px',
+                '2xl': '1920px',
         },
     },
     variants: {

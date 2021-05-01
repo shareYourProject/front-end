@@ -1,18 +1,18 @@
 <template>
 
-<div class="w-full flex justify-center mt-4 min-h-screen" v-if="user">
+<div class="block lg:flex justify-center mt-2 md:mt-0 lg:mt-4 min-h-screen xl:px-12 2xl:px-16 w-full" v-if="user">
 
-    <div class="hidden md:block md:w-1/3 md:ml-4 lg:w-1/4 xl:w-1/6">
+    <div class="block w-auto lg:pr-8 lg:w-1/4">
 
-        <div class="box w-full h-auto mb-4 flex flex-col flex-none py-2 p-5 mt-48">
-            <h2 class="category-title">Links</h2>
-            <div class="flex justify-between py-2"><span class="text-linkedin">LinkedIn</span><a href="https://www.linkedin.com/in/killian-mah%C3%A9-246928135/">killian-mahe</a></div>
-            <div class="flex justify-between py-2"><span class="text-github">GitHub</span><a href="https://github.com/killian-mahe">@killian-mahe</a></div>
+        <div class="box w-full h-auto mb-2 md:mb-4 flex lg:flex-col flex-none py-2 p-5 md:mt-4 justify-center items-center space-x-4 lg:mt-48 md:space-x-8 lg:space-x-0">
+            <div class="hidden md:block font-semibold lg:mb-1 text-xl pr-4">Links</div>
+            <div class="flex justify-between py-2"><span class="text-linkedin pr-4">LinkedIn</span><a href="https://www.linkedin.com/in/killian-mah%C3%A9-246928135/">killian-mahe</a></div>
+            <div class="flex justify-between py-2"><span class="text-github pr-4">GitHub</span><a href="https://github.com/killian-mahe">@killian-mahe</a></div>
         </div>
 
     </div>
 
-    <div class="w-full md:w-2/3 lg:w-1/2 md:mx-4">
+    <div class="w-auto md:w-full lg:w-3/5 xl:w-2/3 2xl:w-1/2">
 
         <div class="box w-full h-auto mb-3 pb-4">
             <div class="flex relative justify-center">
@@ -43,7 +43,7 @@
 
 
     </div>
-    <div class="hidden xl:block lg:w-1/6 xl:w-1/8"></div>
+    <div class="hidden xl:block xl:w-1/12 2xl:w-1/4"></div>
 
 </div>
 

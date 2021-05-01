@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="w-full">
 
         <MemberCard
             v-for="(member, index) in members"
