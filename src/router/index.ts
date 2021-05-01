@@ -7,6 +7,7 @@ import ProjectView from '@/views/project/ProjectView.vue'
 import MembersView from '@/views/project/MembersView.vue'
 import CreateView from '@/views/project/CreateView.vue'
 import PostsView from '@/views/project/PostsView.vue'
+import PostView from "@/views/Post/PostView.vue";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -65,6 +66,16 @@ const routes: Array<RouteRecordRaw> = [
           requiresAuth: false
       }
   },
+
+    // Post
+    {
+        path: '/post/:id',
+        name: 'post',
+        component: PostView,
+        meta: {
+            requiresAuth: false
+        }
+    },
 
   // Project
 

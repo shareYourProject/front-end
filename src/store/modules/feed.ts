@@ -1,12 +1,11 @@
-import { AxiosStatic } from 'axios'
-import { API } from '../../api'
-import { Post, User } from '../../models'
-import { FeedState } from './types'
+import {API} from '@/api'
+import {Post} from '@/models'
+import {FeedState} from './types'
 
 // initial state
 const state : FeedState = {
-    nextPage: 1,
-    lastPage: undefined,
+    currentPage: 0,
+    lastPage: 1,
     posts: []
 }
 
@@ -16,18 +15,27 @@ type State = typeof state
 const getters = {
     feedPosts(state: State): Array<Post> {
         return state.posts;
+    },
+    currentFeedPage(state: State): number {
+        return state.currentPage
+    },
+    lastFeedPage(state: State): number {
+        return state.lastPage
     }
 }
 
 // actions
 const actions = {
-    getNewPosts({commit, state}:any) {
-        API.Feed.get(state.nextPage).then(response => {
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    getNewPosts({commit, state}:any): void {
+        if (state.currentPage == state.lastPage) return;
+
+        API.Feed.get(state.currentPage+1).then(response => {
             switch (response.status) {
                 case 200:
                     commit('ADD_POSTS', response.data.data);
                     commit('SET_LAST_PAGE', response.data.meta.last_page);
-                    commit('INCREMENT_NEXT_PAGE');
+                    commit('SET_CURRENT_PAGE', response.data.meta.current_page);
                     break;
 
                 default:
@@ -42,11 +50,8 @@ const mutations = {
     ADD_POSTS (state: State, posts: Array<Post>) {
         state.posts.push(...posts);
     },
-    SET_NEXT_PAGE(state: State, page: number) {
-        state.nextPage = page > 0 ? page : 0;
-    },
-    INCREMENT_NEXT_PAGE (state: State) {
-        state.nextPage ++;
+    SET_CURRENT_PAGE(state: State, page: number) {
+        state.currentPage = page;
     },
     SET_LAST_PAGE (state: State, page: number) {
         state.lastPage = page > 0 ? page : 0;
@@ -54,8 +59,8 @@ const mutations = {
 }
 
 export default {
-  state,
-  getters,
-  actions,
-  mutations
+    state,
+    getters,
+    actions,
+    mutations
 }

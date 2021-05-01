@@ -45,10 +45,10 @@
 
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex'
-import { API } from '@/api'
-import { Project, User, Post } from '@/models'
+import {defineComponent} from 'vue'
+import {mapGetters} from 'vuex'
+import {API} from '@/api'
+import {Post, Project, User} from '@/models'
 import moment from 'moment';
 
 export default defineComponent({
@@ -61,9 +61,10 @@ export default defineComponent({
     },
     beforeRouteEnter(to, from, next) {
         API.Project.get(Number(to.params['id'])).then(response => {
+          let project = response.data
             switch (response.status) {
                 case 200:
-                    let project = response.data
+
                     API.User.get(project.owner_id).then((response) => {
                         if (response.status === 200) {
                             next(vm => (vm as any).setData(project, response.data))
