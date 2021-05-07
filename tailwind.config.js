@@ -1,12 +1,6 @@
 const { colors } = require('tailwindcss/defaultTheme')
 
 module.exports = {
-    purge: {
-        content: [
-            './src/assets/**/*.scss',
-            './src/components/**/*.vue'
-		]
-    },
     theme: {
         extend: {
             animation: {
