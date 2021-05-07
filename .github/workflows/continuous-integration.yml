@@ -1,0 +1,39 @@
+name: Continuous integration
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  BuildAndDeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+        run: |
+          npm install
+          npm run production
+
+      - name: Commit built assets
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git checkout -B production
+          git add -f -A
+          git commit -m "Build assets"
+          git push -f origin production
+
+      - name: Deploy on the server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd ${{ secrets.REMOTE_PROJECT_PATH }}
+            git pull origin production
