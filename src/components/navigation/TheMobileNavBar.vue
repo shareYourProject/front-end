@@ -56,7 +56,7 @@
 import {defineComponent} from 'vue'
 import {mapGetters} from 'vuex'
 import SearchBar from './SearchBar.vue'
-import vClickOutside from '../../click-outside'
+import vClickOutside from '@/click-outside'
 
 export default defineComponent({
     directives: {

@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import {defineComponent} from 'vue'
 import InputLabel from './InputLabel.vue';
 
 export default defineComponent({
@@ -79,8 +79,6 @@ export default defineComponent({
             type: Boolean,
             default : false
         }
-    },
-    mounted() {
     },
     computed: {
         _autocmoplete: function() {
