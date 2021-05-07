@@ -3,8 +3,8 @@ const { colors } = require('tailwindcss/defaultTheme')
 module.exports = {
     purge: {
         content: [
-            './resources/views/**/*.blade.php',
-            './resources/js/components/**/*.vue'
+            './src/assets/**/*.scss',
+            './src/components/**/*.vue'
 		]
     },
     theme: {
