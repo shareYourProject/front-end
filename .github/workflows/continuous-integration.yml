@@ -38,4 +38,4 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd ${{ secrets.REMOTE_PROJECT_PATH }}
-            git pull origin production
+            git pull -s recursive -X theirs origin production
