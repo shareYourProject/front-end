@@ -51,7 +51,6 @@ import {defineComponent} from 'vue'
 import {API} from '@/api'
 import {mapActions, mapGetters} from 'vuex'
 import CustomInput from '@/components/inputs/CustomInput.vue'
-import {AxiosStatic} from 'axios'
 
 export default defineComponent({
     components: {
@@ -97,37 +96,36 @@ export default defineComponent({
             };
         },
         async onSubmit(): Promise<void> {
-            await ((window as any).axios as AxiosStatic).get('/sanctum/csrf-cookie');
+          await API.csrf()
 
-            API.register(this.form).then(response => {
-                this.resetErrors()
+          API.register(this.form).then(response => {
+            this.resetErrors()
 
-                switch (response.status) {
-                    case 201:
-                        // Authenticated
-                        this.me().then(() => {
-                            if (this.isAuthenticated)
-                            {
-                                this.$router.push({name: 'feed'});
-                            }
-                        })
+            switch (response.status) {
+              case 201:
+                // Authenticated
+                this.me().then(() => {
+                  if (this.isAuthenticated) {
+                    this.$router.push({name: 'feed'});
+                  }
+                })
 
-                        break;
+                break;
 
-                    case 422:
+              case 422:
 
-                        // for (const key in response.data.errors) {
-                        //     if (Object.prototype.hasOwnProperty.call(response.data.errors, key)) {
-                        //         this.errors[key] = response.data.errors[key][0];
-                        //     }
-                        // }
+                // for (const key in response.data.errors) {
+                //     if (Object.prototype.hasOwnProperty.call(response.data.errors, key)) {
+                //         this.errors[key] = response.data.errors[key][0];
+                //     }
+                // }
 
-                        break;
+                break;
 
-                    default:
-                        break;
-                }
-            });
+              default:
+                break;
+            }
+          });
 
         }
     }
