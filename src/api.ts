@@ -126,6 +126,15 @@ const API = {
             return fetchResource<Post>('post', url, formData, {
                 'Content-Type': 'multipart/form-data'
             });
+        },
+        /**
+         * Get the comments of a post
+         * @param post
+         * @param page
+         */
+        comments(post: Post, page = 1): Promise<AxiosResponse<PaginateResponse<Comment>>> {
+            const url = `${this.url}/${post.id}/comments?page=${page}`;
+            return fetchResource<PaginateResponse<Comment>>('get', url);
         }
     },
     /**
