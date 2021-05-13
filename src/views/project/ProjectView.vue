@@ -21,7 +21,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mt-14 mx-4 pb-4">
                 <div class="text-center md:text-left font-semibold font-sans text-2xl">{{ project.name }}</div>
                 <span class="flex justify-center md:justify-end">
-                    <!-- <follow-button :project_id='{{$project->id}}' @auth :auth_user='@json(new \App\Http\Resources\User(Auth::user()))' @endauth></follow-button> -->
+                  <ProjectFollowButton :project="project"></ProjectFollowButton>
                 </span>
                 <div class="flex md:justify-start justify-center">
                     <span class="text-sm">An idea from <router-link :to="{name:'profile', params:{id: owner.id}}" class="text-sm hover:underline">{{owner.full_name}}</router-link></span>
@@ -50,18 +50,22 @@ import {mapGetters} from 'vuex'
 import {API} from '@/api'
 import {Post, Project, User} from '@/models'
 import moment from 'moment';
+import ProjectFollowButton from "@/components/buttons/ProjectFollowButton.vue";
 
 export default defineComponent({
-    data() {
-        return {
-            project: undefined as unknown as Project,
-            owner: undefined as unknown as User,
-            posts: new Array<Post>()
-        }
-    },
-    beforeRouteEnter(to, from, next) {
-        API.Project.get(Number(to.params['id'])).then(response => {
-            let project = response.data
+  components: {
+    ProjectFollowButton
+  },
+  data() {
+    return {
+      project: undefined as unknown as Project,
+      owner: undefined as unknown as User,
+      posts: new Array<Post>()
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    API.Project.get(Number(to.params['id'])).then(response => {
+      let project = response.data
             switch (response.status) {
                 case 200:
                     API.User.get(project.owner_id).then((response) => {

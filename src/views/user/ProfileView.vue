@@ -15,11 +15,21 @@
     <div class="w-auto md:w-full lg:w-3/5 xl:w-2/3 2xl:w-1/2">
 
         <div class="box w-full h-auto mb-3 pb-4">
-            <div class="flex relative justify-center">
+          <div class="flex relative justify-center">
             <img class="md:rounded-t-md object-cover w-full h-48" :src="user.banner_picture" alt="test">
-            <img class=" border-4 border-cultured-100 shadow-md object-cover w-40 h-40 rounded-full mx-auto sm:left-8 lg:left-16 -bottom-12 absolute" :src="user.profile_picture" alt="test">
+            <img
+                class=" border-4 border-cultured-100 shadow-md object-cover w-40 h-40 rounded-full mx-auto sm:left-8 lg:left-16 -bottom-12 absolute"
+                :src="user.profile_picture" alt="test">
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mt-14 mx-4 pb-4">
+            <div class="text-center md:text-left font-semibold font-sans text-2xl">{{ user.first_name }}
+              {{ user.last_name }}
             </div>
-            <div class="text-center md:text-right font-semibold font-sans text-2xl md:mr-1/7 mt-12 md:my-4">{{ user.first_name }} {{ user.last_name }}</div>
+            <span class="flex justify-center md:justify-end">
+               <UserFollowButton :user="user"></UserFollowButton>
+            </span>
+          </div>
         </div>
 
 
@@ -49,18 +59,20 @@
 
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { mapGetters } from 'vuex'
-import { API } from '@/api'
-import { User } from '@/models'
+import {defineComponent} from 'vue'
+import {mapGetters} from 'vuex'
+import {API} from '@/api'
+import {User} from '@/models'
 import ProjectCard from '@/components/cards/ProjectCard.vue'
+import UserFollowButton from "@/components/buttons/UserFollowButton.vue";
 
 export default defineComponent({
-    components: {
-        ProjectCard
-    },
-    data() {
-        return {
+  components: {
+    ProjectCard,
+    UserFollowButton
+  },
+  data() {
+    return {
             user: undefined as unknown as User
         }
     },
