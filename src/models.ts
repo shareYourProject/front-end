@@ -40,6 +40,8 @@ export interface User {
     updated_at: Date;
     is_admin: boolean;
     projects: Array<Project>;
+    followed_projects: Array<number>;
+    followed_users: Array<number>;
     bio: string;
 }
 
