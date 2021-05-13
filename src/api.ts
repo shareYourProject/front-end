@@ -175,6 +175,22 @@ const API = {
         posts(project: Project, page = 1): Promise<AxiosResponse<PaginateResponse<Post>>> {
             const url = `${this.url}/${project.id}/posts?page=${page}`;
             return fetchResource<PaginateResponse<Post>>('get', url);
+        },
+        /**
+         * Follow a project.
+         * @param project
+         */
+        follow(project: Project): Promise<AxiosResponse<Project>> {
+            const url = `${this.url}/${project.id}/follow`;
+            return fetchResource<Project>('put', url);
+        },
+        /**
+         * Unfollow a project.
+         * @param project
+         */
+        unfollow(project: Project): Promise<AxiosResponse<Project>> {
+            const url = `${this.url}/${project.id}/unfollow`;
+            return fetchResource<Project>('put', url);
         }
     },
     User: {
@@ -209,6 +225,22 @@ const API = {
         updateProfile(user: User, data: Record<string, unknown>): Promise<AxiosResponse<User>> {
             const url = `${this.url}/${user.id}/profile`;
             return fetchResource<User>('put', url, data);
+        },
+        /**
+         * Follow a user.
+         * @param user
+         */
+        follow(user: User): Promise<AxiosResponse<User>> {
+            const url = `${this.url}/${user.id}/follow`;
+            return fetchResource<User>('put', url);
+        },
+        /**
+         * Unfollow a user.
+         * @param user
+         */
+        unfollow(user: User): Promise<AxiosResponse<User>> {
+            const url = `${this.url}/${user.id}/unfollow`;
+            return fetchResource<User>('put', url);
         }
     },
     Badge: {
