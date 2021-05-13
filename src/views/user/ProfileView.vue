@@ -23,7 +23,9 @@
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 mt-14 mx-4 pb-4">
-            <div class="font-semibold font-sans text-2xl">{{ user.first_name }} {{ user.last_name }}</div>
+            <div class="text-center md:text-left font-semibold font-sans text-2xl">{{ user.first_name }}
+              {{ user.last_name }}
+            </div>
             <span class="flex justify-center md:justify-end">
                <UserFollowButton :user="user"></UserFollowButton>
             </span>
