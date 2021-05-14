@@ -5,9 +5,12 @@
 
         <!-- Input -->
         <div class="flex items-center relative">
-            <input :class="{'border-red-500': error, 'pr-10': icon && right, 'pl-12': icon && !right}"
+          <div v-if="string_before" class="bg-gray-300 py-3 px-4 flex items-center border-2 border-gray-300 rounded-l-lg border-r">
+            {{string_before}}
+          </div>
+            <input :class="{'border-red-500': error, 'pr-10': icon && right, 'pl-12': icon && !right, 'rounded-r-lg':string_before, 'rounded-lg': !string_before}"
                     :name="name"
-                    class="appearance-none block w-full bg-gray-200 text-gray-700 focus:border-viridiant-600 border-2 border-gray-200 rounded-lg py-3 px-4 focus:outline-none focus:bg-white"
+                    class="appearance-none block w-full bg-gray-200 text-gray-700 focus:border-viridiant-600 border-2 border-gray-200 py-3 px-4 focus:outline-none focus:bg-white"
                     :id="name"
                     :type="type"
                     :placeholder="placeholder"
@@ -78,7 +81,11 @@ export default defineComponent({
         autocomplete: {
             type: Boolean,
             default : false
-        }
+        },
+        string_before: {
+          type: String,
+          default : ""
+        },
     },
     computed: {
         _autocmoplete: function() {
@@ -90,7 +97,7 @@ export default defineComponent({
     },
     methods: {
         onInput(event: InputEvent) {
-            this.$emit('update:modelValue', (event.target as HTMLInputElement).value)
+            this.$emit('update:modelValue', this.string_before + (event.target as HTMLInputElement).value)
         }
     }
 })
