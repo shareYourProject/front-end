@@ -23,37 +23,30 @@
         </ul>
         <search-bar class="w-1/4"></search-bar>
 
-        <!-- @auth
 
         <div class="my-auto flex space-x-6 items-center">
-            <notification-view
-                :auth_user='@json(new \App\Http\Resources\User(Auth::user()))'
-                :projects='@json(Auth::user()->projects->pluck('id'))'
-                :initial_notifications='@json(Auth::user()->notifications->take(5)->pluck('data'))'
-                ></notification-view>
-            <personal-menu :auth_user='@json(new \App\Http\Resources\User(Auth::user()))'></personal-menu>
+<!--            <notification-view-->
+<!--                :auth_user='@json(new \App\Http\Resources\User(Auth::user()))'-->
+<!--                :projects='@json(Auth::user()->projects->pluck('id'))'-->
+<!--                :initial_notifications='@json(Auth::user()->notifications->take(5)->pluck('data'))'-->
+<!--                ></notification-view>-->
+            <PersonalMenu v-if="isAuthenticated" ></PersonalMenu>
         </div>
-
-        @else -->
-
-        <div class="my-auto" v-if="!isAuthenticated">
-            <router-link :to="{name: 'register'}" class="btn-classic mr-5 a-none">Sign Up</router-link>
-            <router-link :to="{name: 'login'}" class="btn btn-viridiant hover:text-cultured-100 a-none">Log In</router-link>
-        </div>
-
-        <!-- @endauth -->
 
         </div>
     </nav>
 </template>
+
 <script lang="ts">
 import {defineComponent} from 'vue'
 import {mapGetters} from 'vuex'
 import SearchBar from '../navigation/SearchBar.vue'
+import PersonalMenu from '@/components/navigation/PersonalMenu.vue'
 
 export default defineComponent({
     components: {
-        SearchBar
+        SearchBar,
+      PersonalMenu
     },
     computed: {
         ...mapGetters([
