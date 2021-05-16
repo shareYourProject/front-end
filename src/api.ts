@@ -1,4 +1,4 @@
-import {Badge, Comment, PaginateResponse, Post, Project, User} from './models';
+import {Badge, Comment, Notification, PaginateResponse, Post, Project, User} from './models';
 import axios, {AxiosPromise, AxiosRequestConfig, AxiosResponse} from 'axios'
 
 const API_URL: string = process.env.VUE_APP_API_PATH as string;
@@ -76,6 +76,29 @@ const API = {
     register(credentials: Record<string, unknown>): Promise<AxiosResponse<any>> {
         const url = `${API_AUTH_URL}/register`;
         return fetchResource('post', url, credentials);
+    },
+    /**
+     * Notifications API wrapper
+     */
+    Notification: {
+        /**
+         * Base notification requests url
+         */
+        url: `${API_URL}/notifications`,
+        /**
+         * Get user notifications.
+         */
+        get(page = 1): Promise<AxiosResponse<PaginateResponse<Notification>>> {
+            const url = `${this.url}?page=${page}`;
+            return fetchResource<PaginateResponse<Notification>>('get', url);
+        },
+        /**
+         * Set a notification as read.
+         */
+        markAsRead(id: string): Promise<AxiosResponse> {
+            const url = `${this.url}/${id}`;
+            return fetchResource<PaginateResponse>('put', url);
+        }
     },
     /**
      * Post API wrapper
