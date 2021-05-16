@@ -24,14 +24,20 @@
         <search-bar class="w-1/4"></search-bar>
 
 
-        <div class="my-auto flex space-x-6 items-center">
-<!--            <notification-view-->
-<!--                :auth_user='@json(new \App\Http\Resources\User(Auth::user()))'-->
-<!--                :projects='@json(Auth::user()->projects->pluck('id'))'-->
-<!--                :initial_notifications='@json(Auth::user()->notifications->take(5)->pluck('data'))'-->
-<!--                ></notification-view>-->
-            <PersonalMenu v-if="isAuthenticated" ></PersonalMenu>
-        </div>
+          <div class="my-auto flex space-x-6 items-center">
+            <!--            <notification-view-->
+            <!--                :auth_user='@json(new \App\Http\Resources\User(Auth::user()))'-->
+            <!--                :projects='@json(Auth::user()->projects->pluck('id'))'-->
+            <!--                :initial_notifications='@json(Auth::user()->notifications->take(5)->pluck('data'))'-->
+            <!--                ></notification-view>-->
+            <PersonalMenu v-if="isAuthenticated"></PersonalMenu>
+          </div>
+
+          <div class="my-auto" v-if="!isAuthenticated">
+            <router-link :to="{name: 'register'}" class="btn-classic mr-5 a-none">Sign Up</router-link>
+            <router-link :to="{name: 'login'}" class="btn btn-viridiant hover:text-cultured-100 a-none">Log In
+            </router-link>
+          </div>
 
         </div>
     </nav>
