@@ -21,6 +21,19 @@ export interface Post {
     updated_at: Date;
 }
 
+export enum NotificationType {
+    CreatedPost = "post.create"
+}
+
+export interface Notification {
+    id: string;
+    type: string;
+    title: string;
+    text: string;
+    image: string;
+    data: any;
+    created_at: Date;
+}
 
 export interface User {
     id: number;
