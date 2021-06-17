@@ -317,4 +317,4 @@ const API = {
     }
 };
 
-export { API, fetchResource };
+export {API, fetchResource, axios};
