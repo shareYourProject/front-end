@@ -3,16 +3,16 @@
  * Cf. https://github.com/ndelvalle/v-click-outside/issues/238
  */
 
- import { DirectiveBinding, ObjectDirective } from 'vue';
+import {DirectiveBinding, ObjectDirective} from 'vue';
 
- const HANDLERS_PROPERTY = '__v-click-outside';
- const HAS_WINDOWS = typeof window !== 'undefined';
- const HAS_NAVIGATOR = typeof navigator !== 'undefined';
- const IS_TOUCH =
-   HAS_WINDOWS &&
-   ('ontouchstart' in window ||
-     (HAS_NAVIGATOR && navigator.msMaxTouchPoints > 0));
- const EVENTS = IS_TOUCH ? ['touchstart'] : ['click'];
+const HANDLERS_PROPERTY = '__v-click-outside';
+const HAS_WINDOWS = typeof window !== 'undefined';
+const HAS_NAVIGATOR = typeof navigator !== 'undefined';
+const IS_TOUCH =
+    HAS_WINDOWS &&
+    ('ontouchstart' in window ||
+        (HAS_NAVIGATOR && navigator.maxTouchPoints > 0));
+const EVENTS = IS_TOUCH ? ['touchstart'] : ['click'];
 
  interface ClickOutsideElement extends HTMLElement {
    [HANDLERS_PROPERTY]: any;

@@ -42,16 +42,16 @@ export default defineComponent({
                     this.project = response.data
 
                     API.Project.posts(this.project).then(response => {
-                        if (response.status == 200) {
-                            this.posts = response.data.data;
-                            this.currentPage = response.data.meta.current_page;
-                            this.lastPage = response.data.meta.last_page;
-                        }
+                      if (response.status == 200) {
+                        this.posts = response.data.data;
+                        this.currentPage = response.data.meta.current_page;
+                        this.lastPage = response.data.meta.last_page;
+                      }
                     })
-                    break;
+                  break;
 
-                default:
-                    break;
+              default:
+                break;
             }
         });
     },

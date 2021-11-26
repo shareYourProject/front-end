@@ -1,9 +1,9 @@
 <template>
     <div class="w-full">
         <InputLabel v-if="label" :label="label" :name="name"/>
-        <resize-auto class="w-full">
-            <template v-slot:default="{ resize }">
-                <div @click="$emit('click')">
+        <resize-auto>
+          <template v-slot:default="{ resize }">
+            <div @click="$emit('click')">
                 <textarea
                     class="w-full appearance-none bg-white text-gray-700 border-2 border-gray-200 rounded-md py-3 px-4 leading-tight focus:outline-none"
                     :class="{
@@ -24,18 +24,18 @@
                 </div>
             </template>
         </resize-auto>
-        <p
-            v-if="max_length"
-            :class="{ 'text-red-500': inputValue.length > max_length }"
-            class="text-gray-600 text-xs italic text-right"
-        >
-            {{ inputValue.length }}/{{ maxLength }}
-        </p>
+      <p
+          v-if="maxLength"
+          :class="{ 'text-red-500': inputValue.length > maxLength }"
+          class="text-gray-600 text-xs italic text-right"
+      >
+        {{ inputValue.length }}/{{ maxLength }}
+      </p>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import {defineComponent} from "vue";
 import ResizeAuto from "../utils/ResizeAuto.vue";
 import InputLabel from "./InputLabel.vue";
 
@@ -55,7 +55,7 @@ export default defineComponent({
     },
     name: {
       type: String,
-      required: true,
+      default: "",
     },
     label: {
       type: String,

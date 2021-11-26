@@ -14,6 +14,7 @@
     <div class="notification-list" v-show="displayNotification">
       <NotificationCard v-for="notification in notifications" :notification="notification"
                         :key="'notify_'+notification.id"></NotificationCard>
+<!--      <div v-if="!notifications">No notifications</div>-->
     </div>
   </div>
 </template>
@@ -36,7 +37,7 @@ export default defineComponent({
   },
   methods: {
     onClickOutside() {
-      this.displayNotification = false;
+      // this.displayNotification = false;
     }
   },
   data() {

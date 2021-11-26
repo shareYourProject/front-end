@@ -18,9 +18,9 @@
     "nprogress": "^0.2.0",
     "postcss": "^7",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
+    "vue": "^3.2.22",
+    "vue-router": "^4.0.12",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.18.0",
@@ -39,7 +39,7 @@
     "pusher-js": "^7.0.3",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
-    "typescript": "~4.1.5",
+    "typescript": "^4.5.2",
     "vue-cli-plugin-tailwind": "~2.0.6"
   }
 }

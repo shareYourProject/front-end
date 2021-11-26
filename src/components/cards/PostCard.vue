@@ -169,7 +169,7 @@ export default defineComponent({
   },
     data() {
       return {
-        post_data: this.post,
+        post_data: this.post as Post,
         likeAnimation: undefined as unknown as AnimationItem,
         loadingAnimation: undefined as unknown as AnimationItem,
         loadingComments: false,
@@ -210,7 +210,7 @@ export default defineComponent({
     },
     computed: {
         timeSinceCreation(): string {
-            return moment(this.post_data.created_at).fromNow();
+          return moment((this.post_data as Post).created_at).fromNow();
         },
         ...mapGetters({
             user: 'user',
@@ -222,20 +222,20 @@ export default defineComponent({
             if (!this.isAuthenticated) return;
             if (like) {
 
-                API.Post.like(this.post_data).then(response => {
-                    if (response.status == 200) {
-                        this.likeAnimation.setDirection(1);
-                        this.likeAnimation.play();
-                        this.post_data = response.data;
-                    }
-                })
+              API.Post.like(this.post).then(response => {
+                if (response.status == 200) {
+                  this.likeAnimation.setDirection(1);
+                  this.likeAnimation.play();
+                  this.post_data = response.data as Post;
+                }
+              })
             } else {
 
-              API.Post.unlike(this.post_data).then(response => {
+              API.Post.unlike(this.post).then(response => {
                 if (response.status == 200) {
                   this.likeAnimation.setDirection(-1);
                   this.likeAnimation.play();
-                  this.post_data = response.data;
+                  this.post_data = response.data as Post;
                 }
               });
             }
@@ -246,7 +246,7 @@ export default defineComponent({
       },
       writeComment() {
         if (!this.isAuthenticated) return;
-        API.Comment.create(this.newCommentContent, this.post_data).then(response => {
+        API.Comment.create(this.newCommentContent, this.post).then(response => {
           switch (response.status) {
             case 201:
               this.comments.push(response.data);
@@ -259,7 +259,7 @@ export default defineComponent({
         if (this.next_comment_page == -1) return;
         this.loadingComments = true;
         this.loadingAnimation.play();
-        API.Post.comments(this.post_data, this.next_comment_page).then(response => {
+        API.Post.comments(this.post, this.next_comment_page).then(response => {
           switch (response.status) {
             case 200:
               this.comments.push(...response.data.data);

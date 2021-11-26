@@ -47,13 +47,13 @@ const actions = {
 
 // mutations
 const mutations = {
-    ADD_POSTS (state: State, posts: Array<Post>) {
+    ADD_POSTS(state: State, posts: Array<Post>): void {
         state.posts.push(...posts);
     },
-    SET_CURRENT_PAGE(state: State, page: number) {
+    SET_CURRENT_PAGE(state: State, page: number): void {
         state.currentPage = page;
     },
-    SET_LAST_PAGE (state: State, page: number) {
+    SET_LAST_PAGE(state: State, page: number): void {
         state.lastPage = page > 0 ? page : 0;
     }
 }
