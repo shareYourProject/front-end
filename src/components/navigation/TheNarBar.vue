@@ -58,9 +58,9 @@
       <search-bar class="w-1/4"></search-bar>
 
 
-      <div class="my-auto flex space-x-6 items-center">
-        <NotificationList></NotificationList>
-        <PersonalMenu v-if="isAuthenticated"></PersonalMenu>
+      <div v-if="isAuthenticated" class="my-auto flex space-x-6 items-center">
+        <!--        <NotificationList></NotificationList>-->
+        <PersonalMenu></PersonalMenu>
       </div>
 
       <div class="my-auto" v-if="!isAuthenticated">
@@ -78,13 +78,13 @@ import {defineComponent} from 'vue'
 import {mapGetters} from 'vuex'
 import SearchBar from '../navigation/SearchBar.vue'
 import PersonalMenu from '@/components/navigation/PersonalMenu.vue'
-import NotificationList from "@/components/navigation/NotificationList.vue";
+// import NotificationList from "@/components/navigation/NotificationList.vue";
 
 export default defineComponent({
   components: {
     SearchBar,
     PersonalMenu,
-    NotificationList
+    // NotificationList
   },
   computed: {
     ...mapGetters([

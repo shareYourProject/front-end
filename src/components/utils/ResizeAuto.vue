@@ -11,7 +11,11 @@ export default defineComponent({
   },
   mounted() {
     this.$nextTick(() => {
-      this.$el.setAttribute("style", "height", `${this.$el.scrollHeight}px`);
+      try {
+        this.$el.setAttribute("style", `height: ${this.$el.scrollHeight}px`);
+      } catch {
+        return
+      }
     });
   },
   // eslint-disable-next-line vue/require-render-return

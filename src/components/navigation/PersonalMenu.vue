@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { API } from '@/api'
+import {API} from '@/api'
 import vClickOutside from '@/click-outside'
 import {mapGetters} from 'vuex'
 import {defineComponent} from "vue";
@@ -72,8 +72,8 @@ export default defineComponent({
       this.show_menu = false;
     },
     logout: function() {
-      API.logout().then(response => {
-        this.$router.push({name:"feed"});
+      API.logout().then(() => {
+        this.$router.push({name: "feed"});
       });
     }
   }

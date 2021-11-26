@@ -14,7 +14,7 @@ NProgress.configure({showSpinner: false})
 require('pusher-js');
 
 
-function getCookie(cname: string): string {
+/**function getCookie(cname: string): string {
     const name = cname + "=";
     const decodedCookie = decodeURIComponent(document.cookie);
     const ca = decodedCookie.split(';');
@@ -28,7 +28,7 @@ function getCookie(cname: string): string {
         }
     }
     return "";
-}
+}*/
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const Echo = new LaravelEcho({

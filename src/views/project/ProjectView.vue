@@ -107,7 +107,7 @@ export default defineComponent({
             authUser: 'user'
         }),
         timeSinceCreation() : string{
-            return moment(this.project.created_at).fromNow();
+            return moment((this.project as Project).created_at).fromNow();
         },
     },
 })
