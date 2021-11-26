@@ -66,17 +66,13 @@ export default defineComponent({
         this.scroll();
     },
     beforeRouteUpdate(to, from, next) {
-        console.log('beforeRouteUpdate');
         API.Project.get(Number(to.params['id'])).then(response => {
-            console.log('Calling API !');
             switch (response.status) {
                 case 200:
-                    console.log("Getting API Response !");
                     this.project = response.data
                     this.posts = [];
 
                     API.Project.posts(this.project).then(response => {
-                        console.log("Calling API 2 !");
                         if (response.status == 200) {
                             this.posts = response.data.data;
                             this.currentPage = response.data.meta.current_page;
