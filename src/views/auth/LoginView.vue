@@ -1,6 +1,6 @@
 <template>
     <div class="flex w-full h-screen">
-        <img class="hidden md:block w-auto h-full bg-blur-3" src="@/assets/img/default/jeff-sheldon-8z2Q6XWLYa4.jpg" alt="" />
+        <img class="hidden md:block w-auto h-full" src="@/assets/img/default/jeff-sheldon-8z2Q6XWLYa4.jpg" alt=""/>
         <div class="absolute right-0 px-12 md:px-24 pt-16 h-full py-12 bg-white w-full md:w-1/2 lg:w-5/12 justify-center">
             <h1 class="text-onyx-600 font-sans font-bold text-center text-4xl mb-6">Login</h1>
             <hr class="mb-12 mx-3">
@@ -36,22 +36,27 @@ import CustomInput from '@/components/inputs/CustomInput.vue'
 import {mapActions, mapGetters} from 'vuex'
 import {API} from '@/api'
 
+interface IError {
+  email: string,
+  password: string
+}
+
 export default defineComponent({
-    components: {
-        CustomInput
-    },
-    data() {
-        return {
-            form: {
-                email: "",
-                password: ""
-            },
-            errors: {
-                email: "",
-                password: ""
-            },
-            credentialError: ""
-        }
+  components: {
+    CustomInput
+  },
+  data() {
+    return {
+      form: {
+        email: "",
+        password: ""
+      },
+      errors: {
+        email: "",
+        password: ""
+      } as IError,
+      credentialError: ""
+    }
     },
     computed: {
         ...mapGetters({
@@ -72,8 +77,6 @@ export default defineComponent({
         },
         async onSubmit() {
 
-            console.log("On Submit");
-
             await API.csrf();
 
             API.login(this.form).then(response => {
@@ -91,18 +94,12 @@ export default defineComponent({
 
                         break;
 
-                    case 422:
-                        // Invalid form
-                        // let errorsObject = response.data.errors;
-
-                        // for (var key in errorsObject) {
-                        //     if (errorsObject.hasOwnProperty(key)) {
-                        //         errorsObject[key] = errorsObject[key][0];
-                        //     }
-                        // }
-
-                        // this.errors = errorsObject;
-                        break;
+                  case 422:
+                    for (let errorsKey in this.errors) {
+                      this.errors[errorsKey as keyof IError] = response.data.errors[errorsKey] ? response.data.errors[errorsKey][0] : ""
+                    }
+                    this.credentialError = response.data.message;
+                    break;
 
                     case 401:
                         this.credentialError = response.data;
